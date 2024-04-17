@@ -3,10 +3,12 @@
 ## Fork + Clone This Repo
 
 1. Fork this repo.
-2. Clone AND RENAME this repo with `git clone [remote-address] [what you want to name the repo]`. For example: 
+2. Clone AND RENAME this repo with `git clone [remote-address] [what you want to name the repo]`. For example:
+
 ```bash
 git clone git@github.com:turingschool-examples/webpack-starter-kit.git overlook-hotel
 ```
+
 3. `cd` into your new directory.
 4. Install the library dependencies with `npm install`.
 5. To verify that it is setup correctly, run `npm start` in your terminal. Go to `http://localhost:8080/` and you should see a page with the Turing logo image and a beautiful gradient background. If that's the case, you're good to go. Enter `control + c` in your terminal to stop the server at any time.
