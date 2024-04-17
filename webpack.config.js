@@ -18,6 +18,7 @@ module.exports = {
   plugins: [
     new HTMLWebpackPlugin({
       title: "Overlook Hotel",
+      template: "./src/index.html",
     }),
   ],
   module: {
