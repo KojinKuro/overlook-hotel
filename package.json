@@ -29,5 +29,8 @@
     "build": "webpack",
     "test": "mochapack 'test/**/*.js'",
     "lint": "./node_modules/.bin/eslint 'src/**.js' 'test/**.js'"
+  },
+  "dependencies": {
+    "html-webpack-plugin": "^5.6.0"
   }
 }
