@@ -8,5 +8,18 @@ import "./css/styles.scss";
 // An example of how you tell webpack to use an image
 // (also need to link to it in the index.html)
 import "./images/turing-logo.png";
+import { getAllData } from "./js/apiCalls";
+import { bookings, customers, rooms } from "./js/data";
+
+addEventListener("load", init);
+
+function init() {
+  console.log("init");
+  getAllData().then(() => {
+    console.log("customers", customers);
+    console.log("rooms", rooms);
+    console.log("bookings", bookings);
+  });
+}
 
 console.log("This is the JavaScript entry file - your code begins here.");
