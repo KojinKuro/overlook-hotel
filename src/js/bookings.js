@@ -23,18 +23,23 @@ function filterBookings(bookings, query, endQuery = query) {
 }
 
 function addBooking(data, booking) {
+  if (isValidBooking(data, booking)) {
+    data.getBookings().push(booking);
+  }
+}
+
+function isValidBooking(data, booking) {
   if (
     !isCustomer(data.getCustomers(), booking.userID) ||
     !isRoom(data.getRooms(), booking.roomNumber) ||
-    containsBooking(data, booking)
+    containsDuplicateBooking(data, booking)
   ) {
-    return;
+    return false;
   }
-
-  data.getBookings().push(booking);
+  return true;
 }
 
-function containsBooking(data, booking) {
+function containsDuplicateBooking(data, booking) {
   const matchingBookingCount = data
     .getBookings()
     .filter(
@@ -47,4 +52,4 @@ function containsBooking(data, booking) {
   return Boolean(matchingBookingCount);
 }
 
-export { addBooking, createBooking, filterBookings };
+export { addBooking, createBooking, filterBookings, isValidBooking };

@@ -1,5 +1,9 @@
 import chai from "chai";
-import { addBooking, createBooking, filterBookings } from "../src/js/bookings";
+import {
+  createBooking,
+  filterBookings,
+  isValidBooking,
+} from "../src/js/bookings";
 import { createData } from "../src/js/data";
 import { mockBookings, mockCustomers, mockRooms } from "./mockData";
 
@@ -42,60 +46,45 @@ describe("Bookings", () => {
     });
   });
 
-  describe("Add bookings", () => {
+  describe("Validate bookings", () => {
     it("should be able to add booking", () => {
-      const initialBookings = JSON.parse(
-        JSON.stringify(mockData.getBookings())
+      const result = isValidBooking(
+        mockData,
+        createBooking(40, new Date(2022, 3, 22), 4)
       );
-      addBooking(mockData, createBooking(40, new Date(2022, 3, 22), 4));
-      expect(mockData.getBookings()).to.deep.equal([
-        ...initialBookings,
-        {
-          userID: 40,
-          date: "2022/04/22",
-          roomNumber: 4,
-        },
-      ]);
+      expect(result).to.deep.equal(true);
     });
 
     it("should be able to add another booking", () => {
-      const initialBookings = JSON.parse(
-        JSON.stringify(mockData.getBookings())
+      const result = isValidBooking(
+        mockData,
+        createBooking(12, new Date(2024, 3, 22), 3)
       );
-      addBooking(mockData, createBooking(12, new Date(2024, 3, 22), 3));
-
-      expect(mockData.getBookings()).to.deep.equal([
-        ...initialBookings,
-        {
-          userID: 12,
-          date: "2024/04/22",
-          roomNumber: 3,
-        },
-      ]);
+      expect(result).to.deep.equal(true);
     });
 
     it("should not add bookings if not valid user", () => {
-      const initialBookings = JSON.parse(
-        JSON.stringify(mockData.getBookings())
+      const result = isValidBooking(
+        mockData,
+        createBooking(190, new Date(2024, 3, 22), 3)
       );
-      addBooking(mockData, createBooking(190, new Date(2024, 3, 22), 3));
-      expect(mockData.getBookings()).to.deep.equal(initialBookings);
+      expect(result).to.deep.equal(false);
     });
 
     it("should not add bookings if not valid room", () => {
-      const initialBookings = JSON.parse(
-        JSON.stringify(mockData.getBookings())
+      const result = isValidBooking(
+        mockData,
+        createBooking(12, new Date(2024, 3, 22), 10)
       );
-      addBooking(mockData, createBooking(12, new Date(2024, 3, 22), 10));
-      expect(mockData.getBookings()).to.deep.equal(initialBookings);
+      expect(result).to.deep.equal(false);
     });
 
     it("should not add bookings if already booked", () => {
-      const initialBookings = JSON.parse(
-        JSON.stringify(mockData.getBookings())
+      const result = isValidBooking(
+        mockData,
+        createBooking(40, new Date(2023, 10, 30), 4)
       );
-      addBooking(mockData, createBooking(40, new Date(2023, 10, 30), 4));
-      expect(mockData.getBookings()).to.deep.equal(initialBookings);
+      expect(result).to.deep.equal(false);
     });
   });
 
