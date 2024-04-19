@@ -1,7 +1,7 @@
 function createData(customers = [], rooms = [], bookings = []) {
-  let customersData = customers;
-  let roomsData = rooms;
-  let bookingsData = bookings;
+  let customersData = JSON.parse(JSON.stringify(customers));
+  let roomsData = JSON.parse(JSON.stringify(rooms));
+  let bookingsData = JSON.parse(JSON.stringify(bookings));
 
   function getCustomers() {
     return customersData;
@@ -16,21 +16,21 @@ function createData(customers = [], rooms = [], bookings = []) {
   }
 
   function setAllData(customers, rooms, bookings) {
-    customersData = customers;
-    roomsData = rooms;
-    bookingsData = bookings;
+    customersData = JSON.parse(JSON.stringify(customers));
+    roomsData = JSON.parse(JSON.stringify(rooms));
+    bookingsData = JSON.parse(JSON.stringify(bookings));
   }
 
   function setCustomers(value) {
-    customersData = value;
+    customersData = JSON.parse(JSON.stringify(value));
   }
 
   function setRooms(value) {
-    roomsData = value;
+    roomsData = JSON.parse(JSON.stringify(value));
   }
 
   function setBookings(value) {
-    bookingsData = value;
+    bookingsData = JSON.parse(JSON.stringify(value));
   }
 
   return {
