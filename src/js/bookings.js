@@ -8,8 +8,8 @@ function createBooking(userID, date, roomNumber) {
   };
 }
 
-function filterBookings(data, query, endQuery = query) {
-  return data.getBookings().reduce((list, booking) => {
+function filterBookings(bookings, query, endQuery = query) {
+  return bookings.reduce((list, booking) => {
     if (
       new Date(booking.date).getTime() >= query.getTime() &&
       new Date(booking.date).getTime() <= endQuery.getTime()
