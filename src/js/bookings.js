@@ -20,4 +20,8 @@ function filterBookings(bookings, query, endQuery = query) {
   }, []);
 }
 
-export { createBooking, filterBookings };
+function addBooking(data, booking) {
+  data.getBookings().push(booking);
+}
+
+export { addBooking, createBooking, filterBookings };
