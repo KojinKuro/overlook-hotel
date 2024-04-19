@@ -1,10 +1,17 @@
 import chai from "chai";
-import { createBooking, filterBookings } from "../src/js/bookings";
-import { mockData } from "./mockData";
+import { addBooking, createBooking, filterBookings } from "../src/js/bookings";
+import { createData } from "../src/js/data";
+import { mockBookings, mockCustomers, mockRooms } from "./mockData";
 
 const expect = chai.expect;
 
 describe("Bookings", () => {
+  let mockData;
+
+  beforeEach(() => {
+    mockData = createData(mockCustomers, mockRooms, mockBookings);
+  });
+
   describe("Create booking", () => {
     it("should be able to create a booking", () => {
       const userID = 48;
@@ -35,9 +42,15 @@ describe("Bookings", () => {
     });
   });
 
-  // describe("Add bookings", () => {
-  //   it("should be able to add booking", () => {});
-  // });
+  describe("Add bookings", () => {
+    it("should be able to add booking", () => {
+      addBooking(mockData, createBooking(40, new Date(2022, 3, 22), 4));
+    });
+
+    it("should be able to add another booking", () => {
+      addBooking(mockData, createBooking(12, new Date(2024, 3, 22), 3));
+    });
+  });
 
   describe("Filter bookings", () => {
     it("Should filter based on date", () => {
