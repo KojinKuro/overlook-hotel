@@ -1,4 +1,5 @@
 import { format } from "date-fns";
+import { pushData } from "./apiCalls";
 import { isCustomer } from "./customers";
 import { isRoom } from "./rooms";
 
@@ -24,7 +25,20 @@ function filterBookings(bookings, query, endQuery = query) {
 
 function addBooking(data, booking) {
   if (isValidBooking(data, booking)) {
-    data.getBookings().push(booking);
+    pushData("bookings", booking)
+      .then((r) => {
+        if (!r.ok) {
+          throw Error("Response failed");
+        }
+        return r.json();
+      })
+      .then((data) => {
+        console.log(data.message);
+        data.getBookings().push(data.newBooking);
+      })
+      .catch((error) => console.log(error));
+  } else {
+    console.log("not valid booking for whatever reason");
   }
 }
 

@@ -12,7 +12,7 @@ function getData(name) {
     .catch((error) => console.log(error));
 }
 
-export function getAllData() {
+function getAllData() {
   return Promise.all([
     getData("customers"),
     getData("rooms"),
@@ -22,4 +22,14 @@ export function getAllData() {
   });
 }
 
-export { getData };
+function pushData(name, data) {
+  return fetch(`http://localhost:3001/api/v1/${name}`, {
+    method: "POST",
+    body: JSON.stringify(data),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+}
+
+export { getAllData, getData, pushData };
