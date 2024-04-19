@@ -1,10 +1,13 @@
 import chai from "chai";
+import { createData } from "../src/js/data";
 import { login } from "../src/js/login";
-import { mockData } from "./mockData";
+import { mockBookings, mockCustomers, mockRooms } from "./mockData";
 
 const expect = chai.expect;
 
 describe("Login", () => {
+  const mockData = createData(mockCustomers, mockRooms, mockBookings);
+
   it("Should login a user", () => {
     const username = "customer40";
     const password = "overlook2021";
