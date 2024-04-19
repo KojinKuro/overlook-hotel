@@ -46,14 +46,14 @@ function isValidBooking(data, booking) {
   if (
     !isCustomer(data.getCustomers(), booking.userID) ||
     !isRoom(data.getRooms(), booking.roomNumber) ||
-    isBooking(data, booking)
+    containsBooking(data, booking)
   ) {
     return false;
   }
   return true;
 }
 
-function isBooking(data, booking) {
+function containsBooking(data, booking) {
   const matchingBookingCount = data
     .getBookings()
     .filter(
