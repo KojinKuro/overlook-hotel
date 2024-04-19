@@ -9,16 +9,16 @@ import "./css/styles.scss";
 // (also need to link to it in the index.html)
 import "./images/turing-logo.png";
 import { getAllData } from "./js/apiCalls";
-import { bookings, customers, rooms } from "./js/data";
+import { localData } from "./js/data";
 
 addEventListener("load", init);
 
 function init() {
   console.log("init");
   getAllData().then(() => {
-    console.log("customers", customers);
-    console.log("rooms", rooms);
-    console.log("bookings", bookings);
+    console.log("customers", localData.getCustomers());
+    console.log("rooms", localData.getRooms());
+    console.log("bookings", localData.getBookings());
   });
 }
 
