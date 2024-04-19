@@ -4,7 +4,7 @@ function getData(name) {
   return fetch(`http://localhost:3001/api/v1/${name}`)
     .then((r) => {
       if (!r.ok) {
-        throw Error(`Could not fetch ${name}`);
+        throw Error(`Could not get ${name} data`);
       }
       return r.json();
     })
@@ -22,6 +22,27 @@ function getAllData() {
   });
 }
 
+function deleteData(name, id) {
+  console.log(id);
+  return fetch(`http://localhost:3001/api/v1/${name}/${id}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((r) => {
+      if (!r.ok) {
+        console.log(r);
+        throw Error(`Failed to delete ${id} because of ${r}`);
+      }
+      return r.json();
+    })
+    .then((data) => {
+      console.log(data.message);
+    })
+    .catch((error) => console.log(error));
+}
+
 function pushData(name, data) {
   return fetch(`http://localhost:3001/api/v1/${name}`, {
     method: "POST",
@@ -29,7 +50,14 @@ function pushData(name, data) {
     headers: {
       "Content-Type": "application/json",
     },
-  });
+  })
+    .then((r) => {
+      if (!r.ok) {
+        throw Error(`Failed to save ${name} data`);
+      }
+      return r.json();
+    })
+    .catch((error) => console.log(error));
 }
 
-export { getAllData, getData, pushData };
+export { deleteData, getAllData, getData, pushData };
