@@ -3,6 +3,18 @@ function createData(customers = [], rooms = [], bookings = []) {
   let roomsData = rooms;
   let bookingsData = bookings;
 
+  function getCustomers() {
+    return customersData;
+  }
+
+  function getRooms() {
+    return roomsData;
+  }
+
+  function getBookings() {
+    return bookingsData;
+  }
+
   function setAllData(customers, rooms, bookings) {
     customersData = customers;
     roomsData = rooms;
@@ -22,9 +34,9 @@ function createData(customers = [], rooms = [], bookings = []) {
   }
 
   return {
-    customers: customersData,
-    rooms: roomsData,
-    bookings: bookingsData,
+    getCustomers,
+    getBookings,
+    getRooms,
     setCustomers,
     setRooms,
     setBookings,
