@@ -10,6 +10,7 @@ import "./css/styles.scss";
 import "./images/turing-logo.png";
 import { getAllData } from "./js/apiCalls";
 import { localData } from "./js/data";
+import "./js/domUpdates";
 
 addEventListener("load", init);
 
