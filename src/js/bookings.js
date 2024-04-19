@@ -32,14 +32,14 @@ function isValidBooking(data, booking) {
   if (
     !isCustomer(data.getCustomers(), booking.userID) ||
     !isRoom(data.getRooms(), booking.roomNumber) ||
-    containsDuplicateBooking(data, booking)
+    isBooking(data, booking)
   ) {
     return false;
   }
   return true;
 }
 
-function containsDuplicateBooking(data, booking) {
+function isBooking(data, booking) {
   const matchingBookingCount = data
     .getBookings()
     .filter(
