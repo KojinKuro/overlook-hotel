@@ -44,68 +44,12 @@ describe("Bookings", () => {
 
   describe("Add bookings", () => {
     it("should be able to add booking", () => {
+      const initialBookings = JSON.parse(
+        JSON.stringify(mockData.getBookings())
+      );
       addBooking(mockData, createBooking(40, new Date(2022, 3, 22), 4));
       expect(mockData.getBookings()).to.deep.equal([
-        {
-          id: "5fwrgu4i7k55hl6sz",
-          userID: 40,
-          date: "2022/04/22",
-          roomNumber: 1,
-        },
-        {
-          id: "5fwrgu4i7k55hl6t5",
-          userID: 21,
-          date: "2022/01/24",
-          roomNumber: 1,
-        },
-        {
-          id: "5fwrgu4i7k55hl6t6",
-          userID: 13,
-          date: "2022/01/10",
-          roomNumber: 2,
-        },
-        {
-          id: "5fwrgu4i7k55hl6t7",
-          userID: 12,
-          date: "2022/02/16",
-          roomNumber: 2,
-        },
-        {
-          id: "5fwrgu4i7k55hl6t8",
-          userID: 40,
-          date: "2022/02/05",
-          roomNumber: 3,
-        },
-        {
-          id: "5fwrgu4i7k55hl6t9",
-          userID: 21,
-          date: "2023/12/14",
-          roomNumber: 3,
-        },
-        {
-          id: "5fwrgu4i7k55hl6ta",
-          userID: 13,
-          date: "2022/01/11",
-          roomNumber: 3,
-        },
-        {
-          id: "5fwrgu4i7k55hl6tb",
-          userID: 12,
-          date: "2022/02/06",
-          roomNumber: 4,
-        },
-        {
-          id: "5fwrgu4i7k55hl6tc",
-          userID: 40,
-          date: "2023/11/30",
-          roomNumber: 4,
-        },
-        {
-          id: "5fwrgu4i7k55hl6td",
-          userID: 21,
-          date: "2022/01/31",
-          roomNumber: 4,
-        },
+        ...initialBookings,
         {
           userID: 40,
           date: "2022/04/22",
@@ -115,74 +59,43 @@ describe("Bookings", () => {
     });
 
     it("should be able to add another booking", () => {
+      const initialBookings = JSON.parse(
+        JSON.stringify(mockData.getBookings())
+      );
       addBooking(mockData, createBooking(12, new Date(2024, 3, 22), 3));
+
       expect(mockData.getBookings()).to.deep.equal([
-        {
-          id: "5fwrgu4i7k55hl6sz",
-          userID: 40,
-          date: "2022/04/22",
-          roomNumber: 1,
-        },
-        {
-          id: "5fwrgu4i7k55hl6t5",
-          userID: 21,
-          date: "2022/01/24",
-          roomNumber: 1,
-        },
-        {
-          id: "5fwrgu4i7k55hl6t6",
-          userID: 13,
-          date: "2022/01/10",
-          roomNumber: 2,
-        },
-        {
-          id: "5fwrgu4i7k55hl6t7",
-          userID: 12,
-          date: "2022/02/16",
-          roomNumber: 2,
-        },
-        {
-          id: "5fwrgu4i7k55hl6t8",
-          userID: 40,
-          date: "2022/02/05",
-          roomNumber: 3,
-        },
-        {
-          id: "5fwrgu4i7k55hl6t9",
-          userID: 21,
-          date: "2023/12/14",
-          roomNumber: 3,
-        },
-        {
-          id: "5fwrgu4i7k55hl6ta",
-          userID: 13,
-          date: "2022/01/11",
-          roomNumber: 3,
-        },
-        {
-          id: "5fwrgu4i7k55hl6tb",
-          userID: 12,
-          date: "2022/02/06",
-          roomNumber: 4,
-        },
-        {
-          id: "5fwrgu4i7k55hl6tc",
-          userID: 40,
-          date: "2023/11/30",
-          roomNumber: 4,
-        },
-        {
-          id: "5fwrgu4i7k55hl6td",
-          userID: 21,
-          date: "2022/01/31",
-          roomNumber: 4,
-        },
+        ...initialBookings,
         {
           userID: 12,
           date: "2024/04/22",
           roomNumber: 3,
         },
       ]);
+    });
+
+    it("should not add bookings if not valid user", () => {
+      const initialBookings = JSON.parse(
+        JSON.stringify(mockData.getBookings())
+      );
+      addBooking(mockData, createBooking(190, new Date(2024, 3, 22), 3));
+      expect(mockData.getBookings()).to.deep.equal(initialBookings);
+    });
+
+    it("should not add bookings if not valid room", () => {
+      const initialBookings = JSON.parse(
+        JSON.stringify(mockData.getBookings())
+      );
+      addBooking(mockData, createBooking(12, new Date(2024, 3, 22), 10));
+      expect(mockData.getBookings()).to.deep.equal(initialBookings);
+    });
+
+    it("should not add bookings if already booked", () => {
+      const initialBookings = JSON.parse(
+        JSON.stringify(mockData.getBookings())
+      );
+      addBooking(mockData, createBooking(40, new Date(2023, 10, 30), 4));
+      expect(mockData.getBookings()).to.deep.equal(initialBookings);
     });
   });
 
