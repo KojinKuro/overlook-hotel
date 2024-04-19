@@ -8,22 +8,13 @@ function createBooking(userID, date, roomNumber) {
   };
 }
 
-function filterBookings(data, property, query, endQuery = query) {
+function filterBookings(data, query, endQuery = query) {
   return data.getBookings().reduce((list, booking) => {
-    switch (property) {
-      case "date":
-        if (
-          new Date(booking[property]).getTime() >= query.getTime() &&
-          new Date(booking[property]).getTime() <= endQuery.getTime()
-        ) {
-          list.push(booking);
-        }
-        break;
-      default:
-        if (booking[property] >= query && booking[property] <= endQuery) {
-          list.push(booking);
-        }
-        break;
+    if (
+      new Date(booking.date).getTime() >= query.getTime() &&
+      new Date(booking.date).getTime() <= endQuery.getTime()
+    ) {
+      list.push(booking);
     }
     return list;
   }, []);

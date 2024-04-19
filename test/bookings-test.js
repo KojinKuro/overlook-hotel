@@ -41,7 +41,7 @@ describe("Bookings", () => {
 
   describe("Filter bookings", () => {
     it("Should filter based on date", () => {
-      const bookings = filterBookings(mockData, "date", new Date(2023, 11, 14));
+      const bookings = filterBookings(mockData, new Date(2023, 11, 14));
       expect(bookings).to.deep.equal([
         {
           id: "5fwrgu4i7k55hl6t9",
@@ -53,7 +53,7 @@ describe("Bookings", () => {
     });
 
     it("Should filter by another date", () => {
-      const bookings = filterBookings(mockData, "date", new Date(2023, 10, 30));
+      const bookings = filterBookings(mockData, new Date(2023, 10, 30));
       expect(bookings).to.deep.equal([
         {
           id: "5fwrgu4i7k55hl6tc",
@@ -67,7 +67,6 @@ describe("Bookings", () => {
     it("Should filter by a range of dates", () => {
       const bookings = filterBookings(
         mockData,
-        "date",
         new Date(2022, 0, 1),
         new Date(2022, 4, 1)
       );
@@ -127,7 +126,6 @@ describe("Bookings", () => {
     it("Should filter by a range of dates", () => {
       const bookings = filterBookings(
         mockData,
-        "date",
         new Date(2023, 0, 1),
         new Date(2024, 0, 1)
       );
