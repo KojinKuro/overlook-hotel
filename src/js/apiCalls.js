@@ -1,4 +1,4 @@
-import { setBookings, setCustomers, setRooms } from "./data";
+import { localData } from "./data";
 
 function getData(name) {
   return fetch(`http://localhost:3001/api/v1/${name}`)
@@ -17,10 +17,8 @@ export function getAllData() {
     getData("customers"),
     getData("rooms"),
     getData("bookings"),
-  ]).then(([customers, rooms, bookings]) => {
-    setCustomers(customers);
-    setRooms(rooms);
-    setBookings(bookings);
+  ]).then((values) => {
+    localData.setAllData(...values);
   });
 }
 

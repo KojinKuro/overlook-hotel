@@ -1,17 +1,37 @@
-let customers = [];
-let rooms = [];
-let bookings = [];
+function createData(customers = [], rooms = [], bookings = []) {
+  let customersData = customers;
+  let roomsData = rooms;
+  let bookingsData = bookings;
 
-function setCustomers(value) {
-  customers = value;
+  function setAllData(customers, rooms, bookings) {
+    customersData = customers;
+    roomsData = rooms;
+    bookingsData = bookings;
+  }
+
+  function setCustomers(value) {
+    customersData = value;
+  }
+
+  function setRooms(value) {
+    roomsData = value;
+  }
+
+  function setBookings(value) {
+    bookingsData = value;
+  }
+
+  return {
+    customers: customersData,
+    rooms: roomsData,
+    bookings: bookingsData,
+    setCustomers,
+    setRooms,
+    setBookings,
+    setAllData,
+  };
 }
 
-function setRooms(value) {
-  rooms = value;
-}
+const localData = createData();
 
-function setBookings(value) {
-  bookings = value;
-}
-
-export { bookings, customers, rooms, setBookings, setCustomers, setRooms };
+export { createData, localData };
