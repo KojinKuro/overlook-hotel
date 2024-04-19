@@ -1,6 +1,4 @@
-import { createData } from "../src/js/data";
-
-const customers = [
+const mockCustomers = [
   {
     id: 40,
     name: "Leatha Ullrich",
@@ -19,7 +17,7 @@ const customers = [
   },
 ];
 
-const rooms = [
+const mockRooms = [
   {
     number: 1,
     roomType: "residential suite",
@@ -54,7 +52,7 @@ const rooms = [
   },
 ];
 
-const bookings = [
+const mockBookings = [
   {
     id: "5fwrgu4i7k55hl6sz",
     userID: 40,
@@ -117,4 +115,4 @@ const bookings = [
   },
 ];
 
-export const mockData = createData(customers, rooms, bookings);
+export { mockBookings, mockCustomers, mockRooms };
