@@ -1,5 +1,5 @@
 import { format } from "date-fns";
-import { pushData } from "./apiCalls";
+import { deleteData, pushData } from "./apiCalls";
 import { isCustomer } from "./customers";
 import { isRoom } from "./rooms";
 
@@ -25,21 +25,20 @@ function filterBookings(bookings, query, endQuery = query) {
 
 function addBooking(data, booking) {
   if (isValidBooking(data, booking)) {
-    pushData("bookings", booking)
-      .then((r) => {
-        if (!r.ok) {
-          throw Error("Response failed");
-        }
-        return r.json();
-      })
-      .then((data) => {
-        console.log(data.message);
-        data.getBookings().push(data.newBooking);
-      })
-      .catch((error) => console.log(error));
+    pushData("bookings", booking).then((data) => {
+      console.log(data.message);
+      data.getBookings().push(data.newBooking);
+    });
   } else {
     console.log("not valid booking for whatever reason");
   }
+}
+
+function removeBooking(data, bookingID) {
+  deleteData("bookings", bookingID).then(() => {
+    const index = findBooking(data.getBookings(), bookingID);
+    data.getBookings().splice(index, 1);
+  });
 }
 
 function isValidBooking(data, booking) {
@@ -66,4 +65,14 @@ function containsBooking(data, booking) {
   return Boolean(matchingBookingCount);
 }
 
-export { addBooking, createBooking, filterBookings, isValidBooking };
+function findBooking(bookings, bookingID) {
+  return bookings.find((booking) => booking.id === bookingID);
+}
+
+export {
+  addBooking,
+  createBooking,
+  filterBookings,
+  isValidBooking,
+  removeBooking,
+};
