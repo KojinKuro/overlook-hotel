@@ -30,18 +30,17 @@ function calculateRevenue(bookings, rooms) {
 
 function filterRooms(rooms, options = {}) {
   const filters = Object.keys(options);
-  let filteredRooms = rooms;
 
-  filters.forEach((filter) => {
+  return filters.reduce((filteredRooms, filter) => {
     filteredRooms = filteredRooms.filter((room) => {
       if (!Array.isArray(options[filter])) {
         return options[filter] === room[filter];
+      } else {
+        return options[filter].includes(room[filter]);
       }
-      return options[filter].includes(room[filter]);
     });
-  });
-
-  return filteredRooms;
+    return filteredRooms;
+  }, rooms);
 }
 
 function filterRoomsByRange(rooms, options = {}) {
