@@ -93,6 +93,44 @@ describe("Rooms", () => {
       ]);
     });
 
+    it("Should filter rooms based on a parameter w/o array", () => {
+      const rooms = filterRooms(mockRooms, { roomType: "single room" });
+      expect(rooms).to.deep.equal([
+        {
+          number: 3,
+          roomType: "single room",
+          bidet: false,
+          bedSize: "king",
+          numBeds: 1,
+          costPerNight: 491.14,
+        },
+        {
+          number: 4,
+          roomType: "single room",
+          bidet: false,
+          bedSize: "queen",
+          numBeds: 1,
+          costPerNight: 429.44,
+        },
+      ]);
+    });
+
+    it("Should filter rooms based on a different parameter w/o array", () => {
+      const rooms = filterRooms(mockRooms, {
+        roomType: "residential suite",
+      });
+      expect(rooms).to.deep.equal([
+        {
+          number: 1,
+          roomType: "residential suite",
+          bidet: true,
+          bedSize: "queen",
+          numBeds: 1,
+          costPerNight: 358.4,
+        },
+      ]);
+    });
+
     it("Should filter rooms based on bidet true", () => {
       const rooms = filterRooms(mockRooms, {
         bidet: [true],
