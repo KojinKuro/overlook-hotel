@@ -46,24 +46,21 @@ function filterRooms(rooms, options = {}) {
 
 function filterRoomsByRange(rooms, options = {}) {
   const filters = Object.keys(options);
-  let filteredRooms = rooms;
 
-  filters.forEach((filter) => {
-    let min, max;
+  return filters.reduce((filteredRooms, filter) => {
+    let filterMin, filterMax;
     if (options[filter][0] >= options[filter][1]) {
-      min = options[filter][1];
-      max = options[filter][0];
+      filterMin = options[filter][1];
+      filterMax = options[filter][0];
     } else {
-      min = options[filter][0];
-      max = options[filter][1];
+      filterMin = options[filter][0];
+      filterMax = options[filter][1];
     }
 
-    filteredRooms = filteredRooms.filter(
-      (room) => room[filter] >= min && room[filter] <= max
+    return filteredRooms.filter(
+      (room) => room[filter] >= filterMin && room[filter] <= filterMax
     );
-  });
-
-  return filteredRooms;
+  }, rooms);
 }
 
 export {
