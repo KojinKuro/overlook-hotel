@@ -45,16 +45,25 @@ function filterRooms(rooms, options = {}) {
 }
 
 function filterRoomsByRange(rooms, options = {}) {
-  const priceArray = options.costPerNight;
+  const filters = Object.keys(options);
+  let filteredRooms = rooms;
 
-  if (priceArray[0] >= priceArray[1]) {
-    [priceArray[0], priceArray[1]] = [priceArray[1], priceArray[0]];
-  }
+  filters.forEach((filter) => {
+    let min, max;
+    if (options[filter][0] >= options[filter][1]) {
+      min = options[filter][1];
+      max = options[filter][0];
+    } else {
+      min = options[filter][0];
+      max = options[filter][1];
+    }
 
-  return rooms.filter(
-    (room) =>
-      room.costPerNight >= priceArray[0] && room.costPerNight <= priceArray[1]
-  );
+    filteredRooms = filteredRooms.filter(
+      (room) => room[filter] >= min && room[filter] <= max
+    );
+  });
+
+  return filteredRooms;
 }
 
 export {
