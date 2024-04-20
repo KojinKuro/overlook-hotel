@@ -31,12 +31,18 @@ function calculateRevenue(bookings, rooms) {
 }
 
 function filterRooms(rooms, options = {}) {
+  const filters = Object.keys(options);
   let filteredRooms = rooms;
-  Object.keys(options).forEach((filter) => {
+
+  filters.forEach((filter) => {
     filteredRooms = filteredRooms.filter((room) => {
+      if (!Array.isArray(options[filter])) {
+        return options[filter] === room[filter];
+      }
       return options[filter].includes(room[filter]);
     });
   });
+
   return filteredRooms;
 }
 
