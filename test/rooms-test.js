@@ -12,13 +12,12 @@ describe("Rooms", () => {
   });
 
   it("Should calculate revenue of bookings", () => {
-    const revenue = calculateRevenue(mockData);
+    const revenue = calculateRevenue(mockBookings, mockRooms);
     expect(revenue).to.equal("$4433.30");
   });
 
   it("Should calculate revenue of different bookings", () => {
-    mockData = createData(mockCustomers, mockRooms, mockBookings.splice(0, 5));
-    const revenue = calculateRevenue(mockData);
+    const revenue = calculateRevenue(mockBookings.splice(0, 5), mockRooms);
     expect(revenue).to.equal("$2162.70");
   });
 });
