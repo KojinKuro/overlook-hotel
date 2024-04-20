@@ -3,6 +3,7 @@ import { createData } from "../src/js/data";
 import {
   calculateRevenue,
   filterRooms,
+  filterRoomsByRange,
   getAvailableRooms,
   getRoom,
 } from "../src/js/rooms";
@@ -19,12 +20,12 @@ describe("Rooms", () => {
   describe("Calculate Revenue", () => {
     it("Should calculate revenue of bookings", () => {
       const revenue = calculateRevenue(mockBookings, mockRooms);
-      expect(revenue).to.equal("$4433.30");
+      expect(revenue).to.equal(4433.3);
     });
 
     it("Should calculate revenue of different bookings", () => {
       const revenue = calculateRevenue(mockBookings.slice(0, 5), mockRooms);
-      expect(revenue).to.equal("$2162.70");
+      expect(revenue).to.equal(2162.7);
     });
   });
 
@@ -259,6 +260,64 @@ describe("Rooms", () => {
         },
       ]);
     });
+  });
+
+  describe("Filter rooms by range", () => {
+    it("should filter room by price range", () => {
+      const rooms = filterRoomsByRange(mockRooms, {
+        price: [300, 450],
+      });
+      expect(rooms).to.deep.equal([
+        {
+          number: 1,
+          roomType: "residential suite",
+          bidet: true,
+          bedSize: "queen",
+          numBeds: 1,
+          costPerNight: 358.4,
+        },
+        {
+          number: 4,
+          roomType: "single room",
+          bidet: false,
+          bedSize: "queen",
+          numBeds: 1,
+          costPerNight: 429.44,
+        },
+      ]);
+    });
+
+    it("should filter room by a different price range", () => {
+      const rooms = filterRoomsByRange(mockRooms, {
+        price: [450, 500],
+      });
+      expect(rooms).to.deep.equal([
+        {
+          number: 2,
+          roomType: "suite",
+          bidet: false,
+          bedSize: "full",
+          numBeds: 2,
+          costPerNight: 477.38,
+        },
+        {
+          number: 3,
+          roomType: "single room",
+          bidet: false,
+          bedSize: "king",
+          numBeds: 1,
+          costPerNight: 491.14,
+        },
+      ]);
+    });
+
+    it.skip("should filter room by incorrectly sorted price range", () => {});
+    it.skip("should filter room by incorrectly sorted price range", () => {});
+    it.skip("should filter room by bed range", () => {});
+    it.skip("should filter room by different bed range", () => {});
+    it.skip("should filter room by price and bed range", () => {});
+    it.skip("should filter room by different price and bed range", () => {});
+    it.skip("Should not filter if not a number", () => {});
   });
 
   describe("Available rooms", () => {
