@@ -10,6 +10,10 @@ function createRoomsFromBookings(bookings, rooms) {
   );
 }
 
+function getRoom(id, rooms) {
+  return rooms.find((room) => room.number === id);
+}
+
 function getAvailableRooms(data, date) {
   const roomsFull = filterBookings(data.getBookings(), date).map(
     (booking) => booking.roomNumber
@@ -26,4 +30,4 @@ function calculateRevenue(bookings, rooms) {
   return `$${revenue}`;
 }
 
-export { calculateRevenue, getAvailableRooms, isRoom };
+export { calculateRevenue, getAvailableRooms, getRoom, isRoom };

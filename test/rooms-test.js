@@ -1,6 +1,6 @@
 import chai from "chai";
 import { createData } from "../src/js/data";
-import { calculateRevenue, getAvailableRooms } from "../src/js/rooms";
+import { calculateRevenue, getAvailableRooms, getRoom } from "../src/js/rooms";
 import { mockBookings, mockCustomers, mockRooms } from "./mockData";
 const expect = chai.expect;
 
@@ -20,6 +20,32 @@ describe("Rooms", () => {
     it("Should calculate revenue of different bookings", () => {
       const revenue = calculateRevenue(mockBookings.slice(0, 5), mockRooms);
       expect(revenue).to.equal("$2162.70");
+    });
+  });
+
+  describe("Get room", () => {
+    it("Should give a room based on id", () => {
+      const room = getRoom(1, mockRooms);
+      expect(room).to.deep.equal({
+        number: 1,
+        roomType: "residential suite",
+        bidet: true,
+        bedSize: "queen",
+        numBeds: 1,
+        costPerNight: 358.4,
+      });
+    });
+
+    it("Should give another room based on id", () => {
+      const room = getRoom(2, mockRooms);
+      expect(room).to.deep.equal({
+        number: 2,
+        roomType: "suite",
+        bidet: false,
+        bedSize: "full",
+        numBeds: 2,
+        costPerNight: 477.38,
+      });
     });
   });
 
