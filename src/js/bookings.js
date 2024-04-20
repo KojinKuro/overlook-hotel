@@ -11,17 +11,17 @@ function createBooking(userID, date, roomNumber) {
   };
 }
 
-// function filterBookings(bookings, query, endQuery = query) {
-//   return bookings.reduce((list, booking) => {
-//     if (
-//       new Date(booking.date).getTime() >= query.getTime() &&
-//       new Date(booking.date).getTime() <= endQuery.getTime()
-//     ) {
-//       list.push(booking);
-//     }
-//     return list;
-//   }, []);
-// }
+function filterBookings(bookings, query, endQuery = query) {
+  return bookings.reduce((list, booking) => {
+    if (
+      new Date(booking.date).getTime() >= query.getTime() &&
+      new Date(booking.date).getTime() <= endQuery.getTime()
+    ) {
+      list.push(booking);
+    }
+    return list;
+  }, []);
+}
 
 function addBooking(data, booking) {
   if (isValidBooking(data, booking)) {
@@ -70,7 +70,7 @@ function findBooking(bookings, bookingID) {
 export {
   addBooking,
   createBooking,
-  // filterBookings,
+  filterBookings,
   isValidBooking,
   removeBooking,
 };
