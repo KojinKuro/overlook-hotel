@@ -12,10 +12,13 @@ function createBooking(userID, date, roomNumber) {
 }
 
 function filterBookings(bookings, query, endQuery = query) {
+  const formattedQuery = format(query, "yyyy/MM/dd");
+  const formattedEndQuery = format(endQuery, "yyyy/MM/dd");
+
   return bookings.reduce((list, booking) => {
     if (
-      new Date(booking.date).getTime() >= query.getTime() &&
-      new Date(booking.date).getTime() <= endQuery.getTime()
+      new Date(booking.date).getTime() >= new Date(formattedQuery).getTime() &&
+      new Date(booking.date).getTime() <= new Date(formattedEndQuery).getTime()
     ) {
       list.push(booking);
     }

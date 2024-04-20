@@ -128,52 +128,52 @@ describe("Bookings", () => {
 
       expect(bookings).to.deep.equal([
         {
-          date: "2022/04/22",
           id: "5fwrgu4i7k55hl6sz",
-          roomNumber: 1,
           userID: 40,
+          date: "2022/04/22",
+          roomNumber: 1,
         },
         {
-          date: "2022/01/24",
           id: "5fwrgu4i7k55hl6t5",
+          userID: 21,
+          date: "2022/01/24",
           roomNumber: 1,
-          userID: 21,
         },
         {
-          date: "2022/01/10",
           id: "5fwrgu4i7k55hl6t6",
-          roomNumber: 2,
           userID: 13,
+          date: "2022/01/10",
+          roomNumber: 2,
         },
         {
-          date: "2022/02/16",
           id: "5fwrgu4i7k55hl6t7",
+          userID: 12,
+          date: "2022/02/16",
           roomNumber: 2,
-          userID: 12,
         },
         {
-          date: "2022/02/05",
           id: "5fwrgu4i7k55hl6t8",
-          roomNumber: 3,
           userID: 40,
-        },
-        {
-          date: "2022/01/11",
-          id: "5fwrgu4i7k55hl6ta",
+          date: "2022/02/05",
           roomNumber: 3,
+        },
+        {
+          id: "5fwrgu4i7k55hl6ta",
           userID: 13,
+          date: "2022/01/11",
+          roomNumber: 3,
         },
         {
-          date: "2022/02/06",
           id: "5fwrgu4i7k55hl6tb",
-          roomNumber: 4,
           userID: 12,
+          date: "2022/02/06",
+          roomNumber: 4,
         },
         {
-          date: "2022/01/31",
           id: "5fwrgu4i7k55hl6td",
-          roomNumber: 4,
           userID: 21,
+          date: "2022/01/31",
+          roomNumber: 4,
         },
       ]);
     });
