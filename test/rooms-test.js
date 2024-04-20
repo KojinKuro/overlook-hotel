@@ -265,7 +265,7 @@ describe("Rooms", () => {
   describe("Filter rooms by range", () => {
     it("should filter room by price range", () => {
       const rooms = filterRoomsByRange(mockRooms, {
-        price: [300, 450],
+        costPerNight: [300, 450],
       });
       expect(rooms).to.deep.equal([
         {
@@ -289,7 +289,7 @@ describe("Rooms", () => {
 
     it("should filter room by a different price range", () => {
       const rooms = filterRoomsByRange(mockRooms, {
-        price: [450, 500],
+        costPerNight: [450, 500],
       });
       expect(rooms).to.deep.equal([
         {
@@ -311,10 +311,98 @@ describe("Rooms", () => {
       ]);
     });
 
-    it.skip("should filter room by incorrectly sorted price range", () => {});
-    it.skip("should filter room by incorrectly sorted price range", () => {});
-    it.skip("should filter room by bed range", () => {});
-    it.skip("should filter room by different bed range", () => {});
+    it("should filter room by incorrectly ordered price range", () => {
+      const rooms = filterRoomsByRange(mockRooms, {
+        costPerNight: [450, 420],
+      });
+      expect(rooms).to.deep.equal([
+        {
+          number: 4,
+          roomType: "single room",
+          bidet: false,
+          bedSize: "queen",
+          numBeds: 1,
+          costPerNight: 429.44,
+        },
+      ]);
+    });
+
+    it("should filter room by incorrectly ordered price range", () => {
+      const rooms = filterRoomsByRange(mockRooms, {
+        costPerNight: [500, 450],
+      });
+      expect(rooms).to.deep.equal([
+        {
+          number: 2,
+          roomType: "suite",
+          bidet: false,
+          bedSize: "full",
+          numBeds: 2,
+          costPerNight: 477.38,
+        },
+        {
+          number: 3,
+          roomType: "single room",
+          bidet: false,
+          bedSize: "king",
+          numBeds: 1,
+          costPerNight: 491.14,
+        },
+      ]);
+    });
+
+    it("should filter room by bed range", () => {
+      const rooms = filterRoomsByRange(mockRooms, { numBeds: [1, 2] });
+      expect(rooms).to.deep.equal([
+        {
+          number: 1,
+          roomType: "residential suite",
+          bidet: true,
+          bedSize: "queen",
+          numBeds: 1,
+          costPerNight: 358.4,
+        },
+        {
+          number: 2,
+          roomType: "suite",
+          bidet: false,
+          bedSize: "full",
+          numBeds: 2,
+          costPerNight: 477.38,
+        },
+        {
+          number: 3,
+          roomType: "single room",
+          bidet: false,
+          bedSize: "king",
+          numBeds: 1,
+          costPerNight: 491.14,
+        },
+        {
+          number: 4,
+          roomType: "single room",
+          bidet: false,
+          bedSize: "queen",
+          numBeds: 1,
+          costPerNight: 429.44,
+        },
+      ]);
+    });
+
+    it("should filter room by different bed range", () => {
+      const rooms = filterRoomsByRange(mockRooms, { numBeds: [2, 4] });
+      expect(rooms).to.deep.equal([
+        {
+          number: 2,
+          roomType: "suite",
+          bidet: false,
+          bedSize: "full",
+          numBeds: 2,
+          costPerNight: 477.38,
+        },
+      ]);
+    });
+
     it.skip("should filter room by price and bed range", () => {});
     it.skip("should filter room by different price and bed range", () => {});
     it.skip("Should not filter if not a number", () => {});

@@ -44,7 +44,18 @@ function filterRooms(rooms, options = {}) {
   return filteredRooms;
 }
 
-function filterRoomsByRange(rooms, options = {}) {}
+function filterRoomsByRange(rooms, options = {}) {
+  const priceArray = options.costPerNight;
+
+  if (priceArray[0] >= priceArray[1]) {
+    [priceArray[0], priceArray[1]] = [priceArray[1], priceArray[0]];
+  }
+
+  return rooms.filter(
+    (room) =>
+      room.costPerNight >= priceArray[0] && room.costPerNight <= priceArray[1]
+  );
+}
 
 export {
   calculateRevenue,
