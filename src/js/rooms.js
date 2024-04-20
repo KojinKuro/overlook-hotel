@@ -1,3 +1,5 @@
+import { filterBookings } from "./bookings";
+
 function isRoom(rooms, roomNumber) {
   return Boolean(rooms.find((room) => room.number === roomNumber));
 }
@@ -8,6 +10,14 @@ function createRoomsFromBookings(bookings, rooms) {
   );
 }
 
+function getAvailableRooms(data, date) {
+  const roomsFull = filterBookings(data.getBookings(), date).map(
+    (booking) => booking.roomNumber
+  );
+
+  return data.getRooms().filter((room) => !roomsFull.includes(room.number));
+}
+
 function calculateRevenue(bookings, rooms) {
   const revenue = createRoomsFromBookings(bookings, rooms)
     .reduce((total, room) => (total += room.costPerNight), 0)
@@ -16,4 +26,4 @@ function calculateRevenue(bookings, rooms) {
   return `$${revenue}`;
 }
 
-export { calculateRevenue, isRoom };
+export { calculateRevenue, getAvailableRooms, isRoom };
