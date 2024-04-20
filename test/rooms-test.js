@@ -1,6 +1,11 @@
 import chai from "chai";
 import { createData } from "../src/js/data";
-import { calculateRevenue, getAvailableRooms, getRoom } from "../src/js/rooms";
+import {
+  calculateRevenue,
+  filterRooms,
+  getAvailableRooms,
+  getRoom,
+} from "../src/js/rooms";
 import { mockBookings, mockCustomers, mockRooms } from "./mockData";
 const expect = chai.expect;
 
@@ -46,6 +51,175 @@ describe("Rooms", () => {
         numBeds: 2,
         costPerNight: 477.38,
       });
+    });
+  });
+
+  describe("Filter rooms", () => {
+    it("Should filter rooms based on room type", () => {
+      const rooms = filterRooms(mockRooms, { roomType: ["single room"] });
+      expect(rooms).to.deep.equal([
+        {
+          number: 3,
+          roomType: "single room",
+          bidet: false,
+          bedSize: "king",
+          numBeds: 1,
+          costPerNight: 491.14,
+        },
+        {
+          number: 4,
+          roomType: "single room",
+          bidet: false,
+          bedSize: "queen",
+          numBeds: 1,
+          costPerNight: 429.44,
+        },
+      ]);
+    });
+
+    it("Should filter rooms based on different room type", () => {
+      const rooms = filterRooms(mockRooms, {
+        roomType: ["residential suite"],
+      });
+      expect(rooms).to.deep.equal([
+        {
+          number: 1,
+          roomType: "residential suite",
+          bidet: true,
+          bedSize: "queen",
+          numBeds: 1,
+          costPerNight: 358.4,
+        },
+      ]);
+    });
+
+    it("Should filter rooms based on bidet true", () => {
+      const rooms = filterRooms(mockRooms, {
+        bidet: [true],
+      });
+      expect(rooms).to.deep.equal([
+        {
+          number: 1,
+          roomType: "residential suite",
+          bidet: true,
+          bedSize: "queen",
+          numBeds: 1,
+          costPerNight: 358.4,
+        },
+      ]);
+    });
+
+    it("Should filter rooms based on bidet false", () => {
+      const rooms = filterRooms(mockRooms, {
+        bidet: [false],
+      });
+      expect(rooms).to.deep.equal([
+        {
+          number: 2,
+          roomType: "suite",
+          bidet: false,
+          bedSize: "full",
+          numBeds: 2,
+          costPerNight: 477.38,
+        },
+        {
+          number: 3,
+          roomType: "single room",
+          bidet: false,
+          bedSize: "king",
+          numBeds: 1,
+          costPerNight: 491.14,
+        },
+        {
+          number: 4,
+          roomType: "single room",
+          bidet: false,
+          bedSize: "queen",
+          numBeds: 1,
+          costPerNight: 429.44,
+        },
+      ]);
+    });
+
+    it("Should filter rooms based on multiple room types", () => {
+      const rooms = filterRooms(mockRooms, {
+        roomType: ["single room", "suite"],
+      });
+      expect(rooms).to.deep.equal([
+        {
+          number: 2,
+          roomType: "suite",
+          bidet: false,
+          bedSize: "full",
+          numBeds: 2,
+          costPerNight: 477.38,
+        },
+        {
+          number: 3,
+          roomType: "single room",
+          bidet: false,
+          bedSize: "king",
+          numBeds: 1,
+          costPerNight: 491.14,
+        },
+        {
+          number: 4,
+          roomType: "single room",
+          bidet: false,
+          bedSize: "queen",
+          numBeds: 1,
+          costPerNight: 429.44,
+        },
+      ]);
+    });
+
+    it("Should filter rooms based on different multiple room types", () => {
+      const rooms = filterRooms(mockRooms, {
+        roomType: ["residential suite", "suite"],
+      });
+      expect(rooms).to.deep.equal([
+        {
+          number: 1,
+          roomType: "residential suite",
+          bidet: true,
+          bedSize: "queen",
+          numBeds: 1,
+          costPerNight: 358.4,
+        },
+        {
+          number: 2,
+          roomType: "suite",
+          bidet: false,
+          bedSize: "full",
+          numBeds: 2,
+          costPerNight: 477.38,
+        },
+      ]);
+    });
+
+    it("Should filter with multiple parameters", () => {
+      const rooms = filterRooms(mockRooms, {
+        bidet: [true],
+        roomType: ["suite"],
+      });
+      expect(rooms).to.deep.equal([]);
+    });
+
+    it("Should filter with different multiple parameters", () => {
+      const rooms = filterRooms(mockRooms, {
+        bidet: [true],
+        bedSize: ["queen"],
+      });
+      expect(rooms).to.deep.equal([
+        {
+          number: 1,
+          roomType: "residential suite",
+          bidet: true,
+          bedSize: "queen",
+          numBeds: 1,
+          costPerNight: 358.4,
+        },
+      ]);
     });
   });
 

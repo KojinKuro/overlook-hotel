@@ -30,4 +30,14 @@ function calculateRevenue(bookings, rooms) {
   return `$${revenue}`;
 }
 
-export { calculateRevenue, getAvailableRooms, getRoom, isRoom };
+function filterRooms(rooms, options = {}) {
+  let filteredRooms = rooms;
+  Object.keys(options).forEach((filter) => {
+    filteredRooms = filteredRooms.filter((room) => {
+      return options[filter].includes(room[filter]);
+    });
+  });
+  return filteredRooms;
+}
+
+export { calculateRevenue, filterRooms, getAvailableRooms, getRoom, isRoom };
