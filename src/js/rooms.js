@@ -23,11 +23,9 @@ function getAvailableRooms(data, date) {
 }
 
 function calculateRevenue(bookings, rooms) {
-  const revenue = createRoomsFromBookings(bookings, rooms)
+  return +createRoomsFromBookings(bookings, rooms)
     .reduce((total, room) => (total += room.costPerNight), 0)
     .toFixed(2);
-
-  return `$${revenue}`;
 }
 
 function filterRooms(rooms, options = {}) {
@@ -46,4 +44,13 @@ function filterRooms(rooms, options = {}) {
   return filteredRooms;
 }
 
-export { calculateRevenue, filterRooms, getAvailableRooms, getRoom, isRoom };
+function filterRoomsByRange(rooms, options = {}) {}
+
+export {
+  calculateRevenue,
+  filterRooms,
+  filterRoomsByRange,
+  getAvailableRooms,
+  getRoom,
+  isRoom,
+};
