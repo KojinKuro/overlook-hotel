@@ -10,24 +10,29 @@ Here is a general procedure for getting your project hosted on GitHub pages so y
 1. Double-check that all image tags in your HTML have the `src` attribute have `./` to start the path, e.g `src="./images/turing-logo.png"`
 
 ## Required Steps
+
 1. Go to your GitHub Repo and click `Settings` > `Pages`
 2. Select "Deploy from branch" from the `main` branch and click `Save`. Note that after this step, your deployed site will be showing the README. This is expected. In order to get your actual app to show up, the following steps are necessary.
 3. In the `package.json` file, within the `"repository"` object, add the lines:
+
 ```json
   "type": "git",
-  "url": "git+https://github.com/USERNAME/REPONAME.git"   
+  "url": "git+https://github.com/USERNAME/REPONAME.git"
 ```
-...where USERNAME and REPONAME are replaced with your GitHub username and your repository name, respectively. Note: If there is no `"repository"` object, create one.  
 
-4. In the `package.json` file, add the line: `"homepage": "http://USERNAME.github.io/REPONAME",` where USERNAME and REPONAME are replaced with your GitHub username and your repository name, respectively  
+...where USERNAME and REPONAME are replaced with your GitHub username and your repository name, respectively. Note: If there is no `"repository"` object, create one.
+
+4. In the `package.json` file, add the line: `"homepage": "http://USERNAME.github.io/REPONAME",` where USERNAME and REPONAME are replaced with your GitHub username and your repository name, respectively
 
 5. Add these two lines to the `scripts` section of the `package.json` file:
-  ```json
-  "predeploy": "npm run build",
-  "deploy": "gh-pages -d dist"
-  ```
+
+```json
+"predeploy": "npm run build",
+"deploy": "gh-pages -d dist"
+```
 
 Your `package.json` file should now look like this:
+
 ```json
 {
   "name": "dog-party",
@@ -49,13 +54,16 @@ Your `package.json` file should now look like this:
   ...
 }
 ```
+
 6. In the terminal, run `npm install -g --save-dev gh-pages`
 7. You should see these lines of JSON added to your `package.json` file:
-  ```json
-  "devDependencies": {
-  "gh-pages": "^1.1.0"
-  }
-  ```
+
+```json
+"devDependencies": {
+"gh-pages": "^1.1.0"
+}
+```
+
 8. Run `npm run build` in the command line
 9. Run `npm run deploy` in the command line
 
