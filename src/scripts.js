@@ -14,8 +14,13 @@ import { setDOM } from "./js/domUpdates";
 
 // global data
 export const localData = createData();
+export let currentCustomer;
 
 addEventListener("load", init);
+
+function setCustomer(value) {
+  currentCustomer = value;
+}
 
 function init() {
   console.log("init");
@@ -27,3 +32,5 @@ function init() {
 
   setDOM(document.querySelector("#root"), loginScreen);
 }
+
+export { setCustomer };

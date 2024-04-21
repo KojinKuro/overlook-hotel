@@ -1,6 +1,6 @@
 import { setDOM } from "../js/domUpdates";
 import { login } from "../js/login";
-import { localData } from "../scripts";
+import { currentCustomer, localData, setCustomer } from "../scripts";
 import { bookingScreen } from "./domBooking";
 
 addEventListener("click", (e) => {
@@ -8,8 +8,12 @@ addEventListener("click", (e) => {
   if (e.target.classList.contains("login-button")) {
     const user = document.getElementById("username");
     const pass = document.getElementById("password");
-    if (login(user.value, pass.value, localData)) {
+    const customer = login(user.value, pass.value, localData);
+
+    if (customer) {
+      setCustomer(customer);
       setDOM(document.querySelector("#root"), bookingScreen);
+      console.log(currentCustomer);
     } else {
       const loginError = document.querySelector(".login-error");
       loginError.innerText = "Error";
