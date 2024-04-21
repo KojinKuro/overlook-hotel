@@ -44,6 +44,4 @@ function createData(customers = [], rooms = [], bookings = []) {
   };
 }
 
-const localData = createData();
-
-export { createData, localData };
+export { createData };
