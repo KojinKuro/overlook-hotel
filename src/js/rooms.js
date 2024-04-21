@@ -11,6 +11,20 @@ function createRoomsFromBookings(bookings, rooms) {
   );
 }
 
+function generateRoomOptions(rooms, roomProperties = Object.keys(rooms[0])) {
+  return rooms.reduce((list, room) => {
+    roomProperties.forEach((property) => {
+      if (!list[property]) {
+        list[property] = [];
+      }
+      if (!list[property].includes(room[property])) {
+        list[property].push(room[property]);
+      }
+    });
+    return list;
+  }, {});
+}
+
 function getRoom(id, rooms) {
   return rooms.find((room) => room.number === id);
 }
@@ -67,6 +81,7 @@ export {
   calculateRevenue,
   filterRooms,
   filterRoomsByRange,
+  generateRoomOptions,
   getAvailableRooms,
   getRoom,
   isRoom,
