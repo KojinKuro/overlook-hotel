@@ -31,14 +31,15 @@ function filterBookings(bookings, query, endQuery = query) {
 }
 
 function addBooking(data, booking) {
-  if (isValidBooking(data, booking)) {
-    pushData("bookings", booking).then((d) => {
-      console.log(d.message);
-      data.getBookings().push(d.newBooking);
-    });
-  } else {
+  if (!isValidBooking(data, booking)) {
     console.log("not valid booking for whatever reason");
+    return;
   }
+
+  return pushData("bookings", booking).then((d) => {
+    console.log(d.message);
+    data.getBookings().push(d.newBooking);
+  });
 }
 
 function removeBooking(data, bookingID) {
