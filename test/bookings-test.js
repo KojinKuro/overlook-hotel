@@ -46,6 +46,20 @@ describe("Bookings", () => {
         roomNumber: 10,
       });
     });
+
+    it("should be able to create booking from strings", () => {
+      const userID = "12";
+      const date = new Date(123, 0, 24);
+      const roomNumber = "10";
+
+      const booking = createBooking(userID, date, roomNumber);
+
+      expect(booking).to.deep.equal({
+        userID: 12,
+        date: "0123/01/24",
+        roomNumber: 10,
+      });
+    });
   });
 
   describe("Validate bookings", () => {
