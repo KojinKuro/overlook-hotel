@@ -2,7 +2,7 @@ import { bookingPage } from "./domBooking";
 import { historyPage } from "./domHistory";
 import { loginPage } from "./domLogin";
 
-addEventListener("click", (e) => {
+document.getElementById("root").addEventListener("click", (e) => {
   if (e.target.classList.contains("logoff-button")) {
     setDOM(document.querySelector("#root"), loginPage);
   } else if (e.target.classList.contains("booking-button")) {

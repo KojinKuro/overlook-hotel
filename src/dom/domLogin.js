@@ -3,7 +3,7 @@ import { login } from "../js/login";
 import { currentCustomer, localData, setCustomer } from "../scripts";
 import { bookingPage } from "./domBooking";
 
-addEventListener("click", (e) => {
+document.getElementById("root").addEventListener("click", (e) => {
   e.preventDefault();
   if (e.target.classList.contains("login-button")) {
     const user = document.getElementById("username");
@@ -21,7 +21,7 @@ addEventListener("click", (e) => {
   }
 });
 
-addEventListener("input", (e) => {
+document.getElementById("root").addEventListener("input", (e) => {
   if (e.target.id === "username" || e.target.id === "password") {
     const loginError = document.querySelector(".login-error");
     loginError.innerText = "";
