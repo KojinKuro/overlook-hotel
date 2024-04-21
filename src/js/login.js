@@ -1,8 +1,10 @@
+import { isCustomer } from "./customers";
+
 function login(username, password, data) {
   const id = getUsernameID(username);
   if (
     !id ||
-    !data.getCustomers().find((customer) => customer.id === id) ||
+    !isCustomer(data.getCustomers(), id) ||
     password !== "overlook2021"
   ) {
     return false;

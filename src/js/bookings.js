@@ -45,22 +45,20 @@ function isValidBooking(data, booking) {
   if (
     !isCustomer(data.getCustomers(), booking.userID) ||
     !isRoom(data.getRooms(), booking.roomNumber) ||
-    containsBooking(data, booking)
+    containsBooking(data.getBookings(), booking)
   ) {
     return false;
   }
   return true;
 }
 
-function containsBooking(data, booking) {
-  const matchingBookingCount = data
-    .getBookings()
-    .filter(
-      (b) =>
-        b.userID === booking.userID &&
-        b.date === booking.date &&
-        b.roomNumber === booking.roomNumber
-    ).length;
+function containsBooking(bookings, booking) {
+  const matchingBookingCount = bookings.filter(
+    (b) =>
+      b.userID === booking.userID &&
+      b.date === booking.date &&
+      b.roomNumber === booking.roomNumber
+  ).length;
 
   return Boolean(matchingBookingCount);
 }
