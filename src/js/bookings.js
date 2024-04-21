@@ -18,12 +18,9 @@ function getCustomerBookings(userID, data) {
   return data.getBookings().filter((booking) => booking.userID === userID);
 }
 
-function filterBookings(bookings, query, endQuery = query) {
+function filterBookings(bookings, filterCallback) {
   return bookings.reduce((list, booking) => {
-    if (
-      new Date(booking.date).getTime() >= query.getTime() &&
-      new Date(booking.date).getTime() <= endQuery.getTime()
-    ) {
+    if (filterCallback(booking)) {
       list.push(booking);
     }
     return list;
