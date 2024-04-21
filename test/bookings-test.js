@@ -3,6 +3,7 @@ import {
   createBooking,
   filterBookings,
   isValidBooking,
+  sortBookings,
 } from "../src/js/bookings";
 import { createData } from "../src/js/data";
 import { mockBookings, mockCustomers, mockRooms } from "./mockData";
@@ -197,6 +198,122 @@ describe("Bookings", () => {
           id: "5fwrgu4i7k55hl6tc",
           roomNumber: 4,
           userID: 40,
+        },
+      ]);
+    });
+  });
+
+  describe("Sort bookings", () => {
+    it("Should sort bookings by date in ascending order", () => {
+      const bookings = sortBookings(mockBookings.slice(0, 3), true);
+      expect(bookings).to.deep.equal([
+        {
+          id: "5fwrgu4i7k55hl6t6",
+          userID: 13,
+          date: "2022/01/10",
+          roomNumber: 2,
+        },
+        {
+          id: "5fwrgu4i7k55hl6t5",
+          userID: 21,
+          date: "2022/01/24",
+          roomNumber: 1,
+        },
+        {
+          id: "5fwrgu4i7k55hl6sz",
+          userID: 40,
+          date: "2022/04/22",
+          roomNumber: 1,
+        },
+      ]);
+    });
+
+    it("Should sort more bookings by date in ascending order", () => {
+      const bookings = sortBookings(mockBookings.slice(-3), true);
+      expect(bookings).to.deep.equal([
+        {
+          id: "5fwrgu4i7k55hl6td",
+          userID: 21,
+          date: "2022/01/31",
+          roomNumber: 4,
+        },
+        {
+          id: "5fwrgu4i7k55hl6tb",
+          userID: 12,
+          date: "2022/02/06",
+          roomNumber: 4,
+        },
+        {
+          id: "5fwrgu4i7k55hl6tc",
+          userID: 40,
+          date: "2023/11/30",
+          roomNumber: 4,
+        },
+      ]);
+    });
+
+    it("should have the second parameter default to ascending", () => {
+      const bookings = sortBookings(mockBookings.slice(2, 4));
+      expect(bookings).to.deep.equal([
+        {
+          id: "5fwrgu4i7k55hl6t6",
+          userID: 13,
+          date: "2022/01/10",
+          roomNumber: 2,
+        },
+        {
+          id: "5fwrgu4i7k55hl6t7",
+          userID: 12,
+          date: "2022/02/16",
+          roomNumber: 2,
+        },
+      ]);
+    });
+
+    it("Should sort bookings by date in descending order", () => {
+      const bookings = sortBookings(mockBookings.slice(0, 3), false);
+      expect(bookings).to.deep.equal([
+        {
+          id: "5fwrgu4i7k55hl6sz",
+          userID: 40,
+          date: "2022/04/22",
+          roomNumber: 1,
+        },
+        {
+          id: "5fwrgu4i7k55hl6t5",
+          userID: 21,
+          date: "2022/01/24",
+          roomNumber: 1,
+        },
+        {
+          id: "5fwrgu4i7k55hl6t6",
+          userID: 13,
+          date: "2022/01/10",
+          roomNumber: 2,
+        },
+      ]);
+    });
+
+    it("Should sort more bookings by date in descending order", () => {
+      const bookings = sortBookings(mockBookings.slice(-3), false);
+      expect(bookings).to.deep.equal([
+        {
+          id: "5fwrgu4i7k55hl6tc",
+          userID: 40,
+          date: "2023/11/30",
+          roomNumber: 4,
+        },
+        {
+          id: "5fwrgu4i7k55hl6tb",
+          userID: 12,
+          date: "2022/02/06",
+          roomNumber: 4,
+        },
+        {
+          id: "5fwrgu4i7k55hl6td",
+          userID: 21,
+          date: "2022/01/31",
+          roomNumber: 4,
         },
       ]);
     });

@@ -1,4 +1,4 @@
-import { format } from "date-fns";
+import { compareAsc, compareDesc, format } from "date-fns";
 import { deleteData, pushData } from "./apiCalls";
 import { isCustomer } from "./customers";
 import { isRoom } from "./rooms";
@@ -69,10 +69,18 @@ function findBooking(bookings, bookingID) {
   return bookings.find((booking) => booking.id === bookingID);
 }
 
+function sortBookings(bookings, ascending = true) {
+  const sortAlgorithm = ascending ? compareAsc : compareDesc;
+  return bookings.sort((booking1, booking2) =>
+    sortAlgorithm(booking1.date, booking2.date)
+  );
+}
+
 export {
   addBooking,
   createBooking,
   filterBookings,
   isValidBooking,
   removeBooking,
+  sortBookings,
 };
