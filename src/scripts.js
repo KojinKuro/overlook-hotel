@@ -33,12 +33,7 @@ function setCustomer(value) {
 }
 
 function init() {
-  console.log("init");
   getAllData(localData).then(() => {
-    console.log("customers", localData.getCustomers());
-    console.log("rooms", localData.getRooms());
-    console.log("bookings", localData.getBookings());
-
     // auto set currentCustomer
     setCustomer(getCustomer(localData.getCustomers(), 20));
 

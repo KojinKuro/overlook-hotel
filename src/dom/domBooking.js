@@ -1,33 +1,45 @@
-import { format, isFuture, isToday } from "date-fns";
+import { format, isFuture, isToday, startOfToday } from "date-fns";
 import { setDOM } from "../domUpdates";
-import { sortBookings } from "../js/bookings";
+import { addBooking, createBooking } from "../js/bookings";
 import { parseDateString } from "../js/date";
-import { getAvailableRooms } from "../js/rooms";
-import { localData } from "../scripts";
+import { getAvailableRooms, getRoom } from "../js/rooms";
+import { currentCustomer, localData } from "../scripts";
 
 document.getElementById("root").addEventListener("click", (e) => {
   e.preventDefault();
 
+  const calendar = document.querySelector(".booking-date");
   const filterModal = document.querySelector(".filter-modal");
   if (e.target.classList.contains("filter-modal-open")) {
     filterModal.showModal();
   } else if (e.target.classList.contains("filter-modal-close")) {
     filterModal.close();
   } else if (e.target.classList.contains("get-rooms-button")) {
-    const calendar = document.querySelector(".booking-date");
     console.log("today is", calendar.value);
 
     // parseDateString fixes the bug of calendar input being in local time
     // but Date uses UTC time and so they will clash and change day back
     setDOM(e.currentTarget, () => bookingPage(parseDateString(calendar.value)));
+  } else if (e.target.classList.contains("book-room-button")) {
+    const roomDOM = e.target.closest(".room-card");
+    const roomNumber = +roomDOM.dataset.number;
+    const room = getRoom(roomNumber, localData.getRooms());
+
+    const calendarParse = parseDateString(calendar.value);
+
+    const booking = createBooking(
+      currentCustomer.id,
+      calendarParse,
+      room.number
+    );
+
+    addBooking(localData, booking).then(() =>
+      setDOM(document.getElementById("root"), () => bookingPage(calendarParse))
+    );
   }
 });
 
-export function bookingPage(date = new Date(Date.now())) {
-  console.log(sortBookings(localData.getBookings()));
-
-  console.log(`page has been set to ${date}`);
-
+export function bookingPage(date = new Date(startOfToday())) {
   const anchor = document.createElement("div");
   anchor.innerHTML = `
   <h1>Booking Screen</h1>
@@ -46,14 +58,12 @@ export function bookingPage(date = new Date(Date.now())) {
 
   <hr>
 
+  ${availableRoomsHTML(localData, date)}
+  
   <dialog class="filter-modal">
     <button class="filter">Filter</button>
     <button class="filter-modal-close">Close</button>
-  </dialog>
-
-  <hr>
-
-  ${availableRoomsHTML(localData, date)}`;
+  </dialog>`;
 
   return anchor;
 }
@@ -68,7 +78,7 @@ function availableRoomsHTML(data, date) {
 
 function roomCardHTML(room, date) {
   return `
-  <section>
+  <section class="room-card" data-number="${room.number}">
     <div class="booking">Room ${room.number}</div>
     <div>Room type: ${room.roomType}</div>
     <div>Has bidet: ${room.bidet}</div>
