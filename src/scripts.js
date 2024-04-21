@@ -21,11 +21,6 @@ export let currentCustomer = null;
 // run `user()` in console to run
 global.user = () => currentCustomer;
 
-// dates used for various tasks;
-export const pastDate = new Date(1900, 0, 1);
-export const futureDate = new Date(2100, 0, 1);
-export const todayDate = new Date(Date.now());
-
 addEventListener("load", init);
 
 function setCustomer(value) {
