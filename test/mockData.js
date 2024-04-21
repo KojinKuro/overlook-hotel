@@ -15,10 +15,6 @@ const mockCustomers = [
     id: 12,
     name: "Kennedi Emard",
   },
-  {
-    id: 42,
-    name: "John Something",
-  },
 ];
 
 const mockRooms = [

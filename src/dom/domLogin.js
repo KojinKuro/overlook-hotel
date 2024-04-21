@@ -1,9 +1,9 @@
-import { setDOM } from "../domUpdates";
+import { setDOM } from "../js/domUpdates";
 import { login } from "../js/login";
 import { currentCustomer, localData, setCustomer } from "../scripts";
 import { bookingPage } from "./domBooking";
 
-document.getElementById("root").addEventListener("click", (e) => {
+addEventListener("click", (e) => {
   e.preventDefault();
   if (e.target.classList.contains("login-button")) {
     const user = document.getElementById("username");
@@ -21,7 +21,7 @@ document.getElementById("root").addEventListener("click", (e) => {
   }
 });
 
-document.getElementById("root").addEventListener("input", (e) => {
+addEventListener("input", (e) => {
   if (e.target.id === "username" || e.target.id === "password") {
     const loginError = document.querySelector(".login-error");
     loginError.innerText = "";
@@ -31,8 +31,7 @@ document.getElementById("root").addEventListener("input", (e) => {
 export function loginPage() {
   setCustomer(null);
 
-  const anchor = document.createElement("div");
-  anchor.innerHTML = `
+  return `
   <div>
     <div>Overlook Hotel</div>
     <div>Your New Favorite Stay</div>
@@ -46,6 +45,6 @@ export function loginPage() {
       <div class="login-error"></div>
       <button class="login-button">Log in</button>
     </form>
-  </div>`;
-  return anchor;
+  </div>
+  `;
 }
