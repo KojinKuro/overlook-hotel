@@ -1,4 +1,4 @@
-import { format } from "date-fns";
+import { format, isFuture, isToday } from "date-fns";
 import { setDOM } from "../domUpdates";
 import { sortBookings } from "../js/bookings";
 import { parseDateString } from "../js/date";
@@ -53,8 +53,7 @@ export function bookingPage(date = new Date(Date.now())) {
 
   <hr>
 
-  ${availableRoomsHTML(localData, date)}
-  `;
+  ${availableRoomsHTML(localData, date)}`;
 
   return anchor;
 }
@@ -62,12 +61,12 @@ export function bookingPage(date = new Date(Date.now())) {
 function availableRoomsHTML(data, date) {
   const rooms = getAvailableRooms(data, date);
   return rooms.reduce((html, room) => {
-    html += roomCardHTML(room);
+    html += roomCardHTML(room, date);
     return html;
   }, "");
 }
 
-function roomCardHTML(room) {
+function roomCardHTML(room, date) {
   return `
   <section>
     <div class="booking">Room ${room.number}</div>
@@ -76,7 +75,14 @@ function roomCardHTML(room) {
     <div>Bed size: ${room.bedSize}</div>
     <div>Bed #: ${room.numBeds}</div>
     <div>Price ${room.costPerNight}</div>
-
-    <button class="book-room-button">Book Room</button>
+    ${bookButtonHTML(date)}
   </section>`;
+}
+
+function bookButtonHTML(date) {
+  if (isToday(date) || isFuture(date)) {
+    return "<button class='book-room-button'>Book Room</button>";
+  } else {
+    return "<br>";
+  }
 }
