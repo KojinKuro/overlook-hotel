@@ -1,4 +1,4 @@
-import { isSameDay, set } from "date-fns";
+import { isSameDay } from "date-fns";
 import { filterBookings } from "./bookings";
 
 function isRoom(rooms, roomNumber) {
