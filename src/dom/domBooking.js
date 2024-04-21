@@ -1,7 +1,6 @@
 import { format, isFuture, isToday, startOfToday } from "date-fns";
 import { setDOM } from "../domUpdates";
 import { addBooking, createBooking } from "../js/bookings";
-import { parseDateString } from "../js/date";
 import { getAvailableRooms, getRoom } from "../js/rooms";
 import { currentCustomer, localData } from "../scripts";
 
@@ -20,9 +19,9 @@ document.getElementById("root").addEventListener("click", (e) => {
     const roomNumber = +roomDOM.dataset.number;
     const room = getRoom(roomNumber, localData.getRooms());
 
-    // parseDateString fixes the bug of calendar input being in local time
+    // fixes the bug of calendar input being in local time
     // but Date uses UTC time and so they will clash and change day back
-    const calendarParse = parseDateString(calendar.value);
+    const calendarParse = new Date(`${calendar.value}T00:00:00`);
 
     const booking = createBooking(
       currentCustomer.id,
@@ -39,7 +38,8 @@ document.getElementById("root").addEventListener("click", (e) => {
 document.getElementById("root").addEventListener("change", (e) => {
   if (e.target.classList.contains("booking-date")) {
     const calendar = document.querySelector(".booking-date");
-    setDOM(e.currentTarget, () => bookingPage(parseDateString(calendar.value)));
+    const calendarParse = new Date(`${calendar.value}T00:00:00`);
+    setDOM(e.currentTarget, () => bookingPage(calendarParse));
   }
 });
 
