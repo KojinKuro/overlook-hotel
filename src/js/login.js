@@ -1,4 +1,4 @@
-import { isCustomer } from "./customers";
+import { getCustomer, isCustomer } from "./customers";
 
 function login(username, password, data) {
   const id = getUsernameID(username);
@@ -7,10 +7,10 @@ function login(username, password, data) {
     !isCustomer(data.getCustomers(), id) ||
     password !== "overlook2021"
   ) {
-    return false;
+    return;
   }
 
-  return true;
+  return getCustomer(data.getCustomers(), id);
 }
 
 function getUsernameID(username) {
@@ -18,4 +18,4 @@ function getUsernameID(username) {
   return +username.slice(idIndex);
 }
 
-export { login };
+export { getUsernameID, login };

@@ -1,12 +1,9 @@
-import { removeBooking } from "./bookings";
-import { localData } from "./data";
+function setDOM(element, html) {
+  element.innerHTML = html();
+}
 
-const bookingRemoveInput = document.querySelector("#booking-id");
-const bookingRemoveButton = document.querySelector(".booking-remove-button");
-console.log(bookingRemoveButton);
+function appendDOM(element, html) {
+  element.append(html());
+}
 
-bookingRemoveButton.addEventListener("click", (e) => {
-  e.preventDefault();
-  removeBooking(localData, bookingRemoveInput.value);
-  console.log("test");
-});
+export { appendDOM, setDOM };

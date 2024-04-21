@@ -11,48 +11,54 @@ describe("Login", () => {
   it("Should login a user", () => {
     const username = "customer40";
     const password = "overlook2021";
-    expect(login(username, password, mockData)).to.equal(true);
+    expect(login(username, password, mockData)).to.deep.equal({
+      id: 40,
+      name: "Leatha Ullrich",
+    });
   });
 
   it("Should not login a user with the wrong password", () => {
     const username = "customer40";
     const password = "wrongpassword";
-    expect(login(username, password, mockData)).to.equal(false);
+    expect(login(username, password, mockData)).to.equal(undefined);
   });
 
   it("Should login another user", () => {
     const username = "customer21";
     const password = "overlook2021";
-    expect(login(username, password, mockData)).to.equal(true);
+    expect(login(username, password, mockData)).to.deep.equal({
+      id: 21,
+      name: "Rocio Schuster",
+    });
   });
 
   it("Should login another user with the wrong password", () => {
     const username = "customer21";
     const password = "wrongpassword";
-    expect(login(username, password, mockData)).to.equal(false);
+    expect(login(username, password, mockData)).to.equal(undefined);
   });
 
   it("Should not login a fake user", () => {
     const username = "customer1";
     const password = "overlook2021";
-    expect(login(username, password, mockData)).to.equal(false);
+    expect(login(username, password, mockData)).to.equal(undefined);
   });
 
   it("Should not login another fake user", () => {
     const username = "customer19";
     const password = "overlook2021";
-    expect(login(username, password, mockData)).to.equal(false);
+    expect(login(username, password, mockData)).to.equal(undefined);
   });
 
   it("Should not login yet another fake user", () => {
     const username = "billybob";
     const password = "overlook2021";
-    expect(login(username, password, mockData)).to.equal(false);
+    expect(login(username, password, mockData)).to.equal(undefined);
   });
 
   it("Should not login yet another fake user again", () => {
     const username = "someonecrazy";
     const password = "overlook2021";
-    expect(login(username, password, mockData)).to.equal(false);
+    expect(login(username, password, mockData)).to.equal(undefined);
   });
 });
