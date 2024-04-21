@@ -11,6 +11,13 @@ function createBooking(userID, date, roomNumber) {
   };
 }
 
+function getCustomerBookings(userID, data) {
+  if (!isCustomer(data.getCustomers(), userID)) {
+    return;
+  }
+  return data.getBookings().filter((booking) => booking.userID === userID);
+}
+
 function filterBookings(bookings, query, endQuery = query) {
   return bookings.reduce((list, booking) => {
     if (
@@ -78,6 +85,7 @@ export {
   addBooking,
   createBooking,
   filterBookings,
+  getCustomerBookings,
   isValidBooking,
   removeBooking,
   sortBookings,

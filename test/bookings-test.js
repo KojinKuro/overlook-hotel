@@ -2,6 +2,7 @@ import chai from "chai";
 import {
   createBooking,
   filterBookings,
+  getCustomerBookings,
   isValidBooking,
   sortBookings,
 } from "../src/js/bookings";
@@ -316,6 +317,60 @@ describe("Bookings", () => {
           roomNumber: 4,
         },
       ]);
+    });
+  });
+
+  describe("Get customer bookings", () => {
+    it("should get bookings from a user with ID", () => {
+      const bookings = getCustomerBookings(21, mockData);
+      expect(bookings).to.deep.equal([
+        {
+          id: "5fwrgu4i7k55hl6t5",
+          userID: 21,
+          date: "2022/01/24",
+          roomNumber: 1,
+        },
+        {
+          id: "5fwrgu4i7k55hl6t9",
+          userID: 21,
+          date: "2023/12/14",
+          roomNumber: 3,
+        },
+        {
+          id: "5fwrgu4i7k55hl6td",
+          userID: 21,
+          date: "2022/01/31",
+          roomNumber: 4,
+        },
+      ]);
+    });
+
+    it("should get bookings from another user with ID", () => {
+      const bookings = getCustomerBookings(12, mockData);
+      expect(bookings).to.deep.equal([
+        {
+          id: "5fwrgu4i7k55hl6t7",
+          userID: 12,
+          date: "2022/02/16",
+          roomNumber: 2,
+        },
+        {
+          id: "5fwrgu4i7k55hl6tb",
+          userID: 12,
+          date: "2022/02/06",
+          roomNumber: 4,
+        },
+      ]);
+    });
+
+    it("should return an empty array if no bookings", () => {
+      const bookings = getCustomerBookings(42, mockData);
+      expect(bookings).to.deep.equal([]);
+    });
+
+    it("should return undefined if no user ID", () => {
+      const bookings = getCustomerBookings(18, mockData);
+      expect(bookings).to.deep.equal(undefined);
     });
   });
 });
