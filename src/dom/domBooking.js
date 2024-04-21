@@ -2,11 +2,9 @@ import { format, isFuture, isToday, startOfToday } from "date-fns";
 import { setDOM } from "../domUpdates";
 import { addBooking, createBooking } from "../js/bookings";
 import { getAvailableRooms, getRoom } from "../js/rooms";
-import { currentCustomer, localData } from "../scripts";
+import { currentCustomer, localData, roomSettings } from "../scripts";
 
 document.getElementById("root").addEventListener("click", (e) => {
-  e.preventDefault();
-
   const filterModal = document.querySelector(".filter-modal");
   if (e.target.classList.contains("filter-modal-open")) {
     filterModal.showModal();
@@ -55,8 +53,7 @@ export function bookingPage(date = new Date(startOfToday())) {
   <input 
     type="date" 
     class="booking-date" 
-    value="${format(date, "yyyy-MM-dd")}"
-    onclick="this.showPicker()">
+    value="${format(date, "yyyy-MM-dd")}">
 
   <button>Clear filters</button>
   <div class="dropdown">
@@ -125,8 +122,15 @@ function priceFilterHTML() {
 
 function bedNumberFilterHTML() {
   return `
-  <div>
-  </div>`;
+  <fieldset>
+  ${roomSettings.numBeds.reduce((html, setting) => {
+    html += `
+    <label for='${setting}-bed'>${setting}</label>
+    <input name='${setting}-bed' type="checkbox">
+    `;
+    return html;
+  }, "")}
+  </fieldset>`;
 }
 
 function roomTypeFilterHTML() {

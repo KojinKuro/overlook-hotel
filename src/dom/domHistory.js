@@ -11,7 +11,6 @@ import { currentCustomer, localData } from "../scripts";
 let bookingFilter = "all";
 
 document.getElementById("root").addEventListener("click", (e) => {
-  e.preventDefault();
   if (e.target.closest(".booking-nav-container")) {
     if (e.target.classList.contains("all-booking-button")) {
       bookingFilter = "all";

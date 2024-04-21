@@ -4,7 +4,6 @@ import { currentCustomer, localData, setCustomer } from "../scripts";
 import { bookingPage } from "./domBooking";
 
 document.getElementById("root").addEventListener("click", (e) => {
-  e.preventDefault();
   if (e.target.classList.contains("login-button")) {
     const user = document.getElementById("username");
     const pass = document.getElementById("password");
