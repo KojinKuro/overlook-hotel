@@ -13,7 +13,8 @@ document.getElementById("root").addEventListener("click", (e) => {
 });
 
 function setDOM(element, html) {
-  element.innerHTML = html();
+  element.innerHTML = "";
+  appendDOM(element, html);
 }
 
 function appendDOM(element, html) {

@@ -33,7 +33,8 @@ export function historyPage() {
   const bookings = getCustomerBookings(currentCustomer.id, localData);
   const rooms = localData.getRooms();
 
-  return `
+  const anchor = document.createElement("div");
+  anchor.innerHTML = `
   <nav>
     <button class="booking-button">Return to bookings</button>
     <button class="logoff-button">Log off</button>
@@ -54,8 +55,9 @@ export function historyPage() {
     <div>
       ${usersBookingHTML(currentCustomer.id, bookingFilter, localData)}
     </div>
-  </div>
-  `;
+  </div>`;
+
+  return anchor;
 }
 
 function usersBookingHTML(id, filter, data) {

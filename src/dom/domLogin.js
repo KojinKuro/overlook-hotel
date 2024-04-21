@@ -31,7 +31,8 @@ document.getElementById("root").addEventListener("input", (e) => {
 export function loginPage() {
   setCustomer(null);
 
-  return `
+  const anchor = document.createElement("div");
+  anchor.innerHTML = `
   <div>
     <div>Overlook Hotel</div>
     <div>Your New Favorite Stay</div>
@@ -45,6 +46,6 @@ export function loginPage() {
       <div class="login-error"></div>
       <button class="login-button">Log in</button>
     </form>
-  </div>
-  `;
+  </div>`;
+  return anchor;
 }
