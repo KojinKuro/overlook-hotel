@@ -5,9 +5,9 @@ import { isRoom } from "./rooms";
 
 function createBooking(userID, date, roomNumber) {
   return {
-    userID,
+    userID: parseInt(userID),
     date: format(date, "yyyy/MM/dd"),
-    roomNumber,
+    roomNumber: parseInt(roomNumber),
   };
 }
 
@@ -32,9 +32,9 @@ function filterBookings(bookings, query, endQuery = query) {
 
 function addBooking(data, booking) {
   if (isValidBooking(data, booking)) {
-    pushData("bookings", booking).then((data) => {
-      console.log(data.message);
-      data.getBookings().push(data.newBooking);
+    pushData("bookings", booking).then((d) => {
+      console.log(d.message);
+      data.getBookings().push(d.newBooking);
     });
   } else {
     console.log("not valid booking for whatever reason");
@@ -83,6 +83,7 @@ function sortBookings(bookings, ascending = true) {
 
 export {
   addBooking,
+  containsBooking,
   createBooking,
   filterBookings,
   getCustomerBookings,
