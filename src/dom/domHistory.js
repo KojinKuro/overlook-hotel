@@ -4,7 +4,7 @@ import {
   getCustomerBookings,
   sortBookings,
 } from "../js/bookings";
-import { getRoom } from "../js/rooms";
+import { calculateRevenue, getRoom } from "../js/rooms";
 import {
   currentCustomer,
   futureDate,
@@ -30,13 +30,20 @@ document.getElementById("root").addEventListener("click", (e) => {
 });
 
 export function historyPage() {
+  const bookings = getCustomerBookings(currentCustomer.id, localData);
+  const rooms = localData.getRooms();
+
   return `
-  <h1>History</h1>
   <nav>
     <button class="booking-button">Return to bookings</button>
     <button class="logoff-button">Log off</button>
   </nav>
+  <h1>History</h1>
+  <div>This is your booking history of rooms</div>
+  <div>Total Money Spent: $${calculateRevenue(bookings, rooms).toFixed(2)}</div>
+
   <hr>
+
   <div>
     <nav class="booking-nav-container">
       <button class="all-booking-button">All Bookings</button>
