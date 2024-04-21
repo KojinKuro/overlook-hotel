@@ -4,23 +4,26 @@
 // An example of how you tell webpack to use a CSS (SCSS) file
 import "normalize.css";
 import "./css/styles.scss";
-
-// An example of how you tell webpack to use an image
-// (also need to link to it in the index.html)
 import "./images/turing-logo.png";
-import { getAllData } from "./js/apiCalls";
-import { localData } from "./js/data";
 import "./js/domUpdates";
+
+import { loginScreen } from "./dom/domLogin";
+import { getAllData } from "./js/apiCalls";
+import { createData } from "./js/data";
+import { setDOM } from "./js/domUpdates";
+
+// global data
+export const localData = createData();
 
 addEventListener("load", init);
 
 function init() {
   console.log("init");
-  getAllData().then(() => {
+  getAllData(localData).then(() => {
     console.log("customers", localData.getCustomers());
     console.log("rooms", localData.getRooms());
     console.log("bookings", localData.getBookings());
   });
-}
 
-console.log("This is the JavaScript entry file - your code begins here.");
+  setDOM(document.querySelector("#root"), loginScreen);
+}
