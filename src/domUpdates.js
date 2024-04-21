@@ -1,6 +1,6 @@
-import { bookingPage } from "./domBooking";
-import { historyPage } from "./domHistory";
-import { loginPage } from "./domLogin";
+import { bookingPage } from "./dom/domBooking";
+import { historyPage } from "./dom/domHistory";
+import { loginPage } from "./dom/domLogin";
 
 document.getElementById("root").addEventListener("click", (e) => {
   if (e.target.classList.contains("logoff-button")) {
