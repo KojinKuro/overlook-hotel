@@ -1,7 +1,7 @@
 import { setDOM } from "../js/domUpdates";
 import { login } from "../js/login";
 import { currentCustomer, localData, setCustomer } from "../scripts";
-import { bookingScreen } from "./domBooking";
+import { bookingPage } from "./domBooking";
 
 addEventListener("click", (e) => {
   e.preventDefault();
@@ -12,7 +12,7 @@ addEventListener("click", (e) => {
 
     if (customer) {
       setCustomer(customer);
-      setDOM(document.querySelector("#root"), bookingScreen);
+      setDOM(document.querySelector("#root"), bookingPage);
       console.log(currentCustomer);
     } else {
       const loginError = document.querySelector(".login-error");
@@ -28,7 +28,7 @@ addEventListener("input", (e) => {
   }
 });
 
-export function loginScreen() {
+export function loginPage() {
   setCustomer(null);
 
   return `

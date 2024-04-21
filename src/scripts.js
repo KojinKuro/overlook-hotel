@@ -7,7 +7,7 @@ import "./css/styles.scss";
 import "./images/turing-logo.png";
 import "./js/domUpdates";
 
-import { loginScreen } from "./dom/domLogin";
+import { loginPage } from "./dom/domLogin";
 import { getAllData } from "./js/apiCalls";
 import { createData } from "./js/data";
 import { setDOM } from "./js/domUpdates";
@@ -33,7 +33,7 @@ function init() {
     console.log("bookings", localData.getBookings());
   });
 
-  setDOM(document.querySelector("#root"), loginScreen);
+  setDOM(document.querySelector("#root"), loginPage);
 }
 
 export { setCustomer };
