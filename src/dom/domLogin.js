@@ -29,6 +29,8 @@ addEventListener("input", (e) => {
 });
 
 export function loginScreen() {
+  setCustomer(null);
+
   return `
   <div>
     <div>Overlook Hotel</div>
