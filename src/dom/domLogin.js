@@ -1,4 +1,4 @@
-import { setDOM } from "../js/domUpdates";
+import { setDOM } from "../domUpdates";
 import { login } from "../js/login";
 import { currentCustomer, localData, setCustomer } from "../scripts";
 import { bookingPage } from "./domBooking";
