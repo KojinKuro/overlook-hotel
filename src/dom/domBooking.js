@@ -53,7 +53,8 @@ export function bookingPage(date = new Date(startOfToday())) {
   <input 
     type="date" 
     class="booking-date" 
-    value="${format(date, "yyyy-MM-dd")}">
+    value="${format(date, "yyyy-MM-dd")}"
+    onclick="this.showPicker()">
 
   <button>Clear filters</button>
   <div class="dropdown">
