@@ -14,7 +14,9 @@ import { setDOM } from "./js/domUpdates";
 
 // global data
 export const localData = createData();
-export let currentCustomer;
+export let currentCustomer = null;
+// used for debugging what currentCustomer is
+global.user = () => currentCustomer;
 
 addEventListener("load", init);
 
