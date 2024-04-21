@@ -530,18 +530,18 @@ describe("Rooms", () => {
         "numBeds",
         "bidet",
       ]);
-      expect(settings).to.deep.equal({ numBeds: [2, 1], bidet: [false] });
+      expect(settings).to.deep.equal({ numBeds: [1, 2], bidet: [false] });
     });
 
-    it("should give all props if none provided", () => {
+    it("should give all props if none provided (should be sorted)", () => {
       const settings = generateRoomOptions(mockRooms.slice(-3));
       expect(settings).to.deep.equal({
         number: [2, 3, 4],
         roomType: ["suite", "single room"],
         bidet: [false],
         bedSize: ["full", "king", "queen"],
-        numBeds: [2, 1],
-        costPerNight: [477.38, 491.14, 429.44],
+        numBeds: [1, 2],
+        costPerNight: [429.44, 477.38, 491.14],
       });
     });
   });

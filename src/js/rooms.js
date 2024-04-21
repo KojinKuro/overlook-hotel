@@ -1,4 +1,4 @@
-import { isSameDay } from "date-fns";
+import { isSameDay, set } from "date-fns";
 import { filterBookings } from "./bookings";
 
 function isRoom(rooms, roomNumber) {
@@ -12,7 +12,7 @@ function createRoomsFromBookings(bookings, rooms) {
 }
 
 function generateRoomOptions(rooms, roomProperties = Object.keys(rooms[0])) {
-  return rooms.reduce((list, room) => {
+  const settings = rooms.reduce((list, room) => {
     roomProperties.forEach((property) => {
       if (!list[property]) {
         list[property] = [];
@@ -23,6 +23,14 @@ function generateRoomOptions(rooms, roomProperties = Object.keys(rooms[0])) {
     });
     return list;
   }, {});
+
+  for (const setting in settings) {
+    if (typeof settings[setting][0] === "number") {
+      settings[setting] = settings[setting].sort((a, b) => a - b);
+    }
+  }
+
+  return settings;
 }
 
 function getRoom(id, rooms) {
