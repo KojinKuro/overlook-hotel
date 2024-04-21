@@ -1,5 +1,3 @@
-import { localData } from "./data";
-
 function getData(name) {
   return fetch(`http://localhost:3001/api/v1/${name}`)
     .then((r) => {
@@ -12,13 +10,13 @@ function getData(name) {
     .catch((error) => console.log(error));
 }
 
-function getAllData() {
+function getAllData(variable) {
   return Promise.all([
     getData("customers"),
     getData("rooms"),
     getData("bookings"),
   ]).then((values) => {
-    localData.setAllData(...values);
+    variable.setAllData(...values);
   });
 }
 
