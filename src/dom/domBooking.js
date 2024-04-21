@@ -5,12 +5,7 @@ import { getAvailableRooms, getRoom } from "../js/rooms";
 import { currentCustomer, localData, roomSettings } from "../scripts";
 
 document.getElementById("root").addEventListener("click", (e) => {
-  const filterModal = document.querySelector(".filter-modal");
-  if (e.target.classList.contains("filter-modal-open")) {
-    filterModal.showModal();
-  } else if (e.target.classList.contains("filter-modal-close")) {
-    filterModal.close();
-  } else if (e.target.classList.contains("book-room-button")) {
+  if (e.target.classList.contains("book-room-button")) {
     const calendar = document.querySelector(".booking-date");
 
     const roomDOM = e.target.closest(".room-card");
@@ -30,15 +25,51 @@ document.getElementById("root").addEventListener("click", (e) => {
     addBooking(localData, booking).then(() =>
       setDOM(document.getElementById("root"), () => bookingPage(calendarParse))
     );
+    // accessibility toggle for keyboard drop down users
+    // needs to be dropbtn so only toggles when clicking button
+  } else if (e.target.closest(".dropbtn")) {
+    const dropdown = e.target.closest(".dropdown");
+    const dropButton = dropdown.querySelector(".dropbtn");
+    const ariaExpanded = !dropdown.classList.contains("open");
+
+    dropdown.classList.toggle("open");
+    dropButton.setAttribute("aria-expanded", ariaExpanded);
+  }
+
+  if (e.target.closest(".filter-container")) {
+    filterRooms();
   }
 });
 
+// event listener for calendar input
 document.getElementById("root").addEventListener("change", (e) => {
   if (e.target.classList.contains("booking-date")) {
     const calendar = document.querySelector(".booking-date");
     const calendarParse = new Date(`${calendar.value}T00:00:00`);
     setDOM(e.currentTarget, () => bookingPage(calendarParse));
   }
+});
+
+// event listener for dropdown menu WAI-ARIA
+document.getElementById("root").addEventListener("mouseover", (e) => {
+  const dropdown = e.target.closest(".dropdown");
+  if (!dropdown) {
+    return;
+  }
+
+  dropdown.classList.add("open");
+  dropdown.querySelector(".dropbtn").setAttribute("aria-expanded", "true");
+});
+
+document.getElementById("root").addEventListener("mouseout", (e) => {
+  const dropdown = e.target.closest(".dropdown");
+  if (!dropdown) {
+    return;
+  }
+
+  filterRooms();
+  dropdown.classList.remove("open");
+  dropdown.querySelector(".dropbtn").setAttribute("aria-expanded", "false");
 });
 
 export function bookingPage(date = new Date(startOfToday())) {
@@ -50,28 +81,19 @@ export function bookingPage(date = new Date(startOfToday())) {
   
   <hr>
   
-  <input 
-    type="date" 
-    class="booking-date" 
-    value="${format(date, "yyyy-MM-dd")}"
-    onclick="this.showPicker()">
-
-  <button>Clear filters</button>
-  <div class="dropdown">
-    <button class="dropbtn">Price</button>
-    <div class="dropdown-content">${priceFilterHTML()}</div>
-  </div>
-  <div class="dropdown">
-    <button class="dropbtn">Bed #</button>
-    <div class="dropdown-content">${bedNumberFilterHTML()}</div>
-  </div>
-  <div class="dropdown">
-    <button class="dropbtn">Room Type</button>
-    <div class="dropdown-content">${roomTypeFilterHTML()}</div>
-  </div>
-  <div class="dropdown">
-    <button class="dropbtn">Bed Size</button>
-    <div class="dropdown-content">${bedSizeFilterHTML()}</div>
+  <div>
+    <input
+      type="date"
+      class="booking-date"
+      value="${format(date, "yyyy-MM-dd")}"
+      onclick="this.showPicker()">
+    <div class="filter-container">
+      <button>Clear filters</button>
+      ${dropdownHTML("Price", priceFilterHTML)}
+      ${dropdownHTML("Bed #", () => roomFilterHTML("numBeds"))}
+      ${dropdownHTML("Room Type", () => roomFilterHTML("roomType"))}
+      ${dropdownHTML("Bed Size", () => roomFilterHTML("bedSize"))}
+    </div>
   </div>
 
   <hr>
@@ -112,56 +134,45 @@ function bookButtonHTML(date) {
   }
 }
 
+function dropdownHTML(name, callback) {
+  return `
+  <div class="dropdown">
+    <button class="dropbtn" aria-expanded="false">${name}</button>
+    <div class="dropdown-content">${callback()}</div>
+  </div>`;
+}
+
 function priceFilterHTML() {
   return `
   <div>
-    <div>Price Range</div>
-    <label>Min Price</label>
-    <input type="text">
-    <label>Max Price</label>
-    <input type="text">
+    <label for="min-price">Min Price</label>
+    <input id="min-price" type="text">
+  </div>
+  <div>
+    <label for="max-price">Max Price</label>
+    <input id="max-price" type="text">
   </div>`;
 }
 
-function bedNumberFilterHTML() {
-  return `
-  <div>
-  ${roomSettings.numBeds.reduce((html, setting) => {
-    html += `
-    <div>
-      <input name='${setting}-bed' type="checkbox">
-      <label for='${setting}-bed'>${setting}</label>
+function roomFilterHTML(filter) {
+  return roomSettings[filter].reduce((html, setting) => {
+    // const formattedSetting = String(setting).replace(" ", "-");
+    html += `<div>
+      <input class="${filter}" type="checkbox" value="${setting}">
+      <label>${setting}</label>
     </div>`;
     return html;
-  }, "")}
-  </div>`;
+  }, "");
 }
 
-function roomTypeFilterHTML() {
-  return `
-  <div>
-  ${roomSettings.roomType.reduce((html, setting) => {
-    const formattedSetting = setting.replace(" ", "-");
-    html += `
-    <div>
-      <input name='${formattedSetting}' type="checkbox">
-      <label for='${formattedSetting}'>${setting}</label>
-    </div>`;
-    return html;
-  }, "")}
-  </div>`;
-}
+function filterRooms() {
+  // price filter
+  const inputMinPrice = document.querySelector("input#min-price");
+  const inputMaxPrice = document.querySelector("input#max-price");
+  // other filters
+  const allNumBedInputs = document.querySelectorAll("input.numBeds");
+  const allRoomTypeInputs = document.querySelectorAll("input.roomType");
+  const allBedSizeInputs = document.querySelectorAll("input.bedSize");
 
-function bedSizeFilterHTML() {
-  return `
-  <div>
-  ${roomSettings.bedSize.reduce((html, setting) => {
-    html += `
-    <div>
-      <input name='${setting}' type="checkbox">
-      <label for='${setting}'>${setting}</label>
-    </div>`;
-    return html;
-  }, "")}
-  </div>`;
+  console.log(inputMaxPrice.value);
 }
