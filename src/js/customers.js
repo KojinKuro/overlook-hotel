@@ -1,5 +1,9 @@
 function isCustomer(customers, customerID) {
-  return Boolean(customers.find((customer) => customer.id === customerID));
+  return Boolean(getCustomer(customers, customerID));
 }
 
-export { isCustomer };
+function getCustomer(customers, customerID) {
+  return customers.find((customer) => customer.id === customerID);
+}
+
+export { getCustomer, isCustomer };
