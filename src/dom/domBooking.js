@@ -122,32 +122,43 @@ function priceFilterHTML() {
 
 function bedNumberFilterHTML() {
   return `
-  <fieldset>
+  <div>
   ${roomSettings.numBeds.reduce((html, setting) => {
     html += `
-    <label for='${setting}-bed'>${setting}</label>
-    <input name='${setting}-bed' type="checkbox">
-    `;
+    <div>
+      <input name='${setting}-bed' type="checkbox">
+      <label for='${setting}-bed'>${setting}</label>
+    </div>`;
     return html;
   }, "")}
-  </fieldset>`;
+  </div>`;
 }
 
 function roomTypeFilterHTML() {
   return `
   <div>
-    <div>Price Range</div>
-    <label>Min Price</label>
-    <input type="text">
-    <label>Max Price</label>
-    <input type="text">
+  ${roomSettings.roomType.reduce((html, setting) => {
+    const formattedSetting = setting.replace(" ", "-");
+    html += `
+    <div>
+      <input name='${formattedSetting}' type="checkbox">
+      <label for='${formattedSetting}'>${setting}</label>
+    </div>`;
+    return html;
+  }, "")}
   </div>`;
 }
 
 function bedSizeFilterHTML() {
   return `
   <div>
-    <label for="interest">Interest</label>
-    <input type="checkbox" id="music" name="interest" value="music" />
+  ${roomSettings.bedSize.reduce((html, setting) => {
+    html += `
+    <div>
+      <input name='${setting}' type="checkbox">
+      <label for='${setting}'>${setting}</label>
+    </div>`;
+    return html;
+  }, "")}
   </div>`;
 }
