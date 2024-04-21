@@ -403,9 +403,32 @@ describe("Rooms", () => {
       ]);
     });
 
-    it.skip("should filter room by price and bed range", () => {});
-    it.skip("should filter room by different price and bed range", () => {});
-    it.skip("Should not filter if not a number", () => {});
+    it("should filter room by price and bed range", () => {
+      const rooms = filterRoomsByRange(mockRooms, {
+        costPerNight: [350, 490],
+        numBeds: [2, 4],
+      });
+
+      expect(rooms).to.deep.equal([
+        {
+          number: 2,
+          roomType: "suite",
+          bidet: false,
+          bedSize: "full",
+          numBeds: 2,
+          costPerNight: 477.38,
+        },
+      ]);
+    });
+
+    it("should filter room by different price and bed range", () => {
+      const rooms = filterRoomsByRange(mockRooms, {
+        costPerNight: [350, 400],
+        numBeds: [2, 4],
+      });
+
+      expect(rooms).to.deep.equal([]);
+    });
   });
 
   describe("Available rooms", () => {
