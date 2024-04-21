@@ -1,3 +1,4 @@
+import { isFuture, isPast, isToday } from "date-fns";
 import { setDOM } from "../domUpdates";
 import {
   filterBookings,
@@ -5,13 +6,7 @@ import {
   sortBookings,
 } from "../js/bookings";
 import { calculateRevenue, getRoom } from "../js/rooms";
-import {
-  currentCustomer,
-  futureDate,
-  localData,
-  pastDate,
-  todayDate,
-} from "../scripts";
+import { currentCustomer, localData } from "../scripts";
 
 let bookingFilter = "all";
 
@@ -62,27 +57,25 @@ export function historyPage() {
 
 function usersBookingHTML(id, filter, data) {
   let bookings = getCustomerBookings(id, data);
-  let min, max, sortAscending;
   switch (filter) {
     case "all":
-      min = pastDate;
-      max = futureDate;
-      sortAscending = false;
+      bookings = sortBookings(bookings, false);
       break;
     case "past":
-      min = pastDate;
-      max = todayDate;
-      sortAscending = false;
+      bookings = filterBookings(
+        bookings,
+        (booking) => isPast(booking.date) && !isToday(booking.date)
+      );
+      bookings = sortBookings(bookings, false);
       break;
     case "future":
-      min = todayDate;
-      max = futureDate;
-      sortAscending = true;
+      bookings = filterBookings(
+        bookings,
+        (booking) => isToday(booking.date) || isFuture(booking.date)
+      );
+      bookings = sortBookings(bookings);
       break;
   }
-
-  bookings = filterBookings(bookings, min, max);
-  bookings = sortBookings(bookings, sortAscending);
 
   return bookings.reduce((html, booking) => {
     html += bookingHistoryCardHTML(booking, data.getRooms());

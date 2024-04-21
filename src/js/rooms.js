@@ -1,3 +1,4 @@
+import { isSameDay } from "date-fns";
 import { filterBookings } from "./bookings";
 
 function isRoom(rooms, roomNumber) {
@@ -15,9 +16,9 @@ function getRoom(id, rooms) {
 }
 
 function getAvailableRooms(data, date) {
-  const roomsFull = filterBookings(data.getBookings(), date).map(
-    (booking) => booking.roomNumber
-  );
+  const roomsFull = filterBookings(data.getBookings(), (booking) =>
+    isSameDay(booking.date, date)
+  ).map((booking) => booking.roomNumber);
 
   return data.getRooms().filter((room) => !roomsFull.includes(room.number));
 }
