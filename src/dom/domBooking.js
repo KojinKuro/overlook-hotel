@@ -84,7 +84,7 @@ export function bookingPage(date = new Date(startOfToday())) {
 function availableRoomsHTML(data, date) {
   const rooms = getAvailableRooms(data, date);
   return rooms.reduce((html, room) => {
-    html += roomCardHTML(room, date);
+    html += roomCardHTML(room, date) + "<br>";
     return html;
   }, "");
 }
@@ -93,11 +93,13 @@ function roomCardHTML(room, date) {
   return `
   <section class="room-card" data-number="${room.number}">
     <div class="booking">Room ${room.number}</div>
-    <div>Room type: ${room.roomType}</div>
-    <div>Has bidet: ${room.bidet}</div>
-    <div>Bed size: ${room.bedSize}</div>
-    <div>Bed #: ${room.numBeds}</div>
-    <div>Price ${room.costPerNight}</div>
+    <ul>
+      <li>Room type: ${room.roomType}</li>
+      <li>Has bidet: ${room.bidet}</li>
+      <li>Bed size: ${room.bedSize}</li>
+      <li>Bed #: ${room.numBeds}</li>
+      <li>Price ${room.costPerNight}</li>
+    </ul>
     ${bookButtonHTML(date)}
   </section>`;
 }

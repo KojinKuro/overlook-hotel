@@ -77,8 +77,7 @@ function usersBookingHTML(id, filter, data) {
   }
 
   return bookings.reduce((html, booking) => {
-    html += bookingHistoryCardHTML(booking, data.getRooms());
-    html += "<br>";
+    html += bookingHistoryCardHTML(booking, data.getRooms()) + "<br>";
     return html;
   }, "");
 }
@@ -91,10 +90,12 @@ function bookingHistoryCardHTML(booking, rooms) {
       <div class="booking-date">Booking date: ${booking.date}</div>
       <div class="booking">Room ${room.number}</div>
     </div>
-    <div>Room type: ${room.roomType}</div>
-    <div>Has bidet: ${room.bidet}</div>
-    <div>Bed size: ${room.bedSize}</div>
-    <div>Bed #: ${room.numBeds}</div>
-    <div>Price ${room.costPerNight}</div>
+    <ul>
+      <li>Room type: ${room.roomType}</li>
+      <li>Has bidet: ${room.bidet}</li>
+      <li>Bed size: ${room.bedSize}</li>
+      <li>Bed #: ${room.numBeds}</li>
+      <li>Price ${room.costPerNight}</li>
+    </ul>
   </section>`;
 }
