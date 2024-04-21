@@ -7,8 +7,10 @@ import "./css/styles.scss";
 import "./images/turing-logo.png";
 import "./js/domUpdates";
 
-import { loginPage } from "./dom/domLogin";
+import { historyPage } from "./dom/domHistory";
+// import { loginPage } from "./dom/domLogin";
 import { getAllData } from "./js/apiCalls";
+import { getCustomer } from "./js/customers";
 import { createData } from "./js/data";
 import { setDOM } from "./js/domUpdates";
 
@@ -31,9 +33,14 @@ function init() {
     console.log("customers", localData.getCustomers());
     console.log("rooms", localData.getRooms());
     console.log("bookings", localData.getBookings());
+
+    // auto set currentCustomer
+    setCustomer(getCustomer(localData.getCustomers(), 20));
   });
 
-  setDOM(document.querySelector("#root"), loginPage);
+  // set page current to history for debugging
+  setDOM(document.querySelector("#root"), historyPage);
+  // setDOM(document.querySelector("#root"), loginPage);
 }
 
 export { setCustomer };
