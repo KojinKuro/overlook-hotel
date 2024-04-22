@@ -7,6 +7,7 @@ import {
 } from "../js/bookings";
 import { calculateRevenue, getRoom } from "../js/rooms";
 import { currentCustomer, localData } from "../scripts";
+import { navHTML } from "./domNav";
 
 let bookingFilter = "all";
 
@@ -30,11 +31,10 @@ export function historyPage() {
   const anchor = document.createElement("div");
   anchor.id = "history-page";
   anchor.innerHTML = `
-  <nav>
-    <button class="booking-button">Return to bookings</button>
-    <button class="logoff-button">Log off</button>
-  </nav>
   <h1>History</h1>
+  ${navHTML()}
+
+  <button class="booking-button">Return to bookings</button>
   <div>This is your booking history of rooms</div>
   <div>Total Money Spent: $${calculateRevenue(bookings, rooms).toFixed(2)}</div>
 

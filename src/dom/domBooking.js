@@ -8,18 +8,15 @@ import {
   getRoom,
 } from "../js/rooms";
 import { currentCustomer, localData, roomSettings } from "../scripts";
-import { navHTML } from "./domNav";
+import { dropdownHTML, navHTML } from "./domNav";
 
 document.getElementById("root").addEventListener("click", (e) => {
-  let calendar, calendarParse;
-  if (e.target.closest("#booking-page")) {
-    calendar = document.getElementById("booking-date");
+  if (e.target.classList.contains("book-room-button")) {
+    const calendar = document.getElementById("booking-date");
     // fixes the bug of calendar input being in local time
     // but Date uses UTC time and so they will clash and change day back
-    calendarParse = new Date(`${calendar.value}T00:00:00`);
-  }
+    const calendarParse = new Date(`${calendar.value}T00:00:00`);
 
-  if (e.target.classList.contains("book-room-button")) {
     const roomDOM = e.target.closest(".room-card");
     const roomNumber = +roomDOM.dataset.number;
     const room = getRoom(roomNumber, localData.getRooms());
@@ -33,20 +30,15 @@ document.getElementById("root").addEventListener("click", (e) => {
     addBooking(localData, booking).then(() =>
       setDOM(document.getElementById("root"), () => bookingPage(calendarParse))
     );
-    // accessibility toggle for keyboard drop down users
-    // needs to be dropbtn so only toggles when clicking button
-  } else if (e.target.closest(".dropbtn")) {
-    const dropdown = e.target.closest(".dropdown");
-    const dropButton = dropdown.querySelector(".dropbtn");
-    const ariaExpanded = !dropdown.classList.contains("open");
-
-    dropdown.classList.toggle("open");
-    dropButton.setAttribute("aria-expanded", ariaExpanded);
   } else if (e.target.classList.contains("clear-filter-button")) {
     clearFilterContainer();
   }
 
   if (e.target.closest(".filter-container")) {
+    const calendar = document.getElementById("booking-date");
+    // fixes the bug of calendar input being in local time
+    // but Date uses UTC time and so they will clash and change day back
+    const calendarParse = new Date(`${calendar.value}T00:00:00`);
     updateRoomsHTML(localData, calendarParse);
   }
 });
@@ -60,25 +52,11 @@ document.getElementById("root").addEventListener("change", (e) => {
   }
 });
 
-// event listener for dropdown menu WAI-ARIA
-document.getElementById("root").addEventListener("mouseover", (e) => {
-  const dropdown = e.target.closest(".dropdown");
-  if (!dropdown) {
-    return;
-  }
-
-  dropdown.classList.add("open");
-  dropdown.querySelector(".dropbtn").setAttribute("aria-expanded", "true");
-});
-
 document.getElementById("root").addEventListener("mouseout", (e) => {
   const dropdown = e.target.closest(".dropdown");
   if (!dropdown) {
     return;
   }
-
-  dropdown.classList.remove("open");
-  dropdown.querySelector(".dropbtn").setAttribute("aria-expanded", "false");
 
   let calendar, calendarParse;
   if (e.target.closest("#booking-page")) {
@@ -95,12 +73,7 @@ export function bookingPage(date = new Date(startOfToday())) {
   anchor.id = "booking-page";
   anchor.innerHTML = `
   <h1>Booking Screen</h1>
-  ${dropdownHTML(
-    navHTML(),
-    () =>
-      `<div class="history-button">History</div>
-      <div class="logoff-button">Log off</div>`
-  )}
+  ${navHTML()}
   
   <hr>
   
@@ -114,10 +87,22 @@ export function bookingPage(date = new Date(startOfToday())) {
 
     <div class="filter-container">
       <button class="clear-filter-button">Clear filters</button>
-      ${dropdownHTML("Price", priceFilterHTML)}
-      ${dropdownHTML("Bed #", () => roomFilterHTML("numBeds"))}
-      ${dropdownHTML("Room Type", () => roomFilterHTML("roomType"))}
-      ${dropdownHTML("Bed Size", () => roomFilterHTML("bedSize"))}
+      ${dropdownHTML({
+        name: "Price",
+        callback: priceFilterHTML,
+      })}
+      ${dropdownHTML({
+        name: "Bed #",
+        callback: () => roomFilterHTML("numBeds"),
+      })}
+      ${dropdownHTML({
+        name: "Room Type",
+        callback: () => roomFilterHTML("roomType"),
+      })}
+      ${dropdownHTML({
+        name: "Bed Size",
+        callback: () => roomFilterHTML("bedSize"),
+      })}
     </div>
   </div>
 
@@ -157,14 +142,6 @@ function roomCardsHTML(data, date) {
     html += roomCardHTML(room, date) + "<br>";
     return html;
   }, "");
-}
-
-function dropdownHTML(name, callback) {
-  return `
-  <div class="dropdown">
-    <button class="dropbtn" aria-expanded="false">${name}</button>
-    <div class="dropdown-content">${callback()}</div>
-  </div>`;
 }
 
 function priceFilterHTML() {
