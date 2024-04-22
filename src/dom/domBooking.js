@@ -1,7 +1,12 @@
 import { format, isFuture, isToday, startOfToday } from "date-fns";
 import { setDOM } from "../domUpdates";
 import { addBooking, createBooking } from "../js/bookings";
-import { filterRooms, getAvailableRooms, getRoom } from "../js/rooms";
+import {
+  filterRooms,
+  filterRoomsByRange,
+  getAvailableRooms,
+  getRoom,
+} from "../js/rooms";
 import { currentCustomer, localData, roomSettings } from "../scripts";
 
 document.getElementById("root").addEventListener("click", (e) => {
@@ -200,12 +205,19 @@ function parseFilterContainer(rooms) {
   }
 
   // price filter
-  // const inputMinPrice = document.querySelector("input#min-price");
-  // const inputMaxPrice = document.querySelector("input#max-price");
+  const inputMinPrice = document.querySelector("input#min-price");
+  const inputMaxPrice = document.querySelector("input#max-price");
   // other filters
   const allNumBedInputs = document.querySelectorAll("input.numBeds");
   const allRoomTypeInputs = document.querySelectorAll("input.roomType");
   const allBedSizeInputs = document.querySelectorAll("input.bedSize");
+
+  let [minPrice, maxPrice] = [0, Number.MAX_SAFE_INTEGER];
+  if (inputMinPrice && inputMaxPrice) {
+    minPrice = parseFloat(inputMinPrice.value) || 0;
+    maxPrice = parseFloat(inputMaxPrice.value) || Number.MAX_SAFE_INTEGER;
+  }
+  rooms = filterRoomsByRange(rooms, { costPerNight: [minPrice, maxPrice] });
 
   return filterRooms(rooms, {
     numBeds: getValues(allNumBedInputs).map((e) => +e),
