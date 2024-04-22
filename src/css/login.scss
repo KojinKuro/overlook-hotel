@@ -1,4 +1,50 @@
+@import "mixins";
+
 #login-page {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  align-items: center;
+  min-height: 100vh;
+
+  & > * {
+    flex: 1;
+    margin: 30px;
+  }
+
+  .login-title {
+    @include roboto(600);
+    font-size: 10rem;
+    text-transform: uppercase;
+  }
+
+  .login-slogan {
+    font-size: 4rem;
+  }
+
+  .login-form {
+    @include border();
+    display: flex;
+    flex-direction: column;
+    padding: 30px;
+
+    backdrop-filter: blur(20px);
+    @include box-shadow(5px, 5px, 10px, 5px, rgba(0, 0, 0, 0.5));
+
+    .login-error {
+      font-size: 0.9rem;
+      color: red;
+    }
+
+    & > * {
+      display: flex;
+      flex-direction: column;
+
+      &:last-child {
+        justify-content: space-between;
+        height: 100px;
+      }
+    }
+  }
 }

@@ -1,12 +1,27 @@
 @import "variables";
 @import "mixins";
 
+// body {
+//   @include roboto;
+//   background: radial-gradient(
+//     circle,
+//     rgba(63, 94, 251, 1) 0%,
+//     rgba(252, 70, 107, 1) 100%
+//   );
+// }
+
+*,
+button {
+  font-size: 1.1rem;
+}
+
 body {
-  background: radial-gradient(
-    circle,
-    rgba(63, 94, 251, 1) 0%,
-    rgba(252, 70, 107, 1) 100%
-  );
+  @include roboto;
+  background-color: white;
+  background-image: url("https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhWM4m_9QN0Em9fjPJRq0Ku4WVkpqi9RHZqmG10WP7IurhTyI_iaxGFcQPrBQd_qdygYI7v1KOnf0XbQ71-qZyKLLEAlppXfhUziv-KJBHaIMOpU7rRv1X3mEquXzBYj3lGVDv8lNcYu74/s800/building_hotel_pet.png");
+  background-size: 900px;
+  background-repeat: no-repeat;
+  background-position: 100% 100%;
 }
 
 /* Dropdown Button */

@@ -1,0 +1,18 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+
+@mixin roboto($weight: 400, $font-style: normal) {
+  font-family: "Roboto", sans-serif;
+  font-weight: $weight;
+  font-style: $font-style;
+}
+
+@mixin border($color: black) {
+  border: 1px solid $color;
+  border-radius: 10px;
+}
+
+@mixin box-shadow($top, $left, $blur, $size, $color) {
+  -webkit-box-shadow: $top $left $blur $size $color;
+  -moz-box-shadow: $top $left $blur $size $color;
+  box-shadow: $top $left $blur $size $color;
+}
