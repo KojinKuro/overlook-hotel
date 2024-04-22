@@ -115,7 +115,6 @@ export function bookingPage(date = new Date(startOfToday())) {
 
 function roomCardsHTML(data, date) {
   function roomCardHTML(room, date) {
-    console.log(room.bidet);
     const bidet = room.bidet
       ? `<li><box-icon name='shower' ></box-icon> has bidet</li>`
       : ``;
