@@ -8,10 +8,11 @@ import {
   getRoom,
 } from "../js/rooms";
 import { currentCustomer, localData, roomSettings } from "../scripts";
+import { navHTML } from "./domNav";
 
 document.getElementById("root").addEventListener("click", (e) => {
   let calendar, calendarParse;
-  if (e.target.closest(".booking-page")) {
+  if (e.target.closest("#booking-page")) {
     calendar = document.getElementById("booking-date");
     // fixes the bug of calendar input being in local time
     // but Date uses UTC time and so they will clash and change day back
@@ -80,7 +81,7 @@ document.getElementById("root").addEventListener("mouseout", (e) => {
   dropdown.querySelector(".dropbtn").setAttribute("aria-expanded", "false");
 
   let calendar, calendarParse;
-  if (e.target.closest(".booking-page")) {
+  if (e.target.closest("#booking-page")) {
     calendar = document.getElementById("booking-date");
     // fixes the bug of calendar input being in local time
     // but Date uses UTC time and so they will clash and change day back
@@ -94,8 +95,12 @@ export function bookingPage(date = new Date(startOfToday())) {
   anchor.id = "booking-page";
   anchor.innerHTML = `
   <h1>Booking Screen</h1>
-  <button class="history-button">View history</button>
-  <button class="logoff-button">Log off</button>
+  ${dropdownHTML(
+    navHTML(),
+    () =>
+      `<div class="history-button">History</div>
+      <div class="logoff-button">Log off</div>`
+  )}
   
   <hr>
   
@@ -126,7 +131,7 @@ export function bookingPage(date = new Date(startOfToday())) {
 }
 
 function roomCardsHTML(data, date) {
-  const roomCardHTML = (room, date) => {
+  function roomCardHTML(room, date) {
     return `
     <section class="room-card" data-number="${room.number}">
       <div class="booking">Room ${room.number}</div>
@@ -143,7 +148,7 @@ function roomCardsHTML(data, date) {
           : "<br>"
       }
     </section>`;
-  };
+  }
 
   let rooms = getAvailableRooms(data, date);
   rooms = parseFilterContainer(rooms);
