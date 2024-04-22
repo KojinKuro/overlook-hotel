@@ -33,6 +33,7 @@ export function loginPage() {
   setCustomer(null);
 
   const anchor = document.createElement("div");
+  anchor.id = "login-page";
   anchor.innerHTML = `
   <div>
     <div>Overlook Hotel</div>

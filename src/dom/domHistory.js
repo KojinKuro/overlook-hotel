@@ -28,6 +28,7 @@ export function historyPage() {
   const rooms = localData.getRooms();
 
   const anchor = document.createElement("div");
+  anchor.id = "history-page";
   anchor.innerHTML = `
   <nav>
     <button class="booking-button">Return to bookings</button>

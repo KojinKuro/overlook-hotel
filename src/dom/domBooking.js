@@ -91,7 +91,7 @@ document.getElementById("root").addEventListener("mouseout", (e) => {
 
 export function bookingPage(date = new Date(startOfToday())) {
   const anchor = document.createElement("div");
-  anchor.classList.add("booking-page");
+  anchor.id = "booking-page";
   anchor.innerHTML = `
   <h1>Booking Screen</h1>
   <button class="history-button">View history</button>
