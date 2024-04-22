@@ -1,3 +1,5 @@
+import { currentCustomer } from "../scripts";
+
 document.getElementById("root").addEventListener("click", (e) => {
   // accessibility toggle for keyboard drop down users
   // needs to be dropbtn so only toggles when clicking button
@@ -35,14 +37,14 @@ document.getElementById("root").addEventListener("mouseout", (e) => {
 export function navHTML() {
   return `
   <div class="main-nav">
-    <h1>Overlook Hotel</h1>
+    <h1>🛎️ Overlook Hotel</h1>
     ${dropdownHTML({
-      name: "<box-icon name='menu'></box-icon>",
+      name: `${currentCustomer.name} 
+      <box-icon name='menu' size='sm' color='white'></box-icon>`,
       className: "hamburger-menu",
-      style: "right:0;",
       callback: () =>
-        `<div class="history-button">History</div>
-        <div class="logoff-button">Log off</div>`,
+        `<button class="history-button">History</button>
+        <button class="logoff-button">Log off</button>`,
     })}
   </div>`;
 }

@@ -1,0 +1,82 @@
+@import "mixins";
+
+#booking-page {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+
+  h1 {
+    text-align: center;
+    margin: 0;
+  }
+
+  .filter-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 0px 20px;
+
+    box-icon {
+      display: flex;
+    }
+
+    .dropdowns-container {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+
+      .clear-filter-button {
+        background-color: #04aa6d;
+        color: white;
+        padding: 16px;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+
+        &:hover {
+          background-color: #3e8e41;
+        }
+      }
+    }
+  }
+}
+
+.room-cards-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  justify-content: center;
+  align-items: center;
+  margin: 0px 10px;
+  gap: 10px;
+
+  .room-card {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    background-color: lightblue;
+    max-width: 800px;
+    min-width: 500px;
+    height: 200px;
+
+    li {
+      display: flex;
+    }
+
+    box-icon {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .booking {
+      @include roboto(600);
+      font-size: 2rem;
+      text-transform: uppercase;
+    }
+  }
+}

@@ -70,46 +70,44 @@ document.getElementById("root").addEventListener("mouseout", (e) => {
 
 export function bookingPage(date = new Date(startOfToday())) {
   const anchor = document.createElement("div");
-  anchor.id = "booking-page";
   anchor.innerHTML = `
   ${navHTML()}
-  <h1>Booking Screen</h1>
-  
-  <hr>
-  
-  <div>
-    <label for="booking-date">Booking Date:</label>
-    <input
-      type="date"
-      id="booking-date"
-      value="${format(date, "yyyy-MM-dd")}"
-      onclick="this.showPicker()">
-
+  <div id="booking-page">
+    <hr>
     <div class="filter-container">
-      <button class="clear-filter-button">Clear filters</button>
-      ${dropdownHTML({
-        name: "Price",
-        callback: priceFilterHTML,
-      })}
-      ${dropdownHTML({
-        name: "Bed #",
-        callback: () => roomFilterHTML("numBeds"),
-      })}
-      ${dropdownHTML({
-        name: "Room Type",
-        callback: () => roomFilterHTML("roomType"),
-      })}
-      ${dropdownHTML({
-        name: "Bed Size",
-        callback: () => roomFilterHTML("bedSize"),
-      })}
+      <div>
+        <label for="booking-date">Booking Date:</label>
+        <input
+          type="date"
+          id="booking-date"
+          value="${format(date, "yyyy-MM-dd")}"
+          onclick="this.showPicker()">
+      </div>
+      <h1>Available Rooms</h1>
+      <div class="dropdowns-container">
+        <button class="clear-filter-button">Clear filters</button>
+        ${dropdownHTML({
+          name: "Price",
+          callback: priceFilterHTML,
+        })}
+        ${dropdownHTML({
+          name: "Bed #",
+          callback: () => roomFilterHTML("numBeds"),
+        })}
+        ${dropdownHTML({
+          name: "Room Type",
+          callback: () => roomFilterHTML("roomType"),
+        })}
+        ${dropdownHTML({
+          name: "Bed Size",
+          callback: () => roomFilterHTML("bedSize"),
+        })}
+      </div>
     </div>
-  </div>
-
-  <hr>
-
-  <div class="room-cards-container">
-    ${roomCardsHTML(localData, date)}
+    <hr>
+    <div class="room-cards-container">
+      ${roomCardsHTML(localData, date)}
+    </div>
   </div>`;
 
   return anchor;
@@ -117,19 +115,31 @@ export function bookingPage(date = new Date(startOfToday())) {
 
 function roomCardsHTML(data, date) {
   function roomCardHTML(room, date) {
+    console.log(room.bidet);
+    const bidet = room.bidet
+      ? `<li><box-icon name='shower' ></box-icon> has bidet</li>`
+      : ``;
+
     return `
     <section class="room-card" data-number="${room.number}">
       <div class="booking">Room ${room.number}</div>
       <ul>
-        <li>Room type: ${room.roomType}</li>
-        <li>Has bidet: ${room.bidet}</li>
-        <li>Bed size: ${room.bedSize}</li>
-        <li>Bed #: ${room.numBeds}</li>
-        <li>Price ${room.costPerNight}</li>
+        <li>
+          <box-icon name='home-alt' ></box-icon> ${room.roomType}
+        </li>
+        ${bidet}
+        <li>
+          <box-icon name='hotel' type='solid' ></box-icon>
+          ${room.numBeds} ${room.bedSize} bed
+        </li>
+        <li>
+          <box-icon name='money' ></box-icon>
+           ${room.costPerNight}
+        </li>
       </ul>
       ${
         isToday(date) || isFuture(date)
-          ? "<button class='book-room-button'>Book Room</button>"
+          ? "<button class='book-room-button'>Book</button>"
           : "<br>"
       }
     </section>`;
