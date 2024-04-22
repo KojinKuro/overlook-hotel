@@ -7,12 +7,12 @@ import "./css/styles.scss";
 import "./domUpdates";
 import "./images/turing-logo.png";
 
-import { bookingPage } from "./dom/domBooking";
+// import { bookingPage } from "./dom/domBooking";
 // import { historyPage } from "./dom/domHistory";
-// import { loginPage } from "./dom/domLogin";
+import { loginPage } from "./dom/domLogin";
 import { setDOM } from "./domUpdates";
 import { getAllData } from "./js/apiCalls";
-import { getCustomer } from "./js/customers";
+// import { getCustomer } from "./js/customers";
 import { createData } from "./js/data";
 import { generateRoomOptions } from "./js/rooms";
 
@@ -39,10 +39,10 @@ function init() {
     ]);
 
     // auto set currentCustomer
-    setCustomer(getCustomer(localData.getCustomers(), 20));
+    // setCustomer(getCustomer(localData.getCustomers(), 20));
     // set page current to history for debugging
-    setDOM(document.querySelector("#root"), bookingPage);
-    // setDOM(document.querySelector("#root"), loginPage);
+    // setDOM(document.querySelector("#root"), bookingPage);
+    setDOM(document.querySelector("#root"), loginPage);
   });
 }
 

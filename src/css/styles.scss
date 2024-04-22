@@ -20,7 +20,8 @@ body {
   position: relative;
   display: inline-block;
 
-  &:hover {
+  // added through Javascript (done for accessibility purposes)
+  &.open {
     .dropdown-content {
       /* Show the dropdown menu on hover */
       display: block;
