@@ -52,9 +52,14 @@ function calculateRevenue(bookings, rooms) {
 }
 
 function filterRooms(rooms, options = {}) {
-  const filters = Object.keys(options);
+  let filters = Object.keys(options);
 
   return filters.reduce((filteredRooms, filter) => {
+    // skip any option that is empty
+    if (!options[filter].length) {
+      return filteredRooms;
+    }
+
     filteredRooms = filteredRooms.filter((room) => {
       if (!Array.isArray(options[filter])) {
         return options[filter] === room[filter];

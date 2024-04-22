@@ -261,6 +261,23 @@ describe("Rooms", () => {
         },
       ]);
     });
+
+    it("should ignore any parameter if empty", () => {
+      const rooms = filterRooms(mockRooms, {
+        numBed: [],
+        bidet: [true],
+      });
+      expect(rooms).to.deep.equal([
+        {
+          number: 1,
+          roomType: "residential suite",
+          bidet: true,
+          bedSize: "queen",
+          numBeds: 1,
+          costPerNight: 358.4,
+        },
+      ]);
+    });
   });
 
   describe("Filter rooms by range", () => {
