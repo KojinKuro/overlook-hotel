@@ -86,12 +86,12 @@ function usersBookingHTML(id, filter, data) {
 function bookingHistoryCardHTML(booking, rooms) {
   const room = getRoom(booking.roomNumber, rooms);
   return `
-  <section>
-    <div>
+  <section class="booking">
+    <header>
       <div class="booking-date">Booking date: ${booking.date}</div>
-      <div class="booking">Room ${room.number}</div>
-    </div>
-    <ul>
+      <div class="booking-name">Room ${room.number}</div>
+    </header>
+    <ul class="booking-info">
       <li>Room type: ${room.roomType}</li>
       <li>Has bidet: ${room.bidet}</li>
       <li>Bed size: ${room.bedSize}</li>

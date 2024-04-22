@@ -121,8 +121,8 @@ function roomCardsHTML(data, date) {
 
     return `
     <section class="room-card" data-number="${room.number}">
-      <div class="booking">Room ${room.number}</div>
-      <ul>
+      <div class="room-name">Room ${room.number}</div>
+      <ul class="room-info">
         <li>
           <box-icon name='home-alt' ></box-icon> ${room.roomType}
         </li>
