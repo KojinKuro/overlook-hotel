@@ -33,23 +33,29 @@ document.getElementById("root").addEventListener("mouseout", (e) => {
 });
 
 export function navHTML() {
-  return dropdownHTML({
-    name: "<box-icon name='menu'></box-icon>",
-    className: "hamburger-menu",
-    callback: () =>
-      `<div class="history-button">History</div>
-    <div class="logoff-button">Log off</div>`,
-  });
+  return `
+  <div class="main-nav">
+    <h1>Overlook Hotel</h1>
+    ${dropdownHTML({
+      name: "<box-icon name='menu'></box-icon>",
+      className: "hamburger-menu",
+      style: "right:0;",
+      callback: () =>
+        `<div class="history-button">History</div>
+        <div class="logoff-button">Log off</div>`,
+    })}
+  </div>`;
 }
 
 export function dropdownHTML(options = {}) {
   let name = options.name || "";
   let className = options.className || "";
   let callback = options.callback || (() => {});
+  let style = options.style || "";
 
   return `
   <div class="dropdown ${className}">
     <button class="dropbtn" aria-expanded="false">${name}</button>
-    <div class="dropdown-content">${callback()}</div>
+    <div class="dropdown-content" style="${style}">${callback()}</div>
   </div>`;
 }

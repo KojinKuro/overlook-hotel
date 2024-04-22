@@ -72,8 +72,8 @@ export function bookingPage(date = new Date(startOfToday())) {
   const anchor = document.createElement("div");
   anchor.id = "booking-page";
   anchor.innerHTML = `
-  <h1>Booking Screen</h1>
   ${navHTML()}
+  <h1>Booking Screen</h1>
   
   <hr>
   

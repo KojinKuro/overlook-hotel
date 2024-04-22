@@ -31,8 +31,8 @@ export function historyPage() {
   const anchor = document.createElement("div");
   anchor.id = "history-page";
   anchor.innerHTML = `
-  <h1>History</h1>
   ${navHTML()}
+  <h1>History</h1>
 
   <button class="booking-button">Return to bookings</button>
   <div>This is your booking history of rooms</div>
