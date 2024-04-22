@@ -1,3 +1,4 @@
+import { isFuture, isPast, isToday } from "date-fns";
 import { setDOM } from "../domUpdates";
 import {
   filterBookings,
@@ -5,18 +6,11 @@ import {
   sortBookings,
 } from "../js/bookings";
 import { calculateRevenue, getRoom } from "../js/rooms";
-import {
-  currentCustomer,
-  futureDate,
-  localData,
-  pastDate,
-  todayDate,
-} from "../scripts";
+import { currentCustomer, localData } from "../scripts";
 
 let bookingFilter = "all";
 
 document.getElementById("root").addEventListener("click", (e) => {
-  e.preventDefault();
   if (e.target.closest(".booking-nav-container")) {
     if (e.target.classList.contains("all-booking-button")) {
       bookingFilter = "all";
@@ -62,31 +56,28 @@ export function historyPage() {
 
 function usersBookingHTML(id, filter, data) {
   let bookings = getCustomerBookings(id, data);
-  let min, max, sortAscending;
   switch (filter) {
     case "all":
-      min = pastDate;
-      max = futureDate;
-      sortAscending = false;
+      bookings = sortBookings(bookings, false);
       break;
     case "past":
-      min = pastDate;
-      max = todayDate;
-      sortAscending = false;
+      bookings = filterBookings(
+        bookings,
+        (booking) => isPast(booking.date) && !isToday(booking.date)
+      );
+      bookings = sortBookings(bookings, false);
       break;
     case "future":
-      min = todayDate;
-      max = futureDate;
-      sortAscending = true;
+      bookings = filterBookings(
+        bookings,
+        (booking) => isToday(booking.date) || isFuture(booking.date)
+      );
+      bookings = sortBookings(bookings);
       break;
   }
 
-  bookings = filterBookings(bookings, min, max);
-  bookings = sortBookings(bookings, sortAscending);
-
   return bookings.reduce((html, booking) => {
-    html += bookingHistoryCardHTML(booking, data.getRooms());
-    html += "<br>";
+    html += bookingHistoryCardHTML(booking, data.getRooms()) + "<br>";
     return html;
   }, "");
 }
@@ -99,10 +90,12 @@ function bookingHistoryCardHTML(booking, rooms) {
       <div class="booking-date">Booking date: ${booking.date}</div>
       <div class="booking">Room ${room.number}</div>
     </div>
-    <div>Room type: ${room.roomType}</div>
-    <div>Has bidet: ${room.bidet}</div>
-    <div>Bed size: ${room.bedSize}</div>
-    <div>Bed #: ${room.numBeds}</div>
-    <div>Price ${room.costPerNight}</div>
+    <ul>
+      <li>Room type: ${room.roomType}</li>
+      <li>Has bidet: ${room.bidet}</li>
+      <li>Bed size: ${room.bedSize}</li>
+      <li>Bed #: ${room.numBeds}</li>
+      <li>Price ${room.costPerNight}</li>
+    </ul>
   </section>`;
 }
