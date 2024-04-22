@@ -4,11 +4,11 @@ import { loginPage } from "./dom/domLogin";
 
 document.getElementById("root").addEventListener("click", (e) => {
   if (e.target.classList.contains("logoff-button")) {
-    setDOM(document.querySelector("#root"), loginPage);
+    setDOM(e.currentTarget, loginPage);
   } else if (e.target.classList.contains("booking-button")) {
-    setDOM(document.querySelector("#root"), bookingPage);
+    setDOM(e.currentTarget, bookingPage);
   } else if (e.target.classList.contains("history-button")) {
-    setDOM(document.querySelector("#root"), historyPage);
+    setDOM(e.currentTarget, historyPage);
   }
 });
 
