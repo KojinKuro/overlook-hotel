@@ -47,12 +47,12 @@ function removeBooking(data, bookingID) {
 }
 
 function isValidBooking(data, booking) {
-  if (
-    !isCustomer(data.getCustomers(), booking.userID) ||
-    !isRoom(data.getRooms(), booking.roomNumber) ||
-    containsBooking(data.getBookings(), booking)
-  ) {
-    return false;
+  if (!isCustomer(data.getCustomers(), booking.userID)) {
+    throw Error("Is not a valid customer ID");
+  } else if (!isRoom(data.getRooms(), booking.roomNumber)) {
+    throw Error("Is not a valid room number");
+  } else if (containsBooking(data.getBookings(), booking)) {
+    throw Error("Already contains booking");
   }
   return true;
 }
