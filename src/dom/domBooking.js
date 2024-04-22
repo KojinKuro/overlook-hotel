@@ -41,6 +41,8 @@ document.getElementById("root").addEventListener("click", (e) => {
 
     dropdown.classList.toggle("open");
     dropButton.setAttribute("aria-expanded", ariaExpanded);
+  } else if (e.target.classList.contains("clear-filter-button")) {
+    clearFilterContainer();
   }
 
   if (e.target.closest(".filter-container")) {
@@ -106,7 +108,7 @@ export function bookingPage(date = new Date(startOfToday())) {
       onclick="this.showPicker()">
 
     <div class="filter-container">
-      <button>Clear filters</button>
+      <button class="clear-filter-button">Clear filters</button>
       ${dropdownHTML("Price", priceFilterHTML)}
       ${dropdownHTML("Bed #", () => roomFilterHTML("numBeds"))}
       ${dropdownHTML("Room Type", () => roomFilterHTML("roomType"))}
@@ -192,6 +194,20 @@ function roomFilterHTML(filter) {
 function updateRoomsHTML(data, date) {
   const roomCardContainer = document.querySelector(".room-cards-container");
   roomCardContainer.innerHTML = `${roomCardsHTML(data, date)}`;
+}
+
+function clearFilterContainer() {
+  const inputMinPrice = document.querySelector("input#min-price");
+  const inputMaxPrice = document.querySelector("input#max-price");
+  const allNumBedInputs = document.querySelectorAll("input.numBeds");
+  const allRoomTypeInputs = document.querySelectorAll("input.roomType");
+  const allBedSizeInputs = document.querySelectorAll("input.bedSize");
+
+  inputMinPrice.value = "";
+  inputMaxPrice.value = "";
+  allNumBedInputs.forEach((node) => (node.checked = false));
+  allRoomTypeInputs.forEach((node) => (node.checked = false));
+  allBedSizeInputs.forEach((node) => (node.checked = false));
 }
 
 function parseFilterContainer(rooms) {
