@@ -1,20 +1,22 @@
 import { format, isFuture, isToday, startOfToday } from "date-fns";
 import { setDOM } from "../domUpdates";
 import { addBooking, createBooking } from "../js/bookings";
-import { getAvailableRooms, getRoom } from "../js/rooms";
+import { filterRooms, getAvailableRooms, getRoom } from "../js/rooms";
 import { currentCustomer, localData, roomSettings } from "../scripts";
 
 document.getElementById("root").addEventListener("click", (e) => {
-  if (e.target.classList.contains("book-room-button")) {
-    const calendar = document.querySelector(".booking-date");
+  let calendar, calendarParse;
+  if (e.target.closest(".booking-page")) {
+    calendar = document.getElementById("booking-date");
+    // fixes the bug of calendar input being in local time
+    // but Date uses UTC time and so they will clash and change day back
+    calendarParse = new Date(`${calendar.value}T00:00:00`);
+  }
 
+  if (e.target.classList.contains("book-room-button")) {
     const roomDOM = e.target.closest(".room-card");
     const roomNumber = +roomDOM.dataset.number;
     const room = getRoom(roomNumber, localData.getRooms());
-
-    // fixes the bug of calendar input being in local time
-    // but Date uses UTC time and so they will clash and change day back
-    const calendarParse = new Date(`${calendar.value}T00:00:00`);
 
     const booking = createBooking(
       currentCustomer.id,
@@ -37,14 +39,14 @@ document.getElementById("root").addEventListener("click", (e) => {
   }
 
   if (e.target.closest(".filter-container")) {
-    filterRooms();
+    updateRoomsHTML(localData, calendarParse);
   }
 });
 
 // event listener for calendar input
 document.getElementById("root").addEventListener("change", (e) => {
-  if (e.target.classList.contains("booking-date")) {
-    const calendar = document.querySelector(".booking-date");
+  if (e.target.id === "booking-date") {
+    const calendar = document.getElementById("booking-date");
     const calendarParse = new Date(`${calendar.value}T00:00:00`);
     setDOM(e.currentTarget, () => bookingPage(calendarParse));
   }
@@ -67,13 +69,22 @@ document.getElementById("root").addEventListener("mouseout", (e) => {
     return;
   }
 
-  filterRooms();
   dropdown.classList.remove("open");
   dropdown.querySelector(".dropbtn").setAttribute("aria-expanded", "false");
+
+  let calendar, calendarParse;
+  if (e.target.closest(".booking-page")) {
+    calendar = document.getElementById("booking-date");
+    // fixes the bug of calendar input being in local time
+    // but Date uses UTC time and so they will clash and change day back
+    calendarParse = new Date(`${calendar.value}T00:00:00`);
+    updateRoomsHTML(localData, calendarParse);
+  }
 });
 
 export function bookingPage(date = new Date(startOfToday())) {
   const anchor = document.createElement("div");
+  anchor.classList.add("booking-page");
   anchor.innerHTML = `
   <h1>Booking Screen</h1>
   <button class="history-button">View history</button>
@@ -82,11 +93,13 @@ export function bookingPage(date = new Date(startOfToday())) {
   <hr>
   
   <div>
+    <label for="booking-date">Booking Date:</label>
     <input
       type="date"
-      class="booking-date"
+      id="booking-date"
       value="${format(date, "yyyy-MM-dd")}"
       onclick="this.showPicker()">
+
     <div class="filter-container">
       <button>Clear filters</button>
       ${dropdownHTML("Price", priceFilterHTML)}
@@ -98,40 +111,40 @@ export function bookingPage(date = new Date(startOfToday())) {
 
   <hr>
 
-  ${availableRoomsHTML(localData, date)}`;
+  <div class="room-cards-container">
+    ${roomCardsHTML(localData, date)}
+  </div>`;
 
   return anchor;
 }
 
-function availableRoomsHTML(data, date) {
-  const rooms = getAvailableRooms(data, date);
+function roomCardsHTML(data, date) {
+  const roomCardHTML = (room, date) => {
+    return `
+    <section class="room-card" data-number="${room.number}">
+      <div class="booking">Room ${room.number}</div>
+      <ul>
+        <li>Room type: ${room.roomType}</li>
+        <li>Has bidet: ${room.bidet}</li>
+        <li>Bed size: ${room.bedSize}</li>
+        <li>Bed #: ${room.numBeds}</li>
+        <li>Price ${room.costPerNight}</li>
+      </ul>
+      ${
+        isToday(date) || isFuture(date)
+          ? "<button class='book-room-button'>Book Room</button>"
+          : "<br>"
+      }
+    </section>`;
+  };
+
+  let rooms = getAvailableRooms(data, date);
+  rooms = parseFilterContainer(rooms);
+
   return rooms.reduce((html, room) => {
     html += roomCardHTML(room, date) + "<br>";
     return html;
   }, "");
-}
-
-function roomCardHTML(room, date) {
-  return `
-  <section class="room-card" data-number="${room.number}">
-    <div class="booking">Room ${room.number}</div>
-    <ul>
-      <li>Room type: ${room.roomType}</li>
-      <li>Has bidet: ${room.bidet}</li>
-      <li>Bed size: ${room.bedSize}</li>
-      <li>Bed #: ${room.numBeds}</li>
-      <li>Price ${room.costPerNight}</li>
-    </ul>
-    ${bookButtonHTML(date)}
-  </section>`;
-}
-
-function bookButtonHTML(date) {
-  if (isToday(date) || isFuture(date)) {
-    return "<button class='book-room-button'>Book Room</button>";
-  } else {
-    return "<br>";
-  }
 }
 
 function dropdownHTML(name, callback) {
@@ -156,23 +169,47 @@ function priceFilterHTML() {
 
 function roomFilterHTML(filter) {
   return roomSettings[filter].reduce((html, setting) => {
-    // const formattedSetting = String(setting).replace(" ", "-");
-    html += `<div>
-      <input class="${filter}" type="checkbox" value="${setting}">
-      <label>${setting}</label>
+    const formatted = String(setting).replace(" ", "-");
+    html += `
+    <div>
+      <input 
+        id="${formatted}" 
+        class="${filter}" 
+        type="checkbox"
+        value="${setting}"
+      >
+      <label for="${formatted}">${setting}</label>
     </div>`;
     return html;
   }, "");
 }
 
-function filterRooms() {
+function updateRoomsHTML(data, date) {
+  const roomCardContainer = document.querySelector(".room-cards-container");
+  roomCardContainer.innerHTML = `${roomCardsHTML(data, date)}`;
+}
+
+function parseFilterContainer(rooms) {
+  function getValues(domArray) {
+    return Array.from(domArray).reduce((array, domNode) => {
+      if (domNode.checked) {
+        array.push(domNode.value);
+      }
+      return array;
+    }, []);
+  }
+
   // price filter
-  const inputMinPrice = document.querySelector("input#min-price");
-  const inputMaxPrice = document.querySelector("input#max-price");
+  // const inputMinPrice = document.querySelector("input#min-price");
+  // const inputMaxPrice = document.querySelector("input#max-price");
   // other filters
   const allNumBedInputs = document.querySelectorAll("input.numBeds");
   const allRoomTypeInputs = document.querySelectorAll("input.roomType");
   const allBedSizeInputs = document.querySelectorAll("input.bedSize");
 
-  console.log(inputMaxPrice.value);
+  return filterRooms(rooms, {
+    numBeds: getValues(allNumBedInputs).map((e) => +e),
+    roomType: getValues(allRoomTypeInputs),
+    bedSize: getValues(allBedSizeInputs),
+  });
 }
