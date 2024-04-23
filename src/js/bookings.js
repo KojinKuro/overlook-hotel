@@ -1,4 +1,5 @@
 import { compareAsc, compareDesc, format } from "date-fns";
+import { displayWarning } from "../domUpdates";
 import { deleteData, pushData } from "./apiCalls";
 import { isCustomer } from "./customers";
 import { isRoom } from "./rooms";
@@ -28,31 +29,33 @@ function filterBookings(bookings, filterCallback) {
 }
 
 function addBooking(data, booking) {
-  if (!isValidBooking(data, booking)) {
-    console.log("not valid booking for whatever reason");
-    return;
-  }
+  try {
+    if (!isValidBooking(data, booking)) {
+      return;
+    }
 
-  return pushData("bookings", booking).then((d) => {
-    console.log(d.message);
-    data.getBookings().push(d.newBooking);
-  });
+    return pushData("bookings", booking).then((d) => {
+      data.getBookings().push(d.newBooking);
+    });
+  } catch (error) {
+    displayWarning(error);
+  }
 }
 
 function removeBooking(data, bookingID) {
-  deleteData("bookings", bookingID).then(() => {
-    const index = findBooking(data.getBookings(), bookingID);
+  return deleteData("bookings", bookingID).then(() => {
+    const index = findBookingIndex(data.getBookings(), bookingID);
     data.getBookings().splice(index, 1);
   });
 }
 
 function isValidBooking(data, booking) {
-  if (
-    !isCustomer(data.getCustomers(), booking.userID) ||
-    !isRoom(data.getRooms(), booking.roomNumber) ||
-    containsBooking(data.getBookings(), booking)
-  ) {
-    return false;
+  if (!isCustomer(data.getCustomers(), booking.userID)) {
+    throw Error("Is not a valid customer ID");
+  } else if (!isRoom(data.getRooms(), booking.roomNumber)) {
+    throw Error("Is not a valid room number");
+  } else if (containsBooking(data.getBookings(), booking)) {
+    throw Error("Already contains booking");
   }
   return true;
 }
@@ -68,8 +71,8 @@ function containsBooking(bookings, booking) {
   return Boolean(matchingBookingCount);
 }
 
-function findBooking(bookings, bookingID) {
-  return bookings.find((booking) => booking.id === bookingID);
+function findBookingIndex(bookings, bookingID) {
+  return bookings.findIndex((booking) => booking.id === bookingID);
 }
 
 function sortBookings(bookings, ascending = true) {

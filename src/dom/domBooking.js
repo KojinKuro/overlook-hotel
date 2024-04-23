@@ -8,17 +8,15 @@ import {
   getRoom,
 } from "../js/rooms";
 import { currentCustomer, localData, roomSettings } from "../scripts";
+import { dropdownHTML, navHTML } from "./domNav";
 
 document.getElementById("root").addEventListener("click", (e) => {
-  let calendar, calendarParse;
-  if (e.target.closest(".booking-page")) {
-    calendar = document.getElementById("booking-date");
+  if (e.target.classList.contains("book-room-button")) {
+    const calendar = document.getElementById("booking-date");
     // fixes the bug of calendar input being in local time
     // but Date uses UTC time and so they will clash and change day back
-    calendarParse = new Date(`${calendar.value}T00:00:00`);
-  }
+    const calendarParse = new Date(`${calendar.value}T00:00:00`);
 
-  if (e.target.classList.contains("book-room-button")) {
     const roomDOM = e.target.closest(".room-card");
     const roomNumber = +roomDOM.dataset.number;
     const room = getRoom(roomNumber, localData.getRooms());
@@ -30,22 +28,17 @@ document.getElementById("root").addEventListener("click", (e) => {
     );
 
     addBooking(localData, booking).then(() =>
-      setDOM(document.getElementById("root"), () => bookingPage(calendarParse))
+      updateRoomsHTML(localData, calendarParse)
     );
-    // accessibility toggle for keyboard drop down users
-    // needs to be dropbtn so only toggles when clicking button
-  } else if (e.target.closest(".dropbtn")) {
-    const dropdown = e.target.closest(".dropdown");
-    const dropButton = dropdown.querySelector(".dropbtn");
-    const ariaExpanded = !dropdown.classList.contains("open");
-
-    dropdown.classList.toggle("open");
-    dropButton.setAttribute("aria-expanded", ariaExpanded);
   } else if (e.target.classList.contains("clear-filter-button")) {
     clearFilterContainer();
   }
 
   if (e.target.closest(".filter-container")) {
+    const calendar = document.getElementById("booking-date");
+    // fixes the bug of calendar input being in local time
+    // but Date uses UTC time and so they will clash and change day back
+    const calendarParse = new Date(`${calendar.value}T00:00:00`);
     updateRoomsHTML(localData, calendarParse);
   }
 });
@@ -59,28 +52,14 @@ document.getElementById("root").addEventListener("change", (e) => {
   }
 });
 
-// event listener for dropdown menu WAI-ARIA
-document.getElementById("root").addEventListener("mouseover", (e) => {
-  const dropdown = e.target.closest(".dropdown");
-  if (!dropdown) {
-    return;
-  }
-
-  dropdown.classList.add("open");
-  dropdown.querySelector(".dropbtn").setAttribute("aria-expanded", "true");
-});
-
 document.getElementById("root").addEventListener("mouseout", (e) => {
   const dropdown = e.target.closest(".dropdown");
   if (!dropdown) {
     return;
   }
 
-  dropdown.classList.remove("open");
-  dropdown.querySelector(".dropbtn").setAttribute("aria-expanded", "false");
-
   let calendar, calendarParse;
-  if (e.target.closest(".booking-page")) {
+  if (e.target.closest("#booking-page")) {
     calendar = document.getElementById("booking-date");
     // fixes the bug of calendar input being in local time
     // but Date uses UTC time and so they will clash and change day back
@@ -91,75 +70,113 @@ document.getElementById("root").addEventListener("mouseout", (e) => {
 
 export function bookingPage(date = new Date(startOfToday())) {
   const anchor = document.createElement("div");
-  anchor.classList.add("booking-page");
+  anchor.id = "booking-page";
   anchor.innerHTML = `
-  <h1>Booking Screen</h1>
-  <button class="history-button">View history</button>
-  <button class="logoff-button">Log off</button>
-  
-  <hr>
-  
-  <div>
-    <label for="booking-date">Booking Date:</label>
-    <input
-      type="date"
-      id="booking-date"
-      value="${format(date, "yyyy-MM-dd")}"
-      onclick="this.showPicker()">
-
-    <div class="filter-container">
-      <button class="clear-filter-button">Clear filters</button>
-      ${dropdownHTML("Price", priceFilterHTML)}
-      ${dropdownHTML("Bed #", () => roomFilterHTML("numBeds"))}
-      ${dropdownHTML("Room Type", () => roomFilterHTML("roomType"))}
-      ${dropdownHTML("Bed Size", () => roomFilterHTML("bedSize"))}
+  ${navHTML()}
+  <header class="filter-container">
+    <div>
+      <label for="booking-date">Booking Date:</label>
+      <input
+        type="date"
+        id="booking-date"
+        value="${format(date, "yyyy-MM-dd")}"
+        onclick="this.showPicker()">
     </div>
-  </div>
-
-  <hr>
-
-  <div class="room-cards-container">
-    ${roomCardsHTML(localData, date)}
-  </div>`;
+    <h1>Available Rooms</h1>
+    <div class="dropdowns-container">
+      <button class="clear-filter-button">Clear filters</button>
+      ${dropdownHTML({
+        name: "Price",
+        callback: priceFilterHTML,
+      })}
+      ${dropdownHTML({
+        name: "Bed #",
+        callback: () => roomFilterHTML("numBeds"),
+      })}
+      ${dropdownHTML({
+        name: "Room Type",
+        callback: () => roomFilterHTML("roomType"),
+      })}
+      ${dropdownHTML({
+        name: "Bed Size",
+        callback: () => roomFilterHTML("bedSize"),
+      })}
+    </div>
+  </header>
+  <main class="room-check-container">
+    ${checkRoomsHTML(localData, date)}
+  </main>
+  `;
 
   return anchor;
 }
 
-function roomCardsHTML(data, date) {
-  const roomCardHTML = (room, date) => {
-    return `
-    <section class="room-card" data-number="${room.number}">
-      <div class="booking">Room ${room.number}</div>
-      <ul>
-        <li>Room type: ${room.roomType}</li>
-        <li>Has bidet: ${room.bidet}</li>
-        <li>Bed size: ${room.bedSize}</li>
-        <li>Bed #: ${room.numBeds}</li>
-        <li>Price ${room.costPerNight}</li>
-      </ul>
-      ${
-        isToday(date) || isFuture(date)
-          ? "<button class='book-room-button'>Book Room</button>"
-          : "<br>"
-      }
-    </section>`;
-  };
-
+function checkRoomsHTML(data, date) {
   let rooms = getAvailableRooms(data, date);
   rooms = parseFilterContainer(rooms);
 
-  return rooms.reduce((html, room) => {
-    html += roomCardHTML(room, date) + "<br>";
-    return html;
-  }, "");
+  if (!rooms.length) {
+    return `
+    <div style="display:flex;flex-direction:column;align-items:center;">
+      <img src="./images/error.png" alt="Computer crying" width="500px"/>
+      <p style="font-size:1.25rem;text-align:center;">
+        Hmm ... it seems like we can't find any rooms that match.<br>
+        Please try a different date or different filter parameters.
+      </p>
+    </div>`;
+  }
+
+  return `
+  <div class="room-cards-container">
+    ${roomCardsHTML(rooms, date)}
+  </div>`;
 }
 
-function dropdownHTML(name, callback) {
-  return `
-  <div class="dropdown">
-    <button class="dropbtn" aria-expanded="false">${name}</button>
-    <div class="dropdown-content">${callback()}</div>
-  </div>`;
+function roomCardsHTML(rooms, date) {
+  return rooms.reduce((html, room) => {
+    html += roomCardHTML(room, date);
+    return html;
+  }, "");
+
+  function roomCardHTML(room, date) {
+    const bidet = room.bidet
+      ? `<li><box-icon name='shower' ></box-icon> has bidet</li>`
+      : ``;
+
+    return `
+    <section class="room-card" data-number="${room.number}">
+      <div class="room-image-container">
+        <img 
+          src="./images/${room.roomType.replace(" ", "-")}.jpg" 
+          alt="${room.roomType} room"
+        />
+      </div>
+      <div class="room-info">
+        <div class="room-name">Room ${room.number}</div>
+        <ul>
+          <li>
+            <box-icon name='home-alt' ></box-icon> ${room.roomType}
+          </li>
+          ${bidet}
+          <li>
+            <box-icon name='hotel' type='solid' ></box-icon>
+            ${room.numBeds} ${room.bedSize} bed
+          </li>
+          <li>
+            <box-icon name='money' ></box-icon>
+             ${room.costPerNight}
+          </li>
+        </ul>
+      </div>
+      ${
+        isToday(date) || isFuture(date)
+          ? "<button class='book-room-button'>Book</button>"
+          : `<button class='unavailable-room-button'>
+            Unavailable
+          </button>`
+      }
+    </section>`;
+  }
 }
 
 function priceFilterHTML() {
@@ -192,8 +209,8 @@ function roomFilterHTML(filter) {
 }
 
 function updateRoomsHTML(data, date) {
-  const roomCardContainer = document.querySelector(".room-cards-container");
-  roomCardContainer.innerHTML = `${roomCardsHTML(data, date)}`;
+  const roomCheckContainer = document.querySelector(".room-check-container");
+  roomCheckContainer.innerHTML = checkRoomsHTML(data, date);
 }
 
 function clearFilterContainer() {

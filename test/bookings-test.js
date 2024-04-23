@@ -79,27 +79,21 @@ describe("Bookings", () => {
     });
 
     it("should not add bookings if not valid user", () => {
-      const result = isValidBooking(
-        mockData,
-        createBooking(190, new Date(2024, 3, 22), 3)
-      );
-      expect(result).to.deep.equal(false);
+      expect(() =>
+        isValidBooking(mockData, createBooking(190, new Date(2024, 3, 22), 3))
+      ).to.throw("Is not a valid customer ID");
     });
 
     it("should not add bookings if not valid room", () => {
-      const result = isValidBooking(
-        mockData,
-        createBooking(12, new Date(2024, 3, 22), 10)
-      );
-      expect(result).to.deep.equal(false);
+      expect(() =>
+        isValidBooking(mockData, createBooking(12, new Date(2024, 3, 22), 10))
+      ).to.throw("Is not a valid room number");
     });
 
     it("should not add bookings if already booked", () => {
-      const result = isValidBooking(
-        mockData,
-        createBooking(40, new Date(2023, 10, 30), 4)
-      );
-      expect(result).to.deep.equal(false);
+      expect(() =>
+        isValidBooking(mockData, createBooking(40, new Date(2023, 10, 30), 4))
+      ).to.throw("Already contains booking");
     });
   });
 

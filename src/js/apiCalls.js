@@ -1,3 +1,5 @@
+import { displayWarning } from "../domUpdates";
+
 function getData(name) {
   return fetch(`http://localhost:3001/api/v1/${name}`)
     .then((r) => {
@@ -7,7 +9,7 @@ function getData(name) {
       return r.json();
     })
     .then((data) => data[name])
-    .catch((error) => console.log(error));
+    .catch((error) => displayWarning({ message: error }));
 }
 
 function getAllData(variable) {
@@ -21,7 +23,6 @@ function getAllData(variable) {
 }
 
 function deleteData(name, id) {
-  console.log(id);
   return fetch(`http://localhost:3001/api/v1/${name}/${id}`, {
     method: "DELETE",
     headers: {
@@ -30,15 +31,14 @@ function deleteData(name, id) {
   })
     .then((r) => {
       if (!r.ok) {
-        console.log(r);
-        throw Error(`Failed to delete ${id} because of ${r}`);
+        throw Error(`${r.status} ${r.statusText}. Failed to delete ${id} `);
       }
       return r.json();
     })
     .then((data) => {
       console.log(data.message);
     })
-    .catch((error) => console.log(error));
+    .catch((error) => displayWarning({ message: error }));
 }
 
 function pushData(name, data) {
@@ -55,7 +55,7 @@ function pushData(name, data) {
       }
       return r.json();
     })
-    .catch((error) => console.log(error));
+    .catch((error) => displayWarning({ message: error }));
 }
 
 export { deleteData, getAllData, getData, pushData };

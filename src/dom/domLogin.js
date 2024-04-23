@@ -17,7 +17,7 @@ document.getElementById("root").addEventListener("click", (e) => {
       console.log(currentCustomer);
     } else {
       const loginError = document.querySelector(".login-error");
-      loginError.innerText = "Error";
+      loginError.innerText = "No matching username & password combination ";
     }
   }
 });
@@ -33,20 +33,38 @@ export function loginPage() {
   setCustomer(null);
 
   const anchor = document.createElement("div");
+  anchor.id = "login-page";
   anchor.innerHTML = `
-  <div>
-    <div>Overlook Hotel</div>
-    <div>Your New Favorite Stay</div>
-  </div>
-  <div>
-    <form>
-      <label for="username">User</label>
-      <input type="text" name="username" id="username">
-      <label for="password">Pass</label>
-      <input type="password" name="password" id="password">
-      <div class="login-error"></div>
-      <button class="login-button">Log in</button>
+  <main>
+    <header>
+      <h1 class="login-title">Overlook Hotel</h1>
+      <h2 class="login-slogan">Your New Favorite Stay</h2>
+    </header>
+    <div class="login-message">Welcome back, please login to continue</div>
+    <form class="login-form">
+      <div>
+        <label for="username">Username</label>
+        <input
+          type="text"
+          name="username"
+          id="username"
+          placeholder="username"
+        >
+      </div>
+      <div>
+        <label for="password">Password</label>
+        <input
+          type="password"
+          name="password"
+          id="password"
+          placeholder="password"
+        >
+      </div>
+      <div>
+        <div class="login-error"></div>
+        <button class="login-button">Log in</button>
+      </div>
     </form>
-  </div>`;
+  </main>`;
   return anchor;
 }

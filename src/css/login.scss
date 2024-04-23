@@ -1,0 +1,79 @@
+@import "mixins";
+@import "variables";
+
+#login-page {
+  height: 100vh;
+  background-image: url("../images/login.jpg");
+  position: relative;
+
+  & > * {
+    height: inherit;
+    background: white;
+    padding: 50px;
+
+    position: absolute;
+    width: 50%;
+    right: 0;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+
+    box-shadow: -10px 0 20px rgba(0, 0, 0, 0.3);
+  }
+
+  .login-title {
+    @include roboto(600);
+    font-size: 4rem;
+    text-transform: uppercase;
+    margin: 0;
+  }
+
+  .login-slogan {
+    font-size: 2rem;
+    margin: 0;
+  }
+
+  .login-message {
+    margin-top: 100px;
+  }
+
+  .login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    width: 100%;
+
+    .login-error {
+      font-size: 0.9rem;
+      color: red;
+    }
+
+    input {
+      padding: 16px 12px;
+      border-radius: 10px;
+      border: 1px solid $border-clr;
+    }
+
+    & > * {
+      display: flex;
+      flex-direction: column;
+
+      &:last-child {
+        justify-content: space-between;
+        height: 100px;
+
+        button {
+          width: 100px;
+          align-self: flex-end;
+
+          display: flex;
+          justify-content: center;
+        }
+      }
+    }
+  }
+}

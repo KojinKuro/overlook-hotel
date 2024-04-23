@@ -2,17 +2,23 @@
 // Do not delete or rename this file ********
 
 // An example of how you tell webpack to use a CSS (SCSS) file
+import "boxicons";
 import "normalize.css";
+import "./css/booking.scss";
+import "./css/history.scss";
+import "./css/login.scss";
 import "./css/styles.scss";
-import "./domUpdates";
-import "./images/turing-logo.png";
 
-// import { bookingPage } from "./dom/domBooking";
-// import { historyPage } from "./dom/domHistory";
+import "./images/error.png";
+import "./images/junior-suite.jpg";
+import "./images/login.jpg";
+import "./images/residential-suite.jpg";
+import "./images/single-room.jpg";
+import "./images/suite.jpg";
+
 import { loginPage } from "./dom/domLogin";
-import { setDOM } from "./domUpdates";
+import { displayWarning, setDOM } from "./domUpdates";
 import { getAllData } from "./js/apiCalls";
-// import { getCustomer } from "./js/customers";
 import { createData } from "./js/data";
 import { generateRoomOptions } from "./js/rooms";
 
@@ -31,19 +37,19 @@ function setCustomer(value) {
 }
 
 function init() {
-  getAllData(localData).then(() => {
-    roomSettings = generateRoomOptions(localData.getRooms(), [
-      "numBeds",
-      "roomType",
-      "bedSize",
-    ]);
+  getAllData(localData)
+    .then(() => {
+      roomSettings = generateRoomOptions(localData.getRooms(), [
+        "numBeds",
+        "roomType",
+        "bedSize",
+      ]);
 
-    // auto set currentCustomer
-    // setCustomer(getCustomer(localData.getCustomers(), 20));
-    // set page current to history for debugging
-    // setDOM(document.querySelector("#root"), bookingPage);
-    setDOM(document.querySelector("#root"), loginPage);
-  });
+      // auto set currentCustomer
+      // setCustomer(getCustomer(localData.getCustomers(), 20));
+      setDOM(document.querySelector("#root"), loginPage);
+    })
+    .catch((error) => displayWarning({ message: error }));
 }
 
 export { setCustomer };
