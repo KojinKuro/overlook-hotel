@@ -15,14 +15,10 @@ import "./images/login.jpg";
 import "./images/residential-suite.jpg";
 import "./images/single-room.jpg";
 import "./images/suite.jpg";
-import "./images/turing-logo.png";
 
-// import { bookingPage } from "./dom/domBooking";
-import { historyPage } from "./dom/domHistory";
-// import { loginPage } from "./dom/domLogin";
+import { loginPage } from "./dom/domLogin";
 import { displayWarning, setDOM } from "./domUpdates";
 import { getAllData } from "./js/apiCalls";
-import { getCustomer } from "./js/customers";
 import { createData } from "./js/data";
 import { generateRoomOptions } from "./js/rooms";
 
@@ -50,9 +46,8 @@ function init() {
       ]);
 
       // auto set currentCustomer
-      setCustomer(getCustomer(localData.getCustomers(), 20));
-      // set page current to history for debugging
-      setDOM(document.querySelector("#root"), historyPage);
+      // setCustomer(getCustomer(localData.getCustomers(), 20));
+      setDOM(document.querySelector("#root"), loginPage);
     })
     .catch((error) => displayWarning({ message: error }));
 }
