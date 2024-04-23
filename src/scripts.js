@@ -20,7 +20,7 @@ import "./images/turing-logo.png";
 // import { bookingPage } from "./dom/domBooking";
 import { historyPage } from "./dom/domHistory";
 // import { loginPage } from "./dom/domLogin";
-import { setDOM } from "./domUpdates";
+import { displayWarning, setDOM } from "./domUpdates";
 import { getAllData } from "./js/apiCalls";
 import { getCustomer } from "./js/customers";
 import { createData } from "./js/data";
@@ -41,18 +41,20 @@ function setCustomer(value) {
 }
 
 function init() {
-  getAllData(localData).then(() => {
-    roomSettings = generateRoomOptions(localData.getRooms(), [
-      "numBeds",
-      "roomType",
-      "bedSize",
-    ]);
+  getAllData(localData)
+    .then(() => {
+      roomSettings = generateRoomOptions(localData.getRooms(), [
+        "numBeds",
+        "roomType",
+        "bedSize",
+      ]);
 
-    // auto set currentCustomer
-    setCustomer(getCustomer(localData.getCustomers(), 20));
-    // set page current to history for debugging
-    setDOM(document.querySelector("#root"), historyPage);
-  });
+      // auto set currentCustomer
+      setCustomer(getCustomer(localData.getCustomers(), 20));
+      // set page current to history for debugging
+      setDOM(document.querySelector("#root"), historyPage);
+    })
+    .catch((error) => displayWarning({ message: error }));
 }
 
 export { setCustomer };

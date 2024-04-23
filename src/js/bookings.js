@@ -1,4 +1,5 @@
 import { compareAsc, compareDesc, format } from "date-fns";
+import { displayWarning } from "../domUpdates";
 import { deleteData, pushData } from "./apiCalls";
 import { isCustomer } from "./customers";
 import { isRoom } from "./rooms";
@@ -28,15 +29,17 @@ function filterBookings(bookings, filterCallback) {
 }
 
 function addBooking(data, booking) {
-  if (!isValidBooking(data, booking)) {
-    console.log("not valid booking for whatever reason");
-    return;
-  }
+  try {
+    if (!isValidBooking(data, booking)) {
+      return;
+    }
 
-  return pushData("bookings", booking).then((d) => {
-    console.log(d.message);
-    data.getBookings().push(d.newBooking);
-  });
+    return pushData("bookings", booking).then((d) => {
+      data.getBookings().push(d.newBooking);
+    });
+  } catch (error) {
+    displayWarning(error);
+  }
 }
 
 function removeBooking(data, bookingID) {
