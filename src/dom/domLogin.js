@@ -50,6 +50,8 @@ export function loginPage() {
           id="username"
           placeholder="username"
         >
+      </div>
+      <div>
         <label for="password">Password</label>
         <input
           type="password"
