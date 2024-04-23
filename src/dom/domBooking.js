@@ -118,9 +118,9 @@ function checkRoomsHTML(data, date) {
   if (!rooms.length) {
     return `
     <div style="display:flex;flex-direction:column;align-items:center;">
-      <img src="./images/error.png" alt="Computer crying"/>
+      <img src="./images/error.png" alt="Computer crying" width="500px"/>
       <p style="font-size:1.25rem;text-align:center;">
-        Hmm ... it seems like we can't find any rooms.<br>
+        Hmm ... it seems like we can't find any rooms that match.<br>
         Please try a different date or different filter parameters.
       </p>
     </div>`;
