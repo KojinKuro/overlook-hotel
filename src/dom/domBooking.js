@@ -28,7 +28,7 @@ document.getElementById("root").addEventListener("click", (e) => {
     );
 
     addBooking(localData, booking).then(() =>
-      setDOM(document.getElementById("root"), () => bookingPage(calendarParse))
+      updateRoomsHTML(localData, calendarParse)
     );
   } else if (e.target.classList.contains("clear-filter-button")) {
     clearFilterContainer();
