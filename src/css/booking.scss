@@ -1,4 +1,5 @@
 @import "mixins";
+@import "variables";
 
 #booking-page {
   display: flex;
@@ -15,53 +16,34 @@
     justify-content: space-between;
     align-items: center;
 
-    padding: 0px 20px;
-
     box-icon {
       display: flex;
     }
 
     .dropdowns-container {
       display: flex;
+      justify-content: flex-end;
+      flex-wrap: wrap;
       align-items: center;
       gap: 5px;
-
-      .clear-filter-button {
-        background-color: #04aa6d;
-        color: white;
-        padding: 16px;
-        font-size: 16px;
-        border: none;
-        cursor: pointer;
-
-        &:hover {
-          background-color: #3e8e41;
-        }
-      }
     }
   }
 }
 
-.room-cards-container {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+// styling to make clear filter button stand out
+button.clear-filter-button {
+  border: none;
+}
 
-  justify-content: center;
-  align-items: center;
-  margin: 0px 10px;
-  gap: 10px;
+.room-cards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(250px, 100%), 1fr));
+  gap: 1.25rem;
 
   .room-card {
-    flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-
-    background-color: lightblue;
-    max-width: 800px;
-    min-width: 500px;
-    height: 200px;
 
     li {
       display: flex;
@@ -73,10 +55,48 @@
       align-items: center;
     }
 
-    .booking {
+    .room-image-container {
+      display: inline-block;
+      aspect-ratio: 1 / 1;
+      position: relative;
+
+      img {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0; /* follow the parent's edges */
+
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        overflow: hidden;
+
+        border-radius: 10px;
+      }
+    }
+
+    .room-name {
       @include roboto(600);
       font-size: 2rem;
       text-transform: uppercase;
+    }
+
+    .room-info {
+      padding: 10px;
+      height: 150px;
+
+      ul {
+        li {
+          display: flex;
+          align-items: center;
+          font-size: 0.8rem;
+        }
+
+        color: $font-light-clr;
+        margin: 0;
+        padding: 0;
+      }
     }
   }
 }

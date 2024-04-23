@@ -37,10 +37,10 @@ document.getElementById("root").addEventListener("mouseout", (e) => {
 export function navHTML() {
   return `
   <div class="main-nav">
-    <h1>🛎️ Overlook Hotel</h1>
+    <h1 class="logo">🛎️ Overlook Hotel</h1>
     ${dropdownHTML({
-      name: `${currentCustomer.name} 
-      <box-icon name='menu' size='sm' color='white'></box-icon>`,
+      name: `<box-icon name='menu' size='sm'></box-icon>
+      ${currentCustomer.name}`,
       className: "hamburger-menu",
       callback: () =>
         `<button class="history-button">History</button>
@@ -57,7 +57,7 @@ export function dropdownHTML(options = {}) {
 
   return `
   <div class="dropdown ${className}">
-    <button class="dropbtn" aria-expanded="false">${name}</button>
+    <button class="dropbtn button-style" aria-expanded="false">${name}</button>
     <div class="dropdown-content" style="${style}">${callback()}</div>
   </div>`;
 }

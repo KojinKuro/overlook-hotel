@@ -1,36 +1,40 @@
 @import "mixins";
 
 #login-page {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-
-  align-items: center;
   min-height: 100vh;
+  background-image: url("../images/login.jpg");
+  position: relative;
 
   & > * {
-    flex: 1;
-    margin: 30px;
+    background: white;
+    width: 50%;
+    position: absolute;
+    min-height: 100vh;
+    right: 0;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
 
   .login-title {
     @include roboto(600);
-    font-size: 10rem;
+    font-size: 4rem;
     text-transform: uppercase;
+    margin: 0;
   }
 
   .login-slogan {
-    font-size: 4rem;
+    font-size: 2rem;
+    margin: 0;
   }
 
   .login-form {
-    @include border();
     display: flex;
     flex-direction: column;
-    padding: 30px;
 
-    backdrop-filter: blur(20px);
-    @include box-shadow(5px, 5px, 10px, 5px, rgba(0, 0, 0, 0.5));
+    width: 100%;
 
     .login-error {
       font-size: 0.9rem;

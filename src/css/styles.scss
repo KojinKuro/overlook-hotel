@@ -1,15 +1,6 @@
 @import "variables";
 @import "mixins";
 
-// body {
-//   @include roboto;
-//   background: radial-gradient(
-//     circle,
-//     rgba(63, 94, 251, 1) 0%,
-//     rgba(252, 70, 107, 1) 100%
-//   );
-// }
-
 *,
 button {
   font-size: 1.1rem;
@@ -18,35 +9,43 @@ button {
 body {
   @include roboto;
   background-color: white;
+  box-sizing: border-box;
+}
+
+#booking-page,
+#history-page {
+  padding: 0 3rem 3rem;
+}
+
+.button-style {
+  background-color: white;
+  color: $font-dark-clr;
+  padding: 12px 16px;
+  font-size: 16px;
+  border: 1px solid $font-light-clr;
+  border-radius: 8px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $background-darken;
+  }
 }
 
 .main-nav {
-  padding: 0px 25px;
-
   display: flex;
   justify-content: space-between;
   align-items: center;
 
-  .hamburger-menu button {
+  // .logo {
+  //   font-size: 2rem;
+  // }
+
+  .hamburger-menu button.button-style {
+    border-radius: 100px;
     display: flex;
     align-items: center;
     gap: 5px;
   }
-
-  button {
-    width: 100%;
-    border: none;
-  }
-}
-
-/* Dropdown Button */
-.dropbtn {
-  background-color: #04aa6d;
-  color: white;
-  padding: 16px;
-  font-size: 16px;
-  border: none;
-  cursor: pointer;
 }
 
 /* The container <div> - needed to position the dropdown content */
@@ -55,28 +54,26 @@ body {
   display: inline-block;
 
   // added through Javascript (done for accessibility purposes)
-  &.open {
-    .dropdown-content {
-      /* Show the dropdown menu on hover */
-      display: block;
-    }
-
-    .dropbtn {
-      /* Change the background color of the dropdown button when the dropdown content is shown */
-      background-color: #3e8e41;
-    }
+  &.open .dropdown-content {
+    /* Show the dropdown menu on hover */
+    display: block;
   }
 }
 
 /* Dropdown Content (Hidden by Default) */
 .dropdown-content {
+  $rounded-corner: 10px;
+
   display: none;
   position: absolute;
   background-color: #f1f1f1;
   min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  // box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  box-shadow: $box-shadow;
   right: 0;
   z-index: 1;
+
+  border-radius: $rounded-corner;
 
   /* Anything directly inside a dropdown */
   & > * {
@@ -89,5 +86,20 @@ body {
     &:hover {
       background-color: #ddd;
     }
+
+    &:first-child {
+      border-top-left-radius: $rounded-corner;
+      border-top-right-radius: $rounded-corner;
+    }
+
+    &:last-child {
+      border-bottom-left-radius: $rounded-corner;
+      border-bottom-right-radius: $rounded-corner;
+    }
+  }
+
+  & > button {
+    width: 100%;
+    border: none;
   }
 }

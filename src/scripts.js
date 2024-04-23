@@ -9,10 +9,12 @@ import "./css/history.scss";
 import "./css/login.scss";
 import "./css/styles.scss";
 
+import "./images/hotel-room.jpg";
+import "./images/login.jpg";
 import "./images/turing-logo.png";
 
-import { bookingPage } from "./dom/domBooking";
-// import { historyPage } from "./dom/domHistory";
+// import { bookingPage } from "./dom/domBooking";
+import { historyPage } from "./dom/domHistory";
 // import { loginPage } from "./dom/domLogin";
 import { setDOM } from "./domUpdates";
 import { getAllData } from "./js/apiCalls";
@@ -45,7 +47,7 @@ function init() {
     // auto set currentCustomer
     setCustomer(getCustomer(localData.getCustomers(), 20));
     // set page current to history for debugging
-    setDOM(document.querySelector("#root"), bookingPage);
+    setDOM(document.querySelector("#root"), historyPage);
   });
 }
 

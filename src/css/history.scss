@@ -1,0 +1,5 @@
+@import "mixins";
+
+.past-booking-button {
+  @include custom-button;
+}

@@ -47,7 +47,7 @@ export function historyPage() {
       <button class="future-booking-button">Future Bookings</button>
     </nav>
     <hr>
-    <div>
+    <div class=>
       ${usersBookingHTML(currentCustomer.id, bookingFilter, localData)}
     </div>
   </div>`;
