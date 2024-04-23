@@ -1,15 +1,18 @@
 @import "mixins";
+@import "variables";
 
 #login-page {
-  min-height: 100vh;
+  height: 100vh;
   background-image: url("../images/login.jpg");
   position: relative;
 
-  & > * {
+  & > div {
+    height: inherit;
     background: white;
-    width: 50%;
+    padding: 50px;
+
     position: absolute;
-    min-height: 100vh;
+    width: 50%;
     right: 0;
 
     display: flex;
@@ -41,6 +44,12 @@
       color: red;
     }
 
+    input {
+      padding: 16px 12px;
+      border-radius: 10px;
+      border: 1px solid $border-clr;
+    }
+
     & > * {
       display: flex;
       flex-direction: column;
@@ -48,6 +57,14 @@
       &:last-child {
         justify-content: space-between;
         height: 100px;
+
+        button {
+          width: 100px;
+          align-self: flex-end;
+
+          display: flex;
+          justify-content: center;
+        }
       }
     }
   }

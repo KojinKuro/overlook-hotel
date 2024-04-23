@@ -84,7 +84,7 @@ export function bookingPage(date = new Date(startOfToday())) {
     </div>
     <h1>Available Rooms</h1>
     <div class="dropdowns-container">
-      <button class="clear-filter-button button-style">Clear filters</button>
+      <button class="clear-filter-button">Clear filters</button>
       ${dropdownHTML({
         name: "Price",
         callback: priceFilterHTML,
@@ -170,8 +170,8 @@ function roomCardsHTML(rooms, date) {
       </div>
       ${
         isToday(date) || isFuture(date)
-          ? "<button class='book-room-button button-style'>Book</button>"
-          : `<button class='button-style unavailable-room-button'>
+          ? "<button class='book-room-button'>Book</button>"
+          : `<button class='unavailable-room-button'>
             Unavailable
           </button>`
       }

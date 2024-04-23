@@ -41,7 +41,7 @@
 
 // styling to make clear filter button stand out
 button.clear-filter-button {
-  border: none;
+  border: none !important;
 }
 
 .room-cards-container {

@@ -20,28 +20,55 @@
     max-width: 1000px;
     display: flex;
 
-    .booking-nav-container {
-      display: flex;
-      gap: 10px;
-      border-bottom: 1px solid $font-light-clr;
-    }
-
     & > * {
       width: inherit;
       padding: 0 30px;
     }
+
+    .booking-nav-container {
+      display: flex;
+      gap: 10px;
+      border-bottom: 1px solid $font-light-clr;
+
+      button {
+        border: none;
+      }
+
+      button.selected {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        border-bottom: 3px solid black;
+      }
+
+      button:not(.selected) {
+        @include roboto(300);
+        border-radius: 50px;
+        color: $font-light-clr;
+      }
+    }
+
+    .bookings,
+    .booking-nav-container {
+      margin-top: 10px;
+    }
   }
-}
 
-.booking {
-  .booking-info {
-    margin: 0;
-    display: flex;
-    list-style: none;
+  table {
+    width: 100%;
+    border-collapse: collapse;
 
-    & > *:not(:last-child)::after {
-      content: "/";
-      padding: 0 10px;
+    color: $font-dark-clr;
+
+    th {
+      border-bottom: 2px solid white;
+    }
+
+    td {
+      padding: 10px;
+    }
+
+    tr:not(:first-child):nth-child(odd) {
+      background-color: $background-darken;
     }
   }
 }

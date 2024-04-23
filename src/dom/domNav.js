@@ -57,7 +57,7 @@ export function dropdownHTML(options = {}) {
 
   return `
   <div class="dropdown ${className}">
-    <button class="dropbtn button-style" aria-expanded="false">${name}</button>
+    <button class="dropbtn" aria-expanded="false">${name}</button>
     <div class="dropdown-content" style="${style}">${callback()}</div>
   </div>`;
 }

@@ -12,7 +12,10 @@ import { navHTML } from "./domNav";
 let bookingFilter = "all";
 
 document.getElementById("root").addEventListener("click", (e) => {
-  if (e.target.closest(".booking-nav-container")) {
+  const navContainer = e.target.closest(".booking-nav-container");
+  if (navContainer) {
+    // const filterButtons = navContainer.querySelectorAll("button");
+    // filterButtons.forEach((node) => node.classList.remove("selected"));
     if (e.target.classList.contains("all-booking-button")) {
       bookingFilter = "all";
     } else if (e.target.classList.contains("past-booking-button")) {
@@ -34,11 +37,12 @@ export function historyPage() {
   ${navHTML()}
   <div class="history-container">
     <h1>History</h1>
-    <button class="booking-button button-style">
+    <button class="booking-button">
       <box-icon name='arrow-back'></box-icon>
       Return to bookings
     </button>
-    <div>This is your booking history of rooms</div>
+    <p>This is your booking history of rooms. 
+    Please note that you must give 24 hours to cancel any booking.</p>
     <div>
       Total Money Spent: 
       $${calculateRevenue(bookings, rooms).toFixed(2)}
@@ -47,22 +51,39 @@ export function historyPage() {
     <div class="booking-container">
       <div>
         <nav class="booking-nav-container">
-          <button class="all-booking-button button-style">
-            All Bookings
-          </button>
-          <button class="past-booking-button button-style">
-            Past Bookings
-          </button>
-          <button class="future-booking-button button-style">
-            Future Bookings
-          </button>
+          <div>
+            <button class="all-booking-button">
+              All Bookings
+            </button>
+          </div>
+          <div>
+            <button class="past-booking-button">
+              Past Bookings
+            </button>
+          </div>
+          <div>
+            <button class="future-booking-button">
+              Future Bookings
+            </button>
+          </div>
         </nav>
-        <div class="bookings">
+        <table class="bookings">
+          <tr>
+            <th>ID</th>
+            <th>Date</th>
+            <th>Details</th>
+            <th>Price</th>
+            <th>Action</th>
+          </tr>
           ${usersBookingHTML(currentCustomer.id, bookingFilter, localData)}
-        </div>
+        </table>
       </div>
     </div>
   </div>`;
+
+  anchor
+    .querySelector(`.${bookingFilter}-booking-button`)
+    .classList.add("selected");
 
   return anchor;
 }
@@ -90,25 +111,28 @@ function usersBookingHTML(id, filter, data) {
   }
 
   return bookings.reduce((html, booking) => {
-    html += bookingHistoryCardHTML(booking, data.getRooms());
+    html += bookingTableEntryHTML(booking, data.getRooms());
     return html;
   }, "");
 }
 
-function bookingHistoryCardHTML(booking, rooms) {
+function bookingTableEntryHTML(booking, rooms) {
   const room = getRoom(booking.roomNumber, rooms);
+
   return `
-  <section class="booking">
-    <header>
-      <div class="booking-date">Booking date: ${booking.date}</div>
-      <div class="booking-name">Room ${room.number}</div>
-    </header>
-    <ul class="booking-info">
-      <li>Room type: ${room.roomType}</li>
-      <li>Has bidet: ${room.bidet}</li>
-      <li>Bed size: ${room.bedSize}</li>
-      <li>Bed #: ${room.numBeds}</li>
-      <li>Price ${room.costPerNight}</li>
-    </ul>
-  </section>`;
+  <tr class="booking">
+    <td>${booking.id}</td>
+    <td>${booking.date}</td>
+    <td>
+      ROOM ${room.number} / 
+      ${room.roomType.toUpperCase()} / 
+      ${room.numBeds} ${room.bedSize.toUpperCase()}
+    </td>
+    <td>${room.costPerNight}</td>
+    <td>${
+      isFuture(booking.date)
+        ? "<button class'cancel-booking-button'>Cancel</button>"
+        : ""
+    }</td>
+  </tr>`;
 }

@@ -60,7 +60,7 @@ export function loginPage() {
       </div>
       <div>
         <div class="login-error"></div>
-        <button class="login-button button-style">Log in</button>
+        <button class="login-button">Log in</button>
       </div>
     </form>
   </div>`;
