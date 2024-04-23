@@ -31,6 +31,12 @@
       gap: 5px;
     }
   }
+
+  .unavailable-room-button {
+    text-decoration: line-through;
+    background: darken(white, 20%);
+    cursor: not-allowed;
+  }
 }
 
 // styling to make clear filter button stand out

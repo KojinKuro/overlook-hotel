@@ -104,14 +104,38 @@ export function bookingPage(date = new Date(startOfToday())) {
     </div>
   </div>
   <hr>
-  <div class="room-cards-container">
-    ${roomCardsHTML(localData, date)}
-  </div>`;
+  <div class="room-check-container">
+    ${checkRoomsHTML(localData, date)}
+  </div>
+  `;
 
   return anchor;
 }
 
-function roomCardsHTML(data, date) {
+function checkRoomsHTML(data, date) {
+  let rooms = getAvailableRooms(data, date);
+  rooms = parseFilterContainer(rooms);
+
+  if (!rooms.length) {
+    return `
+    <div style="display:flex;flex-direction:column;align-items:center;">
+      <img src="./images/error.png" alt="Computer crying"/>
+      <p style="font-size:1.25rem;">Error: no rooms found.</p>
+    </div>`;
+  }
+
+  return `
+  <div class="room-cards-container">
+    ${roomCardsHTML(rooms, date)}
+  </div>`;
+}
+
+function roomCardsHTML(rooms, date) {
+  return rooms.reduce((html, room) => {
+    html += roomCardHTML(room, date);
+    return html;
+  }, "");
+
   function roomCardHTML(room, date) {
     const bidet = room.bidet
       ? `<li><box-icon name='shower' ></box-icon> has bidet</li>`
@@ -145,18 +169,12 @@ function roomCardsHTML(data, date) {
       ${
         isToday(date) || isFuture(date)
           ? "<button class='book-room-button button-style'>Book</button>"
-          : "<br>"
+          : `<button class='button-style unavailable-room-button'>
+            Unavailable
+          </button>`
       }
     </section>`;
   }
-
-  let rooms = getAvailableRooms(data, date);
-  rooms = parseFilterContainer(rooms);
-
-  return rooms.reduce((html, room) => {
-    html += roomCardHTML(room, date);
-    return html;
-  }, "");
 }
 
 function priceFilterHTML() {
@@ -189,8 +207,8 @@ function roomFilterHTML(filter) {
 }
 
 function updateRoomsHTML(data, date) {
-  const roomCardContainer = document.querySelector(".room-cards-container");
-  roomCardContainer.innerHTML = `${roomCardsHTML(data, date)}`;
+  const roomCheckContainer = document.querySelector(".room-check-container");
+  roomCheckContainer.innerHTML = checkRoomsHTML(data, date);
 }
 
 function clearFilterContainer() {
