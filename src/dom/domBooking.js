@@ -120,7 +120,10 @@ function checkRoomsHTML(data, date) {
     return `
     <div style="display:flex;flex-direction:column;align-items:center;">
       <img src="./images/error.png" alt="Computer crying"/>
-      <p style="font-size:1.25rem;">Error: no rooms found.</p>
+      <p style="font-size:1.25rem;text-align:center;">
+        Hmm ... it seems like we can't find any rooms.<br>
+        Please try a different date or different filter parameters.
+      </p>
     </div>`;
   }
 
