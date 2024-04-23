@@ -72,9 +72,7 @@ export function bookingPage(date = new Date(startOfToday())) {
   const anchor = document.createElement("div");
   anchor.id = "booking-page";
   anchor.innerHTML = `
-  <hr>
   ${navHTML()}
-  <hr>
   <div class="filter-container">
     <div>
       <label for="booking-date">Booking Date:</label>
@@ -122,7 +120,10 @@ function roomCardsHTML(data, date) {
     return `
     <section class="room-card" data-number="${room.number}">
       <div class="room-image-container">
-        <img src="./images/hotel-room.jpg" alt="Hotel room image"></img>
+        <img 
+          src="./images/${room.roomType.replace(" ", "-")}.jpg" 
+          alt="${room.roomType} room"
+        />
       </div>
       <div class="room-info">
         <div class="room-name">Room ${room.number}</div>

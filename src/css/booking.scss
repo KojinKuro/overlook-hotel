@@ -8,13 +8,16 @@
 
   h1 {
     text-align: center;
-    margin: 0;
+    // margin: 0;
   }
 
   .filter-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    border-top: 1px solid $border-clr;
+    border-bottom: 1px solid $border-clr;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 
     box-icon {
       display: flex;
@@ -38,6 +41,7 @@ button.clear-filter-button {
 .room-cards-container {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(min(250px, 100%), 1fr));
+  margin-top: 0.5rem;
   gap: 1.25rem;
 
   .room-card {
@@ -84,13 +88,21 @@ button.clear-filter-button {
 
     .room-info {
       padding: 10px;
-      height: 150px;
+      min-height: 100px;
 
       ul {
+        display: flex;
+        flex-wrap: wrap;
+
         li {
           display: flex;
           align-items: center;
           font-size: 0.8rem;
+
+          &:not(:last-child)::after {
+            content: "/";
+            padding: 0 5px;
+          }
         }
 
         color: $font-light-clr;
@@ -98,5 +110,13 @@ button.clear-filter-button {
         padding: 0;
       }
     }
+
+    .book-room-button {
+      border-radius: 10px;
+    }
   }
+}
+
+.book-room-button {
+  @include custom-button;
 }

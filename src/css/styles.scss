@@ -6,15 +6,21 @@ button {
   font-size: 1.1rem;
 }
 
+hr {
+  color: $font-light-clr;
+  border: 1px solid;
+}
+
 body {
   @include roboto;
   background-color: white;
   box-sizing: border-box;
 }
 
-#booking-page,
-#history-page {
-  padding: 0 3rem 3rem;
+.main-nav,
+.filter-container,
+.room-cards-container {
+  padding: 0 3rem;
 }
 
 .button-style {
@@ -36,9 +42,9 @@ body {
   justify-content: space-between;
   align-items: center;
 
-  // .logo {
-  //   font-size: 2rem;
-  // }
+  .logo {
+    font-size: 2.5rem;
+  }
 
   .hamburger-menu button.button-style {
     border-radius: 100px;

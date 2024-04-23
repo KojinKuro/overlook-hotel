@@ -1,5 +1,44 @@
 @import "mixins";
+@import "variables";
 
-.past-booking-button {
-  @include custom-button;
+#history-page {
+  .history-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .booking-button {
+    position: absolute;
+    top: 0;
+    left: 3rem;
+  }
+
+  .booking-container {
+    width: 100%;
+    max-width: 1000px;
+    display: flex;
+
+    .booking-nav-container {
+      border-bottom: 1px solid $font-light-clr;
+    }
+
+    & > * {
+      width: inherit;
+    }
+  }
+}
+
+.booking {
+  .booking-info {
+    margin: 0;
+    display: flex;
+    list-style: none;
+
+    & > *:not(:last-child)::after {
+      content: "/";
+      padding: 0 10px;
+    }
+  }
 }

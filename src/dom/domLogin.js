@@ -46,12 +46,14 @@ export function loginPage() {
     </div>
     <form class="login-form">
       <div>
+        <label for="username">Username</label>
         <input
           type="text"
           name="username"
           id="username"
           placeholder="username"
         >
+        <label for="password">Password</label>
         <input
           type="password"
           name="password"

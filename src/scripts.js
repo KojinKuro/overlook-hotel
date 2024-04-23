@@ -9,8 +9,11 @@ import "./css/history.scss";
 import "./css/login.scss";
 import "./css/styles.scss";
 
-import "./images/hotel-room.jpg";
+import "./images/junior-suite.jpg";
 import "./images/login.jpg";
+import "./images/residential-suite.jpg";
+import "./images/single-room.jpg";
+import "./images/suite.jpg";
 import "./images/turing-logo.png";
 
 // import { bookingPage } from "./dom/domBooking";

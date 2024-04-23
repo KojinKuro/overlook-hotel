@@ -32,23 +32,32 @@ export function historyPage() {
   anchor.id = "history-page";
   anchor.innerHTML = `
   ${navHTML()}
-  <h1>History</h1>
+  <div class="history-container">
+    <h1>History</h1>
+    <button class="booking-button">Return to bookings</button>
+    <div>This is your booking history of rooms</div>
+    <div>
+      Total Money Spent: 
+      $${calculateRevenue(bookings, rooms).toFixed(2)}
+    </div>
 
-  <button class="booking-button">Return to bookings</button>
-  <div>This is your booking history of rooms</div>
-  <div>Total Money Spent: $${calculateRevenue(bookings, rooms).toFixed(2)}</div>
-
-  <hr>
-
-  <div>
-    <nav class="booking-nav-container">
-      <button class="all-booking-button">All Bookings</button>
-      <button class="past-booking-button">Past Bookings</button>
-      <button class="future-booking-button">Future Bookings</button>
-    </nav>
-    <hr>
-    <div class=>
-      ${usersBookingHTML(currentCustomer.id, bookingFilter, localData)}
+    <div class="booking-container">
+      <div>
+        <nav class="booking-nav-container">
+          <button class="all-booking-button button-style">
+            All Bookings
+          </button>
+          <button class="past-booking-button button-style">
+            Past Bookings
+          </button>
+          <button class="future-booking-button button-style">
+            Future Bookings
+          </button>
+        </nav>
+        <div class="bookings">
+          ${usersBookingHTML(currentCustomer.id, bookingFilter, localData)}
+        </div>
+      </div>
     </div>
   </div>`;
 
@@ -78,7 +87,7 @@ function usersBookingHTML(id, filter, data) {
   }
 
   return bookings.reduce((html, booking) => {
-    html += bookingHistoryCardHTML(booking, data.getRooms()) + "<br>";
+    html += bookingHistoryCardHTML(booking, data.getRooms());
     return html;
   }, "");
 }
