@@ -3,6 +3,7 @@ import { setDOM } from "../domUpdates";
 import {
   filterBookings,
   getCustomerBookings,
+  removeBooking,
   sortBookings,
 } from "../js/bookings";
 import { calculateRevenue, getRoom } from "../js/rooms";
@@ -24,6 +25,11 @@ document.getElementById("root").addEventListener("click", (e) => {
       bookingFilter = "future";
     }
     setDOM(e.currentTarget, historyPage);
+  } else if (e.target.classList.contains("cancel-booking-button")) {
+    const booking = e.target.closest(".booking");
+    removeBooking(localData, booking.dataset.id).then(() => {
+      setDOM(document.getElementById("root"), historyPage);
+    });
   }
 });
 
@@ -41,8 +47,7 @@ export function historyPage() {
       <box-icon name='arrow-back'></box-icon>
       Return to bookings
     </button>
-    <p>This is your booking history of rooms. 
-    Please note that you must give 24 hours to cancel any booking.</p>
+    <p>This is your booking history of rooms.</p>
     <div>
       Total Money Spent: 
       $${calculateRevenue(bookings, rooms).toFixed(2)}
@@ -120,7 +125,7 @@ function bookingTableEntryHTML(booking, rooms) {
   const room = getRoom(booking.roomNumber, rooms);
 
   return `
-  <tr class="booking">
+  <tr class="booking" data-id="${booking.id}">
     <td>${booking.id}</td>
     <td>${booking.date}</td>
     <td>
@@ -130,8 +135,8 @@ function bookingTableEntryHTML(booking, rooms) {
     </td>
     <td>${room.costPerNight}</td>
     <td>${
-      isFuture(booking.date)
-        ? "<button class'cancel-booking-button'>Cancel</button>"
+      isToday(booking.date) || isFuture(booking.date)
+        ? "<button class='cancel-booking-button'>Cancel</button>"
         : ""
     }</td>
   </tr>`;

@@ -43,8 +43,8 @@ function addBooking(data, booking) {
 }
 
 function removeBooking(data, bookingID) {
-  deleteData("bookings", bookingID).then(() => {
-    const index = findBooking(data.getBookings(), bookingID);
+  return deleteData("bookings", bookingID).then(() => {
+    const index = findBookingIndex(data.getBookings(), bookingID);
     data.getBookings().splice(index, 1);
   });
 }
@@ -71,8 +71,8 @@ function containsBooking(bookings, booking) {
   return Boolean(matchingBookingCount);
 }
 
-function findBooking(bookings, bookingID) {
-  return bookings.find((booking) => booking.id === bookingID);
+function findBookingIndex(bookings, bookingID) {
+  return bookings.findIndex((booking) => booking.id === bookingID);
 }
 
 function sortBookings(bookings, ascending = true) {
