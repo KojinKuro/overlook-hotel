@@ -73,7 +73,7 @@ export function bookingPage(date = new Date(startOfToday())) {
   anchor.id = "booking-page";
   anchor.innerHTML = `
   ${navHTML()}
-  <div class="filter-container">
+  <header class="filter-container">
     <div>
       <label for="booking-date">Booking Date:</label>
       <input
@@ -102,10 +102,10 @@ export function bookingPage(date = new Date(startOfToday())) {
         callback: () => roomFilterHTML("bedSize"),
       })}
     </div>
-  </div>
-  <div class="room-check-container">
+  </header>
+  <main class="room-check-container">
     ${checkRoomsHTML(localData, date)}
-  </div>
+  </main>
   `;
 
   return anchor;

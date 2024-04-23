@@ -35,12 +35,12 @@ export function loginPage() {
   const anchor = document.createElement("div");
   anchor.id = "login-page";
   anchor.innerHTML = `
-  <div>
-    <div>
-      <h1 class="login-title">🛎️ Overlook Hotel</h1>
+  <main>
+    <header>
+      <h1 class="login-title">Overlook Hotel</h1>
       <h2 class="login-slogan">Your New Favorite Stay</h2>
-    </div>
-    <div>Welcome back, please login to continue</div>
+    </header>
+    <div class="login-message">Welcome back, please login to continue</div>
     <form class="login-form">
       <div>
         <label for="username">Username</label>
@@ -63,6 +63,6 @@ export function loginPage() {
         <button class="login-button">Log in</button>
       </div>
     </form>
-  </div>`;
+  </main>`;
   return anchor;
 }

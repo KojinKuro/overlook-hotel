@@ -36,7 +36,7 @@ document.getElementById("root").addEventListener("mouseout", (e) => {
 
 export function navHTML() {
   return `
-  <div class="main-nav">
+  <nav class="main-nav">
     <h1 class="logo">🛎️ Overlook Hotel</h1>
     ${dropdownHTML({
       name: `<box-icon name='menu' size='sm'></box-icon>
@@ -46,7 +46,7 @@ export function navHTML() {
         `<button class="history-button">History</button>
         <button class="logoff-button">Log off</button>`,
     })}
-  </div>`;
+  </nav>`;
 }
 
 export function dropdownHTML(options = {}) {

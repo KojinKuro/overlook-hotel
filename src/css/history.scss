@@ -53,6 +53,11 @@
     }
   }
 
+  button.cancel-booking-button {
+    @include custom-button(red);
+    border-radius: 10px;
+  }
+
   table {
     width: 100%;
     border-collapse: collapse;

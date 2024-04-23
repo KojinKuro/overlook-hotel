@@ -6,7 +6,7 @@
   background-image: url("../images/login.jpg");
   position: relative;
 
-  & > div {
+  & > * {
     height: inherit;
     background: white;
     padding: 50px;
@@ -19,6 +19,9 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap: 20px;
+
+    box-shadow: -10px 0 20px rgba(0, 0, 0, 0.3);
   }
 
   .login-title {
@@ -31,6 +34,10 @@
   .login-slogan {
     font-size: 2rem;
     margin: 0;
+  }
+
+  .login-message {
+    margin-top: 100px;
   }
 
   .login-form {
