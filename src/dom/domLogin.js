@@ -40,7 +40,7 @@ export function loginPage() {
       <h1 class="login-title">🛎️ Overlook Hotel</h1>
       <h2 class="login-slogan">Your New Favorite Stay</h2>
     </div>
-    <p>Welcome back, please login to continue</p>
+    <div>Welcome back, please login to continue</div>
     <form class="login-form">
       <div>
         <label for="username">Username</label>

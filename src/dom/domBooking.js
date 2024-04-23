@@ -103,7 +103,6 @@ export function bookingPage(date = new Date(startOfToday())) {
       })}
     </div>
   </div>
-  <hr>
   <div class="room-check-container">
     ${checkRoomsHTML(localData, date)}
   </div>

@@ -34,7 +34,10 @@ export function historyPage() {
   ${navHTML()}
   <div class="history-container">
     <h1>History</h1>
-    <button class="booking-button">Return to bookings</button>
+    <button class="booking-button button-style">
+      <box-icon name='arrow-back'></box-icon>
+      Return to bookings
+    </button>
     <div>This is your booking history of rooms</div>
     <div>
       Total Money Spent: 

@@ -21,11 +21,14 @@
     display: flex;
 
     .booking-nav-container {
+      display: flex;
+      gap: 10px;
       border-bottom: 1px solid $font-light-clr;
     }
 
     & > * {
       width: inherit;
+      padding: 0 30px;
     }
   }
 }

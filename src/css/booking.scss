@@ -47,7 +47,7 @@ button.clear-filter-button {
 .room-cards-container {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(min(250px, 100%), 1fr));
-  margin-top: 0.5rem;
+  margin: 1rem 0;
   gap: 1.25rem;
 
   .room-card {
@@ -117,8 +117,10 @@ button.clear-filter-button {
       }
     }
 
-    .book-room-button {
+    .book-room-button,
+    .unavailable-room-button {
       border-radius: 10px;
+      justify-content: center;
     }
   }
 }

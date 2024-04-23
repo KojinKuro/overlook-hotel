@@ -36,6 +36,10 @@ body {
   border-radius: 8px;
   cursor: pointer;
 
+  display: flex;
+  align-items: center;
+  gap: 5px;
+
   &:hover {
     background-color: $background-darken;
   }
@@ -52,9 +56,6 @@ body {
 
   .hamburger-menu button.button-style {
     border-radius: 100px;
-    display: flex;
-    align-items: center;
-    gap: 5px;
   }
 }
 
