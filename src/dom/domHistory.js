@@ -1,9 +1,9 @@
 import { isFuture, isPast, isToday } from "date-fns";
 import { setDOM } from "../domUpdates";
+import { removeBooking } from "../js/apiCalls";
 import {
   filterBookings,
   getCustomerBookings,
-  removeBooking,
   sortBookings,
 } from "../js/bookings";
 import { calculateRevenue, getRoom } from "../js/rooms";

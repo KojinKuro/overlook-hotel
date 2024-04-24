@@ -1,6 +1,4 @@
 import { compareAsc, compareDesc, format } from "date-fns";
-import { displayWarning } from "../domUpdates";
-import { deleteData, pushData } from "./apiCalls";
 import { isCustomer } from "./customers";
 import { isRoom } from "./rooms";
 
@@ -26,27 +24,6 @@ function filterBookings(bookings, filterCallback) {
     }
     return list;
   }, []);
-}
-
-function addBooking(data, booking) {
-  try {
-    if (!isValidBooking(data, booking)) {
-      return;
-    }
-
-    return pushData("bookings", booking).then((d) => {
-      data.getBookings().push(d.newBooking);
-    });
-  } catch (error) {
-    displayWarning(error);
-  }
-}
-
-function removeBooking(data, bookingID) {
-  return deleteData("bookings", bookingID).then(() => {
-    const index = findBookingIndex(data.getBookings(), bookingID);
-    data.getBookings().splice(index, 1);
-  });
 }
 
 function isValidBooking(data, booking) {
@@ -83,12 +60,11 @@ function sortBookings(bookings, ascending = true) {
 }
 
 export {
-  addBooking,
   containsBooking,
   createBooking,
   filterBookings,
+  findBookingIndex,
   getCustomerBookings,
   isValidBooking,
-  removeBooking,
   sortBookings,
 };

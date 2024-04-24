@@ -1,6 +1,7 @@
 import { format, isFuture, isToday, startOfToday } from "date-fns";
 import { setDOM } from "../domUpdates";
-import { addBooking, createBooking } from "../js/bookings";
+import { addBooking } from "../js/apiCalls";
+import { createBooking } from "../js/bookings";
 import {
   filterRooms,
   filterRoomsByRange,

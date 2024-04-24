@@ -1,4 +1,5 @@
 import { displayWarning } from "../domUpdates";
+import { findBookingIndex, isValidBooking } from "./bookings";
 
 function getData(name) {
   return fetch(`http://localhost:3001/api/v1/${name}`)
@@ -58,4 +59,25 @@ function pushData(name, data) {
     .catch((error) => displayWarning({ message: error }));
 }
 
-export { deleteData, getAllData, getData, pushData };
+function addBooking(data, booking) {
+  try {
+    if (!isValidBooking(data, booking)) {
+      return;
+    }
+
+    return pushData("bookings", booking).then((d) => {
+      data.getBookings().push(d.newBooking);
+    });
+  } catch (error) {
+    displayWarning(error);
+  }
+}
+
+function removeBooking(data, bookingID) {
+  return deleteData("bookings", bookingID).then(() => {
+    const index = findBookingIndex(data.getBookings(), bookingID);
+    data.getBookings().splice(index, 1);
+  });
+}
+
+export { deleteData, getAllData, getData, pushData, addBooking, removeBooking };
