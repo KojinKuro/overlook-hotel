@@ -1,88 +1,79 @@
-# Webpack Starter Kit
+# Overlook Hotel
 
-## Fork + Clone This Repo
+![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white)
+![SASS](https://img.shields.io/badge/SASS-hotpink.svg?style=for-the-badge&logo=SASS&logoColor=white)
+![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
+![Webpack](https://img.shields.io/badge/webpack-%238DD6F9.svg?style=for-the-badge&logo=webpack&logoColor=black)
+![Mocha](https://img.shields.io/badge/-mocha-%238D6748?style=for-the-badge&logo=mocha&logoColor=white)
+![NPM](https://img.shields.io/badge/NPM-%23CB3837.svg?style=for-the-badge&logo=npm&logoColor=white)
 
-1. Fork this repo.
-2. Clone AND RENAME this repo with `git clone [remote-address] [what you want to name the repo]`. For example:
+Frontend hotel room booking application
 
-```bash
-git clone git@github.com:turingschool-examples/webpack-starter-kit.git overlook-hotel
+## Live Demo
+
+[Live Deployment](https://kojinkuro.github.io/overlook-hotel/)
+
+Note: This website requires a [backend server](https://github.com/turingschool-examples/overlook-api) to be running for it to properly work. The [instructions](#instructions) below will help you get running!
+
+## Overview
+
+This is a frontend application for booking hotel rooms for the Overlook Hotel. with a design inspired by the [airbnb website](https://www.airbnb.com/). You can login, look up rooms, book ones you like, and canceling them if you change your mind. This is all done through network requests to a database; none of the data lives locally. This website was created to practice the skills learned over the course of my 2nd term at Turing School of Software & Design: test driven development, functional programming, using the fetch API for network requests, accessible design, and iterator methods.
+
+## Features
+
+- Login authentication
+- Check available rooms on different days and filter parameters
+- Can book rooms / cancel future bookings
+- View the amount of money you spent at the hotel
+- View all past bookings
+
+## Installation & Setup
+
+### Requirements
+
+Running this application requires:
+
+- Git - version control software you can [install here](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
+- NPM - package manager that is [part of Node.js](https://nodejs.org/en)
+
+### Instructions
+
+1. Follow the instructions in [this repo](https://github.com/turingschool-examples/overlook-api) to pull down and get the backend API server running.
+2. Run the following commands in your terminal
+
+```shell
+git clone git@github.com:KojinKuro/overlook-hotel.git
+cd overlook-hotel
+npm install
+npm run start
 ```
 
-3. `cd` into your new directory.
-4. Install the library dependencies with `npm install`.
-5. To verify that it is setup correctly, run `npm start` in your terminal. Go to `http://localhost:8080/` and you should see a page with the Turing logo image and a beautiful gradient background. If that's the case, you're good to go. Enter `control + c` in your terminal to stop the server at any time.
+The server will now be running on `localhost:8080`
 
-## Where to Add Your Code
+### Testing
 
-### JavaScript
+The code also includes a full test suite used for testing the core functionality of the application. If you would like to run the test suite, use the following command in the terminal after installing the required node packages:
 
-You have to be very intentional with where you add your feature code. This repo uses a tool called [webpack](https://webpack.js.org/) to combine many JavaScript files into one big file. Webpack enables you to have many, separate JavaScript files to keep your code organized and readable. Webpack expects all of your code files to be in a specific place, or else it doesn't know how to combine them all behind the scenes.
-
-**Create all of your feature code files in the `src` directory.**
-
-Since code is separated into multiple files, you need to use the `import` and `export` syntax to share code across file.
-
-Here is a video that walks through some information about [import and export](https://www.youtube.com/watch?v=_3oSWwapPKQ). There are a lot of resources out there about `import` and `export`, and resources will sometimes call them `ES6 modules`. It's something you will see in React and beyond.
-
-### HTML
-
-Add the HTML you need in the `index.html` file in the `./dist` directory. There is some boilerplate HTML that exists from the start that you can modify.
-
-### Images
-
-Add your image files in the `src/images` directory. Similar to CSS files, you need to `import` image files in the JavaScript entry file (`scripts.js`). Then go into the HTML and add an `img` element with the `src` attribute pointing to the `images` directory. There is an example in the `index.html` file for you to see.
-
-## How to View Your Code in Action
-
-In the terminal, run:
-
-```bash
-npm start
+```shell
+npm run test
 ```
 
-You will see a bunch of lines output to your terminal. One of those lines will be something like:
+## Context
 
-```bash
-Project is running at http://localhost:8080/
-```
+This project was created in week 12 of Turing School of Software & Design. The project was completed with only one programmer (me!). This project took around 70 hours to complete (including design time). It was built according to the following [spec sheet](https://frontend.turing.edu/projects/module-2/overlook.html). No design comp was given so this website was loosely built off the [airbnb website](https://www.airbnb.com/).
 
-Go to `http://localhost:8080/` in your browser to view your code running in the browser.
+## Learning Goals
 
----
+While doing this, I felt confident in all the Javascript related tasks (testing, adding core functionality, DOM manipulation) and network requests. The part that I feel less confident about is following Functional Programming and adding CSS. I realize that I do not have deep enough understanding of Functional Programming. A future goal is coming back to this project and refactoring it with more FP paradigms. I feel the same way about CSS. While I understand it on a conceptual level, I still feel that doing anything "cool" is difficult for me.
 
-## Test Files Organization
+Something interesting I noticed was my React learning have seeping into this application. When organizing my domManipulating files, I organized it like Components in React. Through doing this project, I have grown to understand why frameworks and libraries like React, Angular, and Vue are important. A future goal might be to refactor this as a React app.
 
-Similar to feature code, your test code needs to be put in a specific place for it to run successfully.
+## Credits
 
-**Put all of your test files in the `test` directory.** As a convention, all test filenames should end with `-test.js`. For instance: `box-test.js`.
+Images from Unsplash and Irasutoya
 
-## Running Your Tests
+Code & Design by [Charles Kwang](https://github.com/KojinKuro)
 
-Run your test suite using the command:
+## License
 
-```bash
-npm test
-```
-
-The test results will output to the terminal.
-
----
-
-## Linting Your Code
-
-Run the command in your terminal `npm run lint` to run the linter on your JavaScript code. There will be errors and warnings right from the start in this starter kit - the linter is still running successfully.
-
-Your linter will look at the JavaScript files you have within the `src` directory and the `test` directory.
-
-## Webpack?
-
-If you look in the `package.json` file, you'll see one of the library dependencies called `webpack`. If you're interested in learning more about what Webpack is and how it works behind the scenes, take a look through the [Webpack configuration documentation](https://webpack.js.org/concepts/).
-
-## Deploying to GitHub Pages
-
-_If you are finished with the functionality and testing of your project_, then you can consider deploying your project to the web! This way anyone can play it without cloning down your repo.
-
-[GitHub Pages](https://pages.github.com/) is a great way to deploy your project to the web. Don't worry about this until your project is free of bugs and well tested!
-
-If you _are_ done, you can follow [this procedure](./gh-pages-procedure.md) to get your project live on GitHub Pages.
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) for more details.
